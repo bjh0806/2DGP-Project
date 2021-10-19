@@ -1,10 +1,14 @@
 from pico2d import *
 
-open_canvas()
+WIDTH, HEIGHT = 1600, 900
 
-background = load_image('background.png')
+open_canvas(WIDTH, HEIGHT)
 
-background.draw_now(800, 30)
+sky = load_image('sky.png')
+ground = load_image('ground.png')
+
+sky.draw_now(WIDTH // 2, HEIGHT // 2)
+ground.draw_now(WIDTH // 2, HEIGHT // 2)
 
 delay(5)
 
