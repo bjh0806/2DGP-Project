@@ -47,6 +47,9 @@ start = load_image('start.png')
 wait = load_image('wait.png')
 jump = load_image('jump.png')
 attack1 = load_image('attack1.png')
+flower = load_image('flower.png')
+get = load_image('get.png')
+strong = load_image('strong.png')
 
 running = True
 x = 0
@@ -62,16 +65,28 @@ i = 0
 jumpframe = 0
 Attack1 = 0
 attackframe1 = 0
+getflower = 0
+getframe = 0
+Get = 0
+use = 0
+mode = 0
+fireframe = 0
 
 skyw = WIDTH // 4
 skyh = 200
 groundw = WIDTH // 4
 groundh = 350
 
+flowerw = groundw // 2
+flowerh = 93
+
 while running:
     clear_canvas()
     sky.draw_now(skyw, skyh)
     ground.draw_now(groundw, groundh)
+    if getflower == 0:
+        flower.draw(flowerw, flowerh)
+
     if Start == 1:
         start.clip_draw(firstframe * 50, 0, 50, 50, x, y)
     elif Wait == 1:
@@ -98,16 +113,20 @@ while running:
             if x < x2:
                 skyh -= 2
                 groundh -= 2
+                flowerh -= 2
             else:
                 skyh += 2
                 groundh += 2
+                flowerh += 2
         elif left == 1:
             if x < x2:
                 skyh += 2
                 groundh += 2
+                flowerh += 2
             else:
                 skyh -= 2
                 groundh -= 2
+                flowerh -= 2
 
         i += 4
 
@@ -126,6 +145,18 @@ while running:
             attack1.clip_draw(attackframe1 * 50, 50, 50, 50, x, y)
         elif left == 1:
             attack1.clip_draw((10 - attackframe1) * 50, 0, 50, 50, x, y)
+
+    elif Get == 1:
+        if right == 1:
+            get.clip_draw(getframe * 50, 50, 50, 50, x, y)
+        elif left == 1:
+            get.clip_draw((4 - getframe) * 50, 0, 50, 50, x, y)
+
+    elif mode == 1:
+        if right == 1:
+            strong.clip_draw(fireframe * 50, 100, 50, 100, x, y + 27)
+        elif left == 1:
+            strong.clip_draw((16 - fireframe) * 50, 0, 50, 100, x, y + 27)
 
     elif right == 1:
         mario.clip_draw(frame * 50, 50, 50, 50, x, y)
@@ -146,16 +177,23 @@ while running:
         if right == 1:
             skyw -= 5 // 2
             groundw -= 7
+            flowerw -= 7
         elif left == 1:
             skyw += 5 // 2
             groundw += 7
+            flowerw += 7
     elif Attack1 == 1:
         attackframe1 = (attackframe1 + 1) % 11
+    elif Get == 1:
+        getframe = (getframe + 1) % 5
+    elif mode == 1:
+        fireframe = (fireframe + 1) % 17
     else:
         frame = (frame + 1) % 8
         x += dir * 5
         skyw -= dir * 5 // 2
         groundw -= dir * 7
+        flowerw -= dir * 7
 
     if firstframe == 9:
         Start = 0
@@ -167,8 +205,23 @@ while running:
         Wait = 1
         attackframe1 = 0
 
+    if getframe == 4:
+        mode = 1
+        Get = 0
+        getframe = 0
+
+    if fireframe == 16:
+        mode = 0
+        Wait = 1
+        fireframe = 0
+
     if left == 0 and right == 0:
         Wait = 1
+
+    if flowerw < x and use == 0:
+        getflower = 1
+        Get = 1
+        use = 1
 
     delay(0.05)
 
