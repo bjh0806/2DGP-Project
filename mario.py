@@ -151,14 +151,6 @@ while running:
             groundw += 7
     elif Attack1 == 1:
         attackframe1 = (attackframe1 + 1) % 11
-        if right == 1:
-            x += 3
-            skyw -= 1
-            groundw -= 2
-        elif left == 1:
-            x -= 3
-            skyw += 1
-            groundw += 2
     else:
         frame = (frame + 1) % 8
         x += dir * 5
@@ -172,6 +164,7 @@ while running:
 
     if attackframe1 == 10:
         Attack1 = 0
+        Wait = 1
 
     if left == 0 and right == 0:
         Wait = 1
