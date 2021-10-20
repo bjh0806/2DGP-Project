@@ -2,6 +2,7 @@ from pico2d import *
 
 WIDTH, HEIGHT = 1600, 900
 left, right = 0, 1
+last = 1
 
 def handle_events():
     global running, x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
@@ -29,9 +30,10 @@ def handle_events():
                 Attack1 = 1
                 Wait = 0
             elif event.key == SDLK_LCTRL:
-                Attack3 = 1
-                keep = 1
-                Wait = 0
+                if mode == 1:
+                    Attack3 = 1
+                    keep = 1
+                    Wait = 0
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_a:
                 dir += 1
@@ -85,13 +87,14 @@ attackframe3 = 0
 longattack = 0
 keep = 0
 firex = 50
+firey = 100
 
 skyw = WIDTH // 4
 skyh = 200
 groundw = WIDTH // 4
 groundh = 350
 
-flowerw = groundw // 2
+flowerw = 600
 flowerh = 93
 
 while running:
@@ -134,19 +137,23 @@ while running:
                 skyh -= 2
                 groundh -= 2
                 flowerh -= 2
+                firey -= 2
             else:
                 skyh += 2
                 groundh += 2
                 flowerh += 2
+                firey += 2
         elif left == 1:
             if x < x2:
                 skyh += 2
                 groundh += 2
                 flowerh += 2
+                firey += 2
             else:
                 skyh -= 2
                 groundh -= 2
                 flowerh -= 2
+                firey -= 2
 
         i += 4
 
@@ -203,8 +210,10 @@ while running:
     elif Attack3 == 1:
         if right == 1:
             attack3.clip_draw(attackframe3 * 50, 50, 50, 50, x, y)
+            last = 1
         elif left == 1:
             attack3.clip_draw((7 - attackframe3) * 50, 0, 50, 50, x, y)
+            last = 0
 
     elif Get == 1:
         if right == 1:
@@ -224,10 +233,10 @@ while running:
             walk.clip_draw((7 - frame) * 50, 0, 50, 50, x, y)
 
     if keep == 1:
-        if right == 1:
-            fire.clip_draw(longattack * 70, 50, 70, 50, x + firex, y)
-        elif left == 1:
-            fire.clip_draw((1 - longattack) * 70, 0, 70, 50, x - firex, y)
+        if last == 1:
+            fire.clip_draw(longattack * 70, 50, 70, 50, x + firex, firey)
+        elif last == 0:
+            fire.clip_draw((1 - longattack) * 70, 0, 70, 50, x - firex, firey)
         firex += 5
 
     update_canvas()
