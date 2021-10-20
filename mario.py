@@ -48,7 +48,6 @@ wait = load_image('wait.png')
 jump = load_image('jump.png')
 attack1 = load_image('attack1.png')
 flower = load_image('flower.png')
-get = load_image('get.png')
 strong = load_image('strong.png')
 
 running = True
@@ -66,10 +65,8 @@ jumpframe = 0
 Attack1 = 0
 attackframe1 = 0
 getflower = 0
-getframe = 0
 Get = 0
 use = 0
-mode = 0
 fireframe = 0
 
 skyw = WIDTH // 4
@@ -148,12 +145,6 @@ while running:
 
     elif Get == 1:
         if right == 1:
-            get.clip_draw(getframe * 50, 50, 50, 50, x, y)
-        elif left == 1:
-            get.clip_draw((4 - getframe) * 50, 0, 50, 50, x, y)
-
-    elif mode == 1:
-        if right == 1:
             strong.clip_draw(fireframe * 50, 100, 50, 100, x, y + 27)
         elif left == 1:
             strong.clip_draw((16 - fireframe) * 50, 0, 50, 100, x, y + 27)
@@ -185,8 +176,6 @@ while running:
     elif Attack1 == 1:
         attackframe1 = (attackframe1 + 1) % 11
     elif Get == 1:
-        getframe = (getframe + 1) % 5
-    elif mode == 1:
         fireframe = (fireframe + 1) % 17
     else:
         frame = (frame + 1) % 8
@@ -205,13 +194,8 @@ while running:
         Wait = 1
         attackframe1 = 0
 
-    if getframe == 4:
-        mode = 1
-        Get = 0
-        getframe = 0
-
     if fireframe == 16:
-        mode = 0
+        Get = 0
         Wait = 1
         fireframe = 0
 
