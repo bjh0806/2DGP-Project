@@ -49,6 +49,9 @@ jump = load_image('jump.png')
 attack1 = load_image('attack1.png')
 flower = load_image('flower.png')
 strong = load_image('strong.png')
+modewait = load_image('modewait.png')
+walk = load_image('walk.png')
+modejump = load_image('modejump.png')
 
 running = True
 x = 0
@@ -68,6 +71,8 @@ getflower = 0
 Get = 0
 use = 0
 fireframe = 0
+mode = 0
+
 
 skyw = WIDTH // 4
 skyh = 200
@@ -88,9 +93,15 @@ while running:
         start.clip_draw(firstframe * 50, 0, 50, 50, x, y)
     elif Wait == 1:
         if right == 1:
-            wait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
+            if mode == 0:
+                wait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
+            else:
+                modewait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
         elif left == 1:
-            wait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
+            if mode == 0:
+                wait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
+            else:
+                modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
     elif Jump == 1:
         if i == 0:
             if right == 1:
@@ -128,9 +139,15 @@ while running:
         i += 4
 
         if right == 1:
-            jump.clip_draw((jumpframe + 5) * 50, 50, 50, 50, x, y)
+            if mode == 0:
+                jump.clip_draw((jumpframe + 5) * 50, 50, 50, 50, x, y)
+            else:
+                modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
         elif left == 1:
-            jump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
+            if mode == 0:
+                jump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
+            else:
+                modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
 
         if i == 104:
             Jump = 0
@@ -150,9 +167,15 @@ while running:
             strong.clip_draw((16 - fireframe) * 50, 0, 50, 100, x, y + 27)
 
     elif right == 1:
-        mario.clip_draw(frame * 50, 50, 50, 50, x, y)
+        if mode == 0:
+            mario.clip_draw(frame * 50, 50, 50, 50, x, y)
+        else:
+            walk.clip_draw(frame * 50, 50, 50, 50, x, y)
     elif left == 1:
-        mario.clip_draw((7 - frame) * 50, 0, 50, 50, x, y - 5)
+        if mode == 0:
+            mario.clip_draw((7 - frame) * 50, 0, 50, 50, x, y - 5)
+        else:
+            walk.clip_draw((7 - frame) * 50, 0, 50, 50, x, y)
 
     update_canvas()
 
@@ -198,6 +221,7 @@ while running:
         Get = 0
         Wait = 1
         fireframe = 0
+        mode = 1
 
     if left == 0 and right == 0:
         Wait = 1
