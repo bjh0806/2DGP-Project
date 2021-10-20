@@ -4,7 +4,7 @@ WIDTH, HEIGHT = 1600, 900
 left, right = 0, 1
 
 def handle_events():
-    global running, x, dir, left, right, Wait, Jump, Attack1
+    global running, x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -27,6 +27,10 @@ def handle_events():
                 Wait = 0
             elif event.key == SDLK_z:
                 Attack1 = 1
+                Wait = 0
+            elif event.key == SDLK_LCTRL:
+                Attack3 = 1
+                keep = 1
                 Wait = 0
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_a:
@@ -53,6 +57,8 @@ modewait = load_image('modewait.png')
 walk = load_image('walk.png')
 modejump = load_image('modejump.png')
 attack2 = load_image('attack2.png')
+attack3 = load_image('attack3.png')
+fire = load_image('fire.png')
 
 running = True
 x = 0
@@ -74,6 +80,11 @@ use = 0
 fireframe = 0
 mode = 0
 attackframe2 = 0
+Attack3 = 0
+attackframe3 = 0
+longattack = 0
+keep = 0
+firex = 50
 
 skyw = WIDTH // 4
 skyh = 200
@@ -189,6 +200,12 @@ while running:
             else:
                 attack2.clip_draw((7 - attackframe2) * 50, 0, 50, 60, x, y)
 
+    elif Attack3 == 1:
+        if right == 1:
+            attack3.clip_draw(attackframe3 * 50, 50, 50, 50, x, y)
+        elif left == 1:
+            attack3.clip_draw((7 - attackframe3) * 50, 0, 50, 50, x, y)
+
     elif Get == 1:
         if right == 1:
             strong.clip_draw(fireframe * 50, 100, 50, 100, x, y + 27)
@@ -205,6 +222,13 @@ while running:
             mario.clip_draw((7 - frame) * 50, 0, 50, 50, x, y - 5)
         else:
             walk.clip_draw((7 - frame) * 50, 0, 50, 50, x, y)
+
+    if keep == 1:
+        if right == 1:
+            fire.clip_draw(longattack * 70, 50, 70, 50, x + firex, y)
+        elif left == 1:
+            fire.clip_draw((1 - longattack) * 70, 0, 70, 50, x - firex, y)
+        firex += 5
 
     update_canvas()
 
@@ -230,6 +254,8 @@ while running:
             attackframe1 = (attackframe1 + 1) % 11
         else:
             attackframe2 = (attackframe2 + 1) % 8
+    elif mode == 1 and Attack3 == 1:
+        attackframe3 = (attackframe3 + 1) % 8
     elif Get == 1:
         fireframe = (fireframe + 1) % 17
     else:
@@ -238,6 +264,9 @@ while running:
         skyw -= dir * 5 // 2
         groundw -= dir * 7
         flowerw -= dir * 7
+
+    if keep == 1:
+        longattack = (longattack + 1) % 2
 
     if firstframe == 9:
         Start = 0
@@ -248,6 +277,11 @@ while running:
         Attack1 = 0
         Wait = 1
         attackframe1 = 0
+
+    if attackframe3 == 7:
+        Attack3 = 0
+        Wait = 1
+        attackframe3 = 0
 
     if fireframe == 16:
         Get = 0
