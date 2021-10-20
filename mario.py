@@ -28,10 +28,12 @@ def handle_events():
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_a:
                 dir += 1
-                Wait = 1
+                if Jump == 0:
+                    Wait = 1
             elif event.key == SDLK_d:
                 dir -= 1
-                Wait = 1
+                if Jump == 0:
+                    Wait = 1
 
 open_canvas(WIDTH // 2, 600)
 
@@ -55,10 +57,15 @@ Jump = 0
 i = 0
 jumpframe = 0
 
+skyw = WIDTH // 4
+skyh = 200
+groundw = WIDTH // 4
+groundh = 350
+
 while running:
     clear_canvas()
-    sky.draw_now(WIDTH // 4, 200)
-    ground.draw_now(WIDTH // 4, 350)
+    sky.draw_now(skyw, skyh)
+    ground.draw_now(groundw, groundh)
     if Start == 1:
         start.clip_draw(firstframe * 50, 0, 50, 50, x, y)
     elif Wait == 1:
@@ -81,6 +88,21 @@ while running:
         x = (2 * t ** 2 - 3 * t + 1) * x1 + (-4 * t ** 2 + 4 * t) * x2 + (2 * t ** 2 - t) * x3
         y = (2 * t ** 2 - 3 * t + 1) * y1 + (-4 * t ** 2 + 4 * t) * y2 + (2 * t ** 2 - t) * y3
 
+        if right == 1:
+            if x < x2:
+                skyh -= 2
+                groundh -= 2
+            else:
+                skyh += 2
+                groundh += 2
+        elif left == 1:
+            if x < x2:
+                skyh += 2
+                groundh += 2
+            else:
+                skyh -= 2
+                groundh -= 2
+
         i += 4
 
         if right == 1:
@@ -90,7 +112,9 @@ while running:
 
         if i == 104:
             Jump = 0
+            Wait = 1
             i = 0
+            upcount = 0
 
     elif right == 1:
         mario.clip_draw(frame * 50, 50, 50, 50, x, y)
@@ -108,9 +132,17 @@ while running:
         waitframe = (waitframe + 1) % 7
     elif Jump == 1:
         jumpframe = (jumpframe + 1) % 14
+        if right == 1:
+            skyw -= 5 // 2
+            groundw -= 7
+        elif left == 1:
+            skyw += 5 // 2
+            groundw += 7
     else:
         frame = (frame + 1) % 8
         x += dir * 5
+        skyw -= dir * 5 // 2
+        groundw -= dir * 7
 
     if firstframe == 9:
         Start = 0
