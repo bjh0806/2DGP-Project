@@ -52,6 +52,7 @@ strong = load_image('strong.png')
 modewait = load_image('modewait.png')
 walk = load_image('walk.png')
 modejump = load_image('modejump.png')
+attack2 = load_image('attack2.png')
 
 running = True
 x = 0
@@ -72,7 +73,7 @@ Get = 0
 use = 0
 fireframe = 0
 mode = 0
-
+attackframe2 = 0
 
 skyw = WIDTH // 4
 skyh = 200
@@ -156,9 +157,37 @@ while running:
 
     elif Attack1 == 1:
         if right == 1:
-            attack1.clip_draw(attackframe1 * 50, 50, 50, 50, x, y)
+            if mode == 0:
+                attack1.clip_draw(attackframe1 * 50, 50, 50, 50, x, y)
+            else:
+                if i == 0:
+                    if right == 1:
+                        x1, y1 = x, y
+                        x3, y3 = x + 10, y
+                        x2, y2 = x + 5, y + 20
+                    elif left == 1:
+                        x1, y1 = x, y
+                        x3, y3 = x + 10, y
+                        x2, y2 = x + 5, y + 20
+
+                t = i / 100
+                x = (2 * t ** 2 - 3 * t + 1) * x1 + (-4 * t ** 2 + 4 * t) * x2 + (2 * t ** 2 - t) * x3
+                y = (2 * t ** 2 - 3 * t + 1) * y1 + (-4 * t ** 2 + 4 * t) * y2 + (2 * t ** 2 - t) * y3
+
+                i += 10
+
+                attack2.clip_draw(attackframe2 * 50, 60, 50, 60, x, y)
+
+                if i == 110:
+                    Attack1 = 0
+                    Wait = 1
+                    i = 0
+
         elif left == 1:
-            attack1.clip_draw((10 - attackframe1) * 50, 0, 50, 50, x, y)
+            if mode == 0:
+                attack1.clip_draw((10 - attackframe1) * 50, 0, 50, 50, x, y)
+            else:
+                attack2.clip_draw((7 - attackframe2) * 50, 0, 50, 60, x, y)
 
     elif Get == 1:
         if right == 1:
@@ -197,7 +226,10 @@ while running:
             groundw += 7
             flowerw += 7
     elif Attack1 == 1:
-        attackframe1 = (attackframe1 + 1) % 11
+        if mode == 0:
+            attackframe1 = (attackframe1 + 1) % 11
+        else:
+            attackframe2 = (attackframe2 + 1) % 8
     elif Get == 1:
         fireframe = (fireframe + 1) % 17
     else:
