@@ -4,7 +4,7 @@ WIDTH, HEIGHT = 1600, 900
 left, right = 0, 1
 
 def handle_events():
-    global running, x, dir, left, right, Wait, Jump
+    global running, x, dir, left, right, Wait, Jump, Attack1
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -25,6 +25,9 @@ def handle_events():
             elif event.key == SDLK_SPACE:
                 Jump = 1
                 Wait = 0
+            elif event.key == SDLK_z:
+                Attack1 = 1
+                Wait = 0
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_a:
                 dir += 1
@@ -43,6 +46,7 @@ mario = load_image('mario.png')
 start = load_image('start.png')
 wait = load_image('wait.png')
 jump = load_image('jump.png')
+attack1 = load_image('attack1.png')
 
 running = True
 x = 0
@@ -56,6 +60,8 @@ waitframe = 0
 Jump = 0
 i = 0
 jumpframe = 0
+Attack1 = 0
+attackframe1 = 0
 
 skyw = WIDTH // 4
 skyh = 200
@@ -114,7 +120,12 @@ while running:
             Jump = 0
             Wait = 1
             i = 0
-            upcount = 0
+
+    elif Attack1 == 1:
+        if right == 1:
+            attack1.clip_draw(attackframe1 * 50, 50, 50, 50, x, y)
+        elif left == 1:
+            attack1.clip_draw((10 - attackframe1) * 50, 0, 50, 50, x, y)
 
     elif right == 1:
         mario.clip_draw(frame * 50, 50, 50, 50, x, y)
@@ -138,6 +149,16 @@ while running:
         elif left == 1:
             skyw += 5 // 2
             groundw += 7
+    elif Attack1 == 1:
+        attackframe1 = (attackframe1 + 1) % 11
+        if right == 1:
+            x += 3
+            skyw -= 1
+            groundw -= 2
+        elif left == 1:
+            x -= 3
+            skyw += 1
+            groundw += 2
     else:
         frame = (frame + 1) % 8
         x += dir * 5
@@ -148,6 +169,9 @@ while running:
         Start = 0
         Wait = 1
         firstframe = 0
+
+    if attackframe1 == 10:
+        Attack1 = 0
 
     if left == 0 and right == 0:
         Wait = 1
