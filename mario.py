@@ -165,6 +165,7 @@ while running:
     if attackframe1 == 10:
         Attack1 = 0
         Wait = 1
+        attackframe1 = 0
 
     if left == 0 and right == 0:
         Wait = 1
