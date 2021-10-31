@@ -128,12 +128,12 @@ while running:
         if i == 0:
             if right == 1:
                 x1, y1 = x, y
-                x3, y3 = x + 80, y
-                x2, y2 = x + 40, y + 75
+                x3, y3 = x + 70, y
+                x2, y2 = x + 35, y + 75
             elif left == 1:
                 x1, y1 = x, y
-                x3, y3 = x - 80, y
-                x2, y2 = x - 40, y + 75
+                x3, y3 = x - 70, y
+                x2, y2 = x - 35, y + 75
 
         t = i / 100
         x = (2 * t ** 2 - 3 * t + 1) * x1 + (-4 * t ** 2 + 4 * t) * x2 + (2 * t ** 2 - t) * x3
