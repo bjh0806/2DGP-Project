@@ -101,8 +101,8 @@ while running:
     clear_canvas()
     sky.draw_now(skyw, skyh)
     ground.draw_now(groundw, groundh)
-    if getflower == 0:
-        flower.draw(flowerw, flowerh)
+    # if getflower == 0:
+    #     flower.draw(flowerw, flowerh)
 
     if Start == 1:
         start.clip_draw(firstframe * 50, 0, 50, 50, x, y)
@@ -302,10 +302,10 @@ while running:
     if left == 0 and right == 0:
         Wait = 1
 
-    if flowerw < x and use == 0:
-        getflower = 1
-        Get = 1
-        use = 1
+    # if flowerw < x and use == 0:
+    #     getflower = 1
+    #     Get = 1
+    #     use = 1
 
     delay(0.05)
 
