@@ -64,7 +64,7 @@ fire = load_image('fire.png')
 
 running = True
 x = 0
-y = 100
+y = 95
 frame = 0
 dir = 0
 Start = 1
@@ -269,7 +269,8 @@ while running:
         fireframe = (fireframe + 1) % 17
     else:
         frame = (frame + 1) % 8
-        x += dir * 5
+        if x >= 10 and x <= 790:
+            x += dir * 5
         skyw -= dir * 5 // 2
         groundw -= dir * 7
         flowerw -= dir * 7
