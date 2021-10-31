@@ -61,6 +61,7 @@ modejump = load_image('modejump.png')
 attack2 = load_image('attack2.png')
 attack3 = load_image('attack3.png')
 fire = load_image('fire.png')
+random_box = load_image('random_box.png')
 
 running = True
 x = 0
@@ -88,6 +89,7 @@ longattack = 0
 keep = 0
 firex = 50
 firey = 100
+randomframe = 0
 
 skyw = WIDTH // 4
 skyh = 200
@@ -97,12 +99,17 @@ groundh = 350
 flowerw = 600
 flowerh = 93
 
+random_boxw = 300
+random_boxh = 200
+
 while running:
     clear_canvas()
     sky.draw_now(skyw, skyh)
     ground.draw_now(groundw, groundh)
     # if getflower == 0:
     #     flower.draw(flowerw, flowerh)
+
+    random_box.clip_draw(randomframe * 25, 0, 25, 33, random_boxw, random_boxh)
 
     if Start == 1:
         start.clip_draw(firstframe * 50, 0, 50, 50, x, y)
@@ -121,12 +128,12 @@ while running:
         if i == 0:
             if right == 1:
                 x1, y1 = x, y
-                x3, y3 = x + 150, y
-                x2, y2 = x + 75, y + 75
+                x3, y3 = x + 80, y
+                x2, y2 = x + 40, y + 75
             elif left == 1:
                 x1, y1 = x, y
-                x3, y3 = x - 150, y
-                x2, y2 = x - 75, y + 75
+                x3, y3 = x - 80, y
+                x2, y2 = x - 40, y + 75
 
         t = i / 100
         x = (2 * t ** 2 - 3 * t + 1) * x1 + (-4 * t ** 2 + 4 * t) * x2 + (2 * t ** 2 - t) * x3
@@ -138,22 +145,26 @@ while running:
                 groundh -= 2
                 flowerh -= 2
                 firey -= 2
+                random_boxh -= 2
             else:
                 skyh += 2
                 groundh += 2
                 flowerh += 2
                 firey += 2
+                random_boxh += 2
         elif left == 1:
             if x < x2:
                 skyh += 2
                 groundh += 2
                 flowerh += 2
                 firey += 2
+                random_boxh += 2
             else:
                 skyh -= 2
                 groundh -= 2
                 flowerh -= 2
                 firey -= 2
+                random_boxh -= 2
 
         i += 4
 
@@ -239,6 +250,8 @@ while running:
             fire.clip_draw((1 - longattack) * 70, 0, 70, 50, x - firex, firey)
         firex += 5
 
+    randomframe = (randomframe + 1) % 4
+
     update_canvas()
 
     handle_events()
@@ -254,10 +267,12 @@ while running:
             skyw -= 5 // 2
             groundw -= 7
             flowerw -= 7
+            random_boxw -= 7
         elif left == 1:
             skyw += 5 // 2
             groundw += 7
             flowerw += 7
+            random_boxw += 7
     elif Attack1 == 1:
         if mode == 0:
             attackframe1 = (attackframe1 + 1) % 11
@@ -274,6 +289,7 @@ while running:
         skyw -= dir * 5 // 2
         groundw -= dir * 7
         flowerw -= dir * 7
+        random_boxw -= dir * 7
 
     if keep == 1:
         longattack = (longattack + 1) % 2
