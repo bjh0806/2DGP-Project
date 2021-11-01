@@ -3,6 +3,20 @@ from pico2d import *
 WIDTH, HEIGHT = 1600, 900
 left, right = 0, 1
 last = 1
+random_boxw = [300]
+random_boxh = [200]
+
+class Object:
+    def __init__(self):
+        self.random_box = load_image('random_box.png')
+        self.randomframe = 0
+
+    def update_random_box(self):
+        self.randomframe = (self.randomframe + 1) % 4
+
+    def draw_random_box(self):
+        for j in range(0, 1):
+            self.random_box.clip_draw(self.randomframe * 25, 0, 25, 33, random_boxw[j], random_boxh[j])
 
 def handle_events():
     global running, x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
@@ -46,6 +60,8 @@ def handle_events():
 
 open_canvas(WIDTH // 2, 600)
 
+object = Object()
+
 sky = load_image('sky.png')
 ground = load_image('ground.png')
 mario = load_image('mario.png')
@@ -61,7 +77,6 @@ modejump = load_image('modejump.png')
 attack2 = load_image('attack2.png')
 attack3 = load_image('attack3.png')
 fire = load_image('fire.png')
-random_box = load_image('random_box.png')
 
 running = True
 x = 0
@@ -89,7 +104,6 @@ longattack = 0
 keep = 0
 firex = 50
 firey = 100
-randomframe = 0
 
 skyw = WIDTH // 4
 skyh = 200
@@ -99,17 +113,13 @@ groundh = 350
 flowerw = 600
 flowerh = 93
 
-random_boxw = 300
-random_boxh = 200
-
 while running:
     clear_canvas()
     sky.draw_now(skyw, skyh)
     ground.draw_now(groundw, groundh)
     # if getflower == 0:
     #     flower.draw(flowerw, flowerh)
-
-    random_box.clip_draw(randomframe * 25, 0, 25, 33, random_boxw, random_boxh)
+    object.draw_random_box()
 
     if Start == 1:
         start.clip_draw(firstframe * 50, 0, 50, 50, x, y)
@@ -145,26 +155,30 @@ while running:
                 groundh -= 2
                 flowerh -= 2
                 firey -= 2
-                random_boxh -= 2
+                for j in range(0, 1):
+                    random_boxh[j] -= 2
             else:
                 skyh += 2
                 groundh += 2
                 flowerh += 2
                 firey += 2
-                random_boxh += 2
+                for j in range(0, 1):
+                    random_boxh[j] += 2
         elif left == 1:
             if x < x2:
                 skyh += 2
                 groundh += 2
                 flowerh += 2
                 firey += 2
-                random_boxh += 2
+                for j in range(0, 1):
+                    random_boxh[j] += 2
             else:
                 skyh -= 2
                 groundh -= 2
                 flowerh -= 2
                 firey -= 2
-                random_boxh -= 2
+                for j in range(0, 1):
+                    random_boxh[j] -= 2
 
         i += 4
 
@@ -250,11 +264,11 @@ while running:
             fire.clip_draw((1 - longattack) * 70, 0, 70, 50, x - firex, firey)
         firex += 5
 
-    randomframe = (randomframe + 1) % 4
-
     update_canvas()
 
     handle_events()
+
+    object.update_random_box()
 
     if Start == 1:
         firstframe = (firstframe + 1) % 10
@@ -267,12 +281,14 @@ while running:
             skyw -= 5 // 2
             groundw -= 7
             flowerw -= 7
-            random_boxw -= 7
+            for j in range(0, 1):
+                random_boxw[j] -= 7
         elif left == 1:
             skyw += 5 // 2
             groundw += 7
             flowerw += 7
-            random_boxw += 7
+            for j in range(0, 1):
+                random_boxw[j] += 7
     elif Attack1 == 1:
         if mode == 0:
             attackframe1 = (attackframe1 + 1) % 11
@@ -289,7 +305,8 @@ while running:
         skyw -= dir * 5 // 2
         groundw -= dir * 7
         flowerw -= dir * 7
-        random_boxw -= dir * 7
+        for j in range(0, 1):
+            random_boxw[j] -= dir * 7
 
     if keep == 1:
         longattack = (longattack + 1) % 2
