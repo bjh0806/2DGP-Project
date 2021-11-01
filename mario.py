@@ -3,8 +3,8 @@ from pico2d import *
 WIDTH, HEIGHT = 1600, 900
 left, right = 0, 1
 last = 1
-random_boxw = [300, 400, 425]
-random_boxh = [200, 200, 200]
+random_boxw = [300, 400, 425, 700, 900, 1900, 2025]
+random_boxh = [200, 200, 200, 300, 200, 200, 200]
 
 class Object:
     def __init__(self):
@@ -301,7 +301,7 @@ while running:
     else:
         frame = (frame + 1) % 8
         if x >= 10 and x <= 790:
-            x += dir * 5
+            x += dir * 3
         skyw -= dir * 5 // 2
         groundw -= dir * 7
         flowerw -= dir * 7
