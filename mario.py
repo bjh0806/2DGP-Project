@@ -3,8 +3,8 @@ from pico2d import *
 WIDTH, HEIGHT = 1600, 900
 left, right = 0, 1
 last = 1
-random_boxw = [300]
-random_boxh = [200]
+random_boxw = [300, 400, 425]
+random_boxh = [200, 200, 200]
 
 class Object:
     def __init__(self):
@@ -15,7 +15,7 @@ class Object:
         self.randomframe = (self.randomframe + 1) % 4
 
     def draw_random_box(self):
-        for j in range(0, 1):
+        for j in range(0, len(random_boxw)):
             self.random_box.clip_draw(self.randomframe * 25, 0, 25, 33, random_boxw[j], random_boxh[j])
 
 def handle_events():
@@ -155,14 +155,14 @@ while running:
                 groundh -= 2
                 flowerh -= 2
                 firey -= 2
-                for j in range(0, 1):
+                for j in range(0, len(random_boxw)):
                     random_boxh[j] -= 2
             else:
                 skyh += 2
                 groundh += 2
                 flowerh += 2
                 firey += 2
-                for j in range(0, 1):
+                for j in range(0, len(random_boxw)):
                     random_boxh[j] += 2
         elif left == 1:
             if x < x2:
@@ -170,14 +170,14 @@ while running:
                 groundh += 2
                 flowerh += 2
                 firey += 2
-                for j in range(0, 1):
+                for j in range(0, len(random_boxw)):
                     random_boxh[j] += 2
             else:
                 skyh -= 2
                 groundh -= 2
                 flowerh -= 2
                 firey -= 2
-                for j in range(0, 1):
+                for j in range(0, len(random_boxw)):
                     random_boxh[j] -= 2
 
         i += 4
@@ -281,13 +281,13 @@ while running:
             skyw -= 5 // 2
             groundw -= 7
             flowerw -= 7
-            for j in range(0, 1):
+            for j in range(0, len(random_boxw)):
                 random_boxw[j] -= 7
         elif left == 1:
             skyw += 5 // 2
             groundw += 7
             flowerw += 7
-            for j in range(0, 1):
+            for j in range(0, len(random_boxw)):
                 random_boxw[j] += 7
     elif Attack1 == 1:
         if mode == 0:
@@ -305,7 +305,7 @@ while running:
         skyw -= dir * 5 // 2
         groundw -= dir * 7
         flowerw -= dir * 7
-        for j in range(0, 1):
+        for j in range(0, len(random_boxw)):
             random_boxw[j] -= dir * 7
 
     if keep == 1:
