@@ -300,8 +300,8 @@ while running:
         fireframe = (fireframe + 1) % 17
     else:
         frame = (frame + 1) % 8
-        if x >= 10 and x <= 790:
-            x += dir * 3
+        if x >= 10 and x <= 250:
+            x += dir * 5
         skyw -= dir * 5 // 2
         groundw -= dir * 7
         flowerw -= dir * 7
