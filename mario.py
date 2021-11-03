@@ -3,16 +3,19 @@ from pico2d import *
 WIDTH, HEIGHT = 1600, 900
 left, right = 0, 1
 last = 1
-random_boxw = [300, 400, 425, 700, 900, 1900, 2025]
+random_boxw = [300, 400, 425, 720, 900, 1900, 2025]
 random_boxh = [200, 200, 200, 300, 200, 200, 200]
 upgroundw = [570]
 upgroundh = 50
+upground2w = [720]
+upground2h = 80
 
 class Object:
     def __init__(self):
         self.random_box = load_image('random_box.png')
         self.randomframe = 0
         self.upground = load_image('upground.png')
+        self.upground2 = load_image('upground_double.png')
 
     def update_random_box(self):
         self.randomframe = (self.randomframe + 1) % 4
@@ -24,6 +27,10 @@ class Object:
     def draw_upground(self):
         for k in range(0, len(upgroundw)):
             self.upground.draw(upgroundw[k], upgroundh)
+
+    def draw_upground2(self):
+        for l in range(0, len(upground2w)):
+            self.upground2.draw(upground2w[l], upground2h)
 
 def handle_events():
     global running, x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
@@ -126,6 +133,7 @@ while running:
     ground.draw_now(groundw, groundh)
     object.draw_random_box()
     object.draw_upground()
+    object.draw_upground2()
 
     if Start == 1:
         start.clip_draw(firstframe * 50, 0, 50, 50, x, y)
@@ -164,6 +172,7 @@ while running:
                 for j in range(0, len(random_boxw)):
                     random_boxh[j] -= 2
                 upgroundh -= 2
+                upground2h -= 2
             else:
                 skyh += 2
                 groundh += 2
@@ -172,6 +181,7 @@ while running:
                 for j in range(0, len(random_boxw)):
                     random_boxh[j] += 2
                 upgroundh += 2
+                upground2h += 2
         elif left == 1:
             if x < x2:
                 skyh += 2
@@ -181,6 +191,7 @@ while running:
                 for j in range(0, len(random_boxw)):
                     random_boxh[j] += 2
                 upgroundh += 2
+                upground2h += 2
             else:
                 skyh -= 2
                 groundh -= 2
@@ -189,6 +200,7 @@ while running:
                 for j in range(0, len(random_boxw)):
                     random_boxh[j] -= 2
                 upgroundh -= 2
+                upground2h -= 2
 
         i += 4
 
@@ -295,6 +307,8 @@ while running:
                 random_boxw[j] -= 7
             for k in range(0, len(upgroundw)):
                 upgroundw[k] -= 7
+            for l in range(0, len(upground2w)):
+                upground2w[l] -= 7
         elif left == 1:
             skyw += 5 // 2
             groundw += 7
@@ -303,6 +317,8 @@ while running:
                 random_boxw[j] += 7
             for k in range(0, len(upgroundw)):
                 upgroundw[k] += 7
+            for l in range(0, len(upground2w)):
+                upground2w[l] += 7
     elif Attack1 == 1:
         if mode == 0:
             attackframe1 = (attackframe1 + 1) % 11
@@ -323,6 +339,8 @@ while running:
             random_boxw[j] -= dir * 7
         for k in range(0, len(upgroundw)):
             upgroundw[k] -= dir * 7
+        for l in range(0, len(upground2w)):
+            upground2w[l] -= dir * 7
 
     if keep == 1:
         longattack = (longattack + 1) % 2
