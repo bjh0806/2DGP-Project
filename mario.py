@@ -163,6 +163,8 @@ while running:
                 firey -= 2
                 for j in range(0, len(random_boxw)):
                     random_boxh[j] -= 2
+                for k in range(0, len(upgroundw)):
+                    upgroundh[k] -= 2
             else:
                 skyh += 2
                 groundh += 2
@@ -170,6 +172,8 @@ while running:
                 firey += 2
                 for j in range(0, len(random_boxw)):
                     random_boxh[j] += 2
+                for k in range(0, len(upgroundw)):
+                    upgroundh[k] += 2
         elif left == 1:
             if x < x2:
                 skyh += 2
@@ -178,6 +182,8 @@ while running:
                 firey += 2
                 for j in range(0, len(random_boxw)):
                     random_boxh[j] += 2
+                for k in range(0, len(upgroundw)):
+                    upgroundh[k] += 2
             else:
                 skyh -= 2
                 groundh -= 2
@@ -185,6 +191,8 @@ while running:
                 firey -= 2
                 for j in range(0, len(random_boxw)):
                     random_boxh[j] -= 2
+                for k in range(0, len(upgroundw)):
+                    upgroundh[k] -= 2
 
         i += 4
 
@@ -289,12 +297,16 @@ while running:
             flowerw -= 7
             for j in range(0, len(random_boxw)):
                 random_boxw[j] -= 7
+            for k in range(0, len(upgroundw)):
+                upgroundw[k] -= 7
         elif left == 1:
             skyw += 5 // 2
             groundw += 7
             flowerw += 7
             for j in range(0, len(random_boxw)):
                 random_boxw[j] += 7
+            for k in range(0, len(upgroundw)):
+                upgroundw[k] += 7
     elif Attack1 == 1:
         if mode == 0:
             attackframe1 = (attackframe1 + 1) % 11
@@ -313,6 +325,8 @@ while running:
         flowerw -= dir * 7
         for j in range(0, len(random_boxw)):
             random_boxw[j] -= dir * 7
+        for k in range(0, len(upgroundw)):
+            upgroundw[k] -= dir * 7
 
     if keep == 1:
         longattack = (longattack + 1) % 2
@@ -340,11 +354,6 @@ while running:
 
     if left == 0 and right == 0:
         Wait = 1
-
-    # if flowerw < x and use == 0:
-    #     getflower = 1
-    #     Get = 1
-    #     use = 1
 
     delay(0.05)
 
