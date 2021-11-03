@@ -5,11 +5,14 @@ left, right = 0, 1
 last = 1
 random_boxw = [300, 400, 425, 700, 900, 1900, 2025]
 random_boxh = [200, 200, 200, 300, 200, 200, 200]
+upgroundw = [570]
+upgroundh = [50]
 
 class Object:
     def __init__(self):
         self.random_box = load_image('random_box.png')
         self.randomframe = 0
+        self.upground = load_image('upground.png')
 
     def update_random_box(self):
         self.randomframe = (self.randomframe + 1) % 4
@@ -17,6 +20,10 @@ class Object:
     def draw_random_box(self):
         for j in range(0, len(random_boxw)):
             self.random_box.clip_draw(self.randomframe * 25, 0, 25, 33, random_boxw[j], random_boxh[j])
+
+    def draw_upground(self):
+        for k in range(0, len(upgroundw)):
+            self.upground.draw(upgroundw[k], upgroundh[k])
 
 def handle_events():
     global running, x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
@@ -117,9 +124,8 @@ while running:
     clear_canvas()
     sky.draw_now(skyw, skyh)
     ground.draw_now(groundw, groundh)
-    # if getflower == 0:
-    #     flower.draw(flowerw, flowerh)
     object.draw_random_box()
+    object.draw_upground()
 
     if Start == 1:
         start.clip_draw(firstframe * 50, 0, 50, 50, x, y)
