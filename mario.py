@@ -6,7 +6,7 @@ last = 1
 random_boxw = [300, 400, 425, 700, 900, 1900, 2025]
 random_boxh = [200, 200, 200, 300, 200, 200, 200]
 upgroundw = [570]
-upgroundh = [50]
+upgroundh = 50
 
 class Object:
     def __init__(self):
@@ -23,7 +23,7 @@ class Object:
 
     def draw_upground(self):
         for k in range(0, len(upgroundw)):
-            self.upground.draw(upgroundw[k], upgroundh[k])
+            self.upground.draw(upgroundw[k], upgroundh)
 
 def handle_events():
     global running, x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
@@ -163,8 +163,7 @@ while running:
                 firey -= 2
                 for j in range(0, len(random_boxw)):
                     random_boxh[j] -= 2
-                for k in range(0, len(upgroundw)):
-                    upgroundh[k] -= 2
+                upgroundh -= 2
             else:
                 skyh += 2
                 groundh += 2
@@ -172,8 +171,7 @@ while running:
                 firey += 2
                 for j in range(0, len(random_boxw)):
                     random_boxh[j] += 2
-                for k in range(0, len(upgroundw)):
-                    upgroundh[k] += 2
+                upgroundh += 2
         elif left == 1:
             if x < x2:
                 skyh += 2
@@ -182,8 +180,7 @@ while running:
                 firey += 2
                 for j in range(0, len(random_boxw)):
                     random_boxh[j] += 2
-                for k in range(0, len(upgroundw)):
-                    upgroundh[k] += 2
+                upgroundh += 2
             else:
                 skyh -= 2
                 groundh -= 2
@@ -191,8 +188,7 @@ while running:
                 firey -= 2
                 for j in range(0, len(random_boxw)):
                     random_boxh[j] -= 2
-                for k in range(0, len(upgroundw)):
-                    upgroundh[k] -= 2
+                upgroundh -= 2
 
         i += 4
 
