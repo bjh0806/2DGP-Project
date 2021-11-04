@@ -9,7 +9,9 @@ random_boxh = [200, 200, 200, 300, 200, 200, 200]
 upgroundw = [700]
 upgroundh = 50
 upground2w = [850]
-upground2h = 80
+upground2h = 70
+coinw = [580, 610, 640, 740, 770, 800]
+coinh = [130, 160, 180, 180, 210, 230]
 
 class Object:
     upground = None
@@ -22,6 +24,7 @@ class Object:
             Object.upground = load_image('upground.png')
         if Object.upground2 == None:
             Object.upground2 = load_image('upground_double.png')
+        self.coin = load_image('coin.png')
 
     def update_random_box(self):
         self.randomframe = (self.randomframe + 1) % 4
@@ -37,6 +40,10 @@ class Object:
     def draw_upground2(self):
         for l in range(0, len(upground2w)):
             self.upground2.draw(upground2w[l], upground2h)
+
+    def draw_coin(self):
+        for m in range(0, len(coinw)):
+            self.coin.draw(coinw[m], coinh[m])
 
 def handle_events():
     global running, x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
@@ -126,7 +133,7 @@ firex = 50
 firey = 100
 
 skyw = WIDTH // 4
-skyh = 200
+skyh = 300
 groundw = WIDTH // 4
 groundh = 350
 
@@ -140,6 +147,7 @@ while running:
     object.draw_random_box()
     object.draw_upground()
     object.draw_upground2()
+    object.draw_coin()
 
     if Start == 1:
         start.clip_draw(firstframe * 50, 0, 50, 50, x, y)
@@ -179,6 +187,8 @@ while running:
                     random_boxh[j] -= 2
                 upgroundh -= 2
                 upground2h -= 2
+                for m in range(0, len(coinw)):
+                    coinh[m] -= 2
             else:
                 skyh += 2
                 groundh += 2
@@ -188,6 +198,8 @@ while running:
                     random_boxh[j] += 2
                 upgroundh += 2
                 upground2h += 2
+                for m in range(0, len(coinw)):
+                    coinh[m] += 2
         elif left == 1:
             if x < x2:
                 skyh += 2
@@ -198,6 +210,8 @@ while running:
                     random_boxh[j] += 2
                 upgroundh += 2
                 upground2h += 2
+                for m in range(0, len(coinw)):
+                    coinh[m] += 2
             else:
                 skyh -= 2
                 groundh -= 2
@@ -207,6 +221,8 @@ while running:
                     random_boxh[j] -= 2
                 upgroundh -= 2
                 upground2h -= 2
+                for m in range(0, len(coinw)):
+                    coinh[m] -= 2
 
         i += 4
 
@@ -315,6 +331,8 @@ while running:
                 upgroundw[k] -= 7
             for l in range(0, len(upground2w)):
                 upground2w[l] -= 7
+            for m in range(0, len(coinw)):
+                coinw[m] -= 7
         elif left == 1:
             skyw += 5 // 2
             groundw += 7
@@ -325,6 +343,8 @@ while running:
                 upgroundw[k] += 7
             for l in range(0, len(upground2w)):
                 upground2w[l] += 7
+            for m in range(0, len(coinw)):
+                coinw[m] += 7
     elif Attack1 == 1:
         if mode == 0:
             attackframe1 = (attackframe1 + 1) % 11
@@ -347,6 +367,8 @@ while running:
             upgroundw[k] -= dir * 7
         for l in range(0, len(upground2w)):
             upground2w[l] -= dir * 7
+        for m in range(0, len(coinw)):
+            coinw[m] -= dir * 7
 
     if keep == 1:
         longattack = (longattack + 1) % 2
