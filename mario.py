@@ -1,4 +1,5 @@
 from pico2d import *
+import random
 
 WIDTH, HEIGHT = 1600, 900
 left, right = 0, 1
@@ -11,11 +12,16 @@ upground2w = [720]
 upground2h = 80
 
 class Object:
+    upground = None
+    upground2 = None
+
     def __init__(self):
         self.random_box = load_image('random_box.png')
-        self.randomframe = 0
-        self.upground = load_image('upground.png')
-        self.upground2 = load_image('upground_double.png')
+        self.randomframe = random.randint(0, 3)
+        if Object.upground == None:
+            Object.upground = load_image('upground.png')
+        if Object.upground2 == None:
+            Object.upground2 = load_image('upground_double.png')
 
     def update_random_box(self):
         self.randomframe = (self.randomframe + 1) % 4
