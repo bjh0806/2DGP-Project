@@ -4,7 +4,7 @@ import random
 WIDTH, HEIGHT = 1600, 900
 left, right = 0, 1
 last = 1
-random_boxw = [300, 400, 425, 720, 900, 1900, 2025]
+random_boxw = [300, 400, 425, 855, 1100, 1900, 2025]
 random_boxh = [200, 200, 200, 300, 200, 200, 200]
 upgroundw = [700]
 upgroundh = 50
