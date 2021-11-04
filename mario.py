@@ -6,9 +6,9 @@ left, right = 0, 1
 last = 1
 random_boxw = [300, 400, 425, 720, 900, 1900, 2025]
 random_boxh = [200, 200, 200, 300, 200, 200, 200]
-upgroundw = [570]
+upgroundw = [700]
 upgroundh = 50
-upground2w = [720]
+upground2w = [850]
 upground2h = 80
 
 class Object:
