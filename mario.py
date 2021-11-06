@@ -52,6 +52,8 @@ class Object:
 def enter():
     open_canvas(WIDTH // 2, 600)
 
+    object = Object()
+
     sky = load_image('sky.png')
     ground = load_image('ground.png')
     mario = load_image('mario.png')
