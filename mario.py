@@ -58,6 +58,9 @@ def exit():
 def update():
     pass
 
+def draw():
+    pass
+
 def handle_events():
     global running, x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
     events = get_events()
