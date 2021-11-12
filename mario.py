@@ -52,7 +52,7 @@ class Mario:
 
     def update(self):
         global Wait
-        
+
         if self.Start == 1:
             self.firstframe = (self.firstframe + 1) % 10
             self.x += 7
@@ -89,16 +89,16 @@ class Mario:
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
 
-            elif right == 1:
-                if self.mode == 0:
-                    self.mario.clip_draw(self.frame * 50, 50, 50, 50, self.x, self.y)
-                # else:
-                #     walk.clip_draw(frame * 50, 50, 50, 50, x, y)
-            elif left == 1:
-                if self.mode == 0:
-                    self.mario.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y - 5)
-                else:
-                    self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
+        elif right == 1:
+            if self.mode == 0:
+                self.mario.clip_draw(self.frame * 50, 50, 50, 50, self.x, self.y)
+            # else:
+            #     walk.clip_draw(frame * 50, 50, 50, 50, x, y)
+        elif left == 1:
+            if self.mode == 0:
+                self.mario.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y - 5)
+            else:
+                self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
 
 class Object:
     upground = None
