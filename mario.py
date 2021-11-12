@@ -35,6 +35,25 @@ class Ground:
     def draw(self):
         self.ground.draw(groundw, groundh)
 
+class Mario:
+    def __init__(self):
+        self.Start = 1
+        self.x, self.y = 0, 95
+        self.firstframe = 0
+        self.start = load_image('start.png')
+
+    def update(self):
+        if self.Start == 1:
+            self.firstframe = (self.firstframe + 1) % 10
+            self.x += 7
+            if self.firstframe == 9:
+                self.Start = 0
+                # Wait = 1
+                self.firstframe = 0
+
+    def draw(self):
+        self.start.clip_draw(self.firstframe * 50, 0, 50, 50, self.x, self.y)
+
 class Object:
     upground = None
     upground2 = None
@@ -68,16 +87,18 @@ class Object:
             self.coin.draw(coinw[m], coinh[m])
 
 def enter():
-    global object, sky, ground
+    global object, sky, ground, mario
     object = Object()
     sky = Sky()
     ground = Ground()
+    mario = Mario()
 
 def exit():
-    global object, sky, ground
+    global object, sky, ground, mario
     del(object)
     del(sky)
     del(ground)
+    del(mario)
 
 def handle_events():
     global running, x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
@@ -121,11 +142,14 @@ def handle_events():
 
 def update():
     object.update_random_box()
+    mario.update()
+    delay(0.05)
 
 def draw():
     clear_canvas()
     sky.draw()
     ground.draw()
+    mario.draw()
     object.draw_random_box()
     object.draw_upground()
     object.draw_upground2()
@@ -135,7 +159,6 @@ def draw():
 # open_canvas(WIDTH // 2, 600)
 #
 # mario = load_image('mario.png')
-# start = load_image('start.png')
 # wait = load_image('wait.png')
 # jump = load_image('jump.png')
 # attack1 = load_image('attack1.png')
@@ -149,12 +172,8 @@ def draw():
 # fire = load_image('fire.png')
 #
 # running = True
-# x = 0
-# y = 95
 # frame = 0
 # dir = 0
-# Start = 1
-# firstframe = 0
 # Wait = 0
 # waitframe = 0
 # Jump = 0
@@ -176,19 +195,10 @@ def draw():
 # firey = 100
 #
 #
-# flowerw = 600
-# flowerh = 93
 #
 # while running:
 #     clear_canvas()
-#     ground.draw_now(groundw, groundh)
-#     object.draw_random_box()
-#     object.draw_upground()
-#     object.draw_upground2()
-#     object.draw_coin()
 #
-#     if Start == 1:
-#         start.clip_draw(firstframe * 50, 0, 50, 50, x, y)
 #     elif Wait == 1:
 #         if right == 1:
 #             if mode == 0:
@@ -350,11 +360,7 @@ def draw():
 #
 #     handle_events()
 #
-#     object.update_random_box()
 #
-#     if Start == 1:
-#         firstframe = (firstframe + 1) % 10
-#         x += 7
 #     elif Wait == 1:
 #         waitframe = (waitframe + 1) % 7
 #     elif Jump == 1:
@@ -411,10 +417,6 @@ def draw():
 #     if keep == 1:
 #         longattack = (longattack + 1) % 2
 #
-#     if firstframe == 9:
-#         Start = 0
-#         Wait = 1
-#         firstframe = 0
 #
 #     if attackframe1 == 10:
 #         Attack1 = 0
