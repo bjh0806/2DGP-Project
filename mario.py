@@ -20,6 +20,9 @@ skyw = WIDTH // 4
 skyh = 300
 groundw = WIDTH // 4
 groundh = 350
+dir = 0
+right = 1
+Wait = 0
 
 class Sky:
     def __init__(self):
@@ -38,42 +41,64 @@ class Ground:
 class Mario:
     def __init__(self):
         self.Start = 1
-        self.Wait = 0
-        self.right = 1
         self.mode = 0
         self.x, self.y = 0, 95
         self.firstframe = 0
         self.waitframe = 0
+        self.frame = 0
         self.start = load_image('start.png')
         self.wait = load_image('wait.png')
+        self.mario = load_image('mario.png')
 
     def update(self):
+        global Wait
+        
         if self.Start == 1:
             self.firstframe = (self.firstframe + 1) % 10
             self.x += 7
             if self.firstframe == 9:
+                global Wait
+                Wait = 1
                 self.Start = 0
-                self.Wait = 1
                 self.firstframe = 0
 
-        elif self.Wait == 1:
+        elif Wait == 1:
             self.waitframe = (self.waitframe + 1) % 7
+
+        else:
+            self.frame = (self.frame + 1) % 8
+            global skyw, groundw
+            if self.x >= 10 and self.x <= 250:
+                self.x += dir * 5
+            skyw -= dir * 5 // 2
+            groundw -= dir * 7
 
     def draw(self):
         if self.Start == 1:
             self.start.clip_draw(self.firstframe * 50, 0, 50, 50, self.x, self.y)
 
-        if self.Wait == 1:
-            if self.right == 1:
+        if Wait == 1:
+            if right == 1:
                 if self.mode == 0:
                     self.wait.clip_draw(self.waitframe * 50, 50, 50, 50, self.x, self.y)
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
-            elif self.left == 1:
+            elif left == 1:
                 if self.mode == 0:
                     self.wait.clip_draw(self.waitframe * 50, 0, 50, 50, self.x, self.y)
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
+
+            elif right == 1:
+                if self.mode == 0:
+                    self.mario.clip_draw(self.frame * 50, 50, 50, 50, self.x, self.y)
+                # else:
+                #     walk.clip_draw(frame * 50, 50, 50, 50, x, y)
+            elif left == 1:
+                if self.mode == 0:
+                    self.mario.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y - 5)
+                else:
+                    self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
 
 class Object:
     upground = None
@@ -122,7 +147,7 @@ def exit():
     del(mario)
 
 def handle_events():
-    global running, x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
+    global x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -162,6 +187,7 @@ def handle_events():
                     Wait = 1
 
 def update():
+    handle_events()
     object.update_random_box()
     mario.update()
     delay(0.05)
@@ -179,7 +205,6 @@ def draw():
 
 # open_canvas(WIDTH // 2, 600)
 #
-# mario = load_image('mario.png')
 # jump = load_image('jump.png')
 # attack1 = load_image('attack1.png')
 # flower = load_image('flower.png')
@@ -191,9 +216,6 @@ def draw():
 # attack3 = load_image('attack3.png')
 # fire = load_image('fire.png')
 #
-# running = True
-# frame = 0
-# dir = 0
 # Jump = 0
 # i = 0
 # jumpframe = 0
@@ -409,7 +431,6 @@ def draw():
 #             x += dir * 5
 #         skyw -= dir * 5 // 2
 #         groundw -= dir * 7
-#         flowerw -= dir * 7
 #         for j in range(0, len(random_boxw)):
 #             random_boxw[j] -= dir * 7
 #         for k in range(0, len(upgroundw)):
