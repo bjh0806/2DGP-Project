@@ -99,7 +99,6 @@ def handle_events():
 
 def update():
     object.update_random_box()
-    pass
 
 def draw():
     clear_canvas()
@@ -107,6 +106,7 @@ def draw():
     object.draw_upground()
     object.draw_upground2()
     object.draw_coin()
+    update_canvas()
 
 # open_canvas(WIDTH // 2, 600)
 #
