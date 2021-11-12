@@ -18,6 +18,8 @@ coinw = [580, 610, 640, 740, 770, 800]
 coinh = [130, 160, 180, 180, 210, 230]
 skyw = WIDTH // 4
 skyh = 300
+groundw = WIDTH // 4
+groundh = 350
 
 class Sky:
     def __init__(self):
@@ -25,6 +27,13 @@ class Sky:
 
     def draw(self):
         self.sky.draw(skyw, skyh)
+
+class Ground:
+    def __init__(self):
+        self.ground = load_image('ground.png')
+
+    def draw(self):
+        self.ground.draw(groundw, groundh)
 
 class Object:
     upground = None
@@ -59,14 +68,16 @@ class Object:
             self.coin.draw(coinw[m], coinh[m])
 
 def enter():
-    global object, sky
+    global object, sky, ground
     object = Object()
     sky = Sky()
+    ground = Ground()
 
 def exit():
-    global object, sky
+    global object, sky, ground
     del(object)
     del(sky)
+    del(ground)
 
 def handle_events():
     global running, x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
@@ -114,6 +125,7 @@ def update():
 def draw():
     clear_canvas()
     sky.draw()
+    ground.draw()
     object.draw_random_box()
     object.draw_upground()
     object.draw_upground2()
@@ -122,7 +134,6 @@ def draw():
 
 # open_canvas(WIDTH // 2, 600)
 #
-# ground = load_image('ground.png')
 # mario = load_image('mario.png')
 # start = load_image('start.png')
 # wait = load_image('wait.png')
@@ -164,15 +175,12 @@ def draw():
 # firex = 50
 # firey = 100
 #
-# groundw = WIDTH // 4
-# groundh = 350
 #
 # flowerw = 600
 # flowerh = 93
 #
 # while running:
 #     clear_canvas()
-#     sky.draw_now(skyw, skyh)
 #     ground.draw_now(groundw, groundh)
 #     object.draw_random_box()
 #     object.draw_upground()
