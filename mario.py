@@ -41,20 +41,25 @@ class Sky:
         self.sky.draw(skyw, skyh)
 
     def update(self):
-        global skyh
+        global skyh, skyw
 
         if Jump == 1:
             if right == 1:
+                skyw -= 5 // 2
                 if x < x2:
                     skyh -= 2
                 else:
                     skyh += 2
 
             elif left == 1:
+                skyw += 5 // 2
                 if x < x2:
                     skyh += 2
                 else:
                     skyh -= 2
+
+        else:
+            skyw -= dir * 5 // 2
 
 class Ground:
     def __init__(self):
@@ -64,20 +69,25 @@ class Ground:
         self.ground.draw(groundw, groundh)
 
     def update(self):
-        global groundh
+        global groundh, groundw
 
         if Jump == 1:
             if right == 1:
+                groundw -= 7
                 if x < x2:
                     groundh -= 2
                 else:
                     groundh += 2
 
             elif left == 1:
+                groundw += 7
                 if x < x2:
                     groundh += 2
                 else:
                     groundh -= 2
+
+        else:
+            groundw -= dir * 7
 
 class Mario:
     def __init__(self):
@@ -133,35 +143,10 @@ class Mario:
 
             self.jumpframe = (self.jumpframe + 1) % 14
 
-            if right == 1:
-                skyw -= 5 // 2
-                groundw -= 7
-                for j in range(0, len(random_boxw)):
-                    random_boxw[j] -= 7
-                for k in range(0, len(upgroundw)):
-                    upgroundw[k] -= 7
-                for l in range(0, len(upground2w)):
-                    upground2w[l] -= 7
-                for m in range(0, len(coinw)):
-                    coinw[m] -= 7
-            elif left == 1:
-                skyw += 5 // 2
-                groundw += 7
-                for j in range(0, len(random_boxw)):
-                    random_boxw[j] += 7
-                for k in range(0, len(upgroundw)):
-                    upgroundw[k] += 7
-                for l in range(0, len(upground2w)):
-                    upground2w[l] += 7
-                for m in range(0, len(coinw)):
-                    coinw[m] += 7
-
         else:
             self.frame = (self.frame + 1) % 8
             if x >= 10 and x <= 250:
                 x += dir * 5
-            skyw -= dir * 5 // 2
-            groundw -= dir * 7
 
     def draw(self):
         global Wait, Jump, skyh, groundh, upgroundh, upground2h, i
@@ -225,20 +210,62 @@ class Object:
 
         if Jump == 1:
             if right == 1:
+                for j in range(0, len(random_boxw)):
+                    random_boxw[j] -= 7
+                for k in range(0, len(upgroundw)):
+                    upgroundw[k] -= 7
+                for l in range(0, len(upground2w)):
+                    upground2w[l] -= 7
+                for m in range(0, len(coinw)):
+                    coinw[m] -= 7
                 if x < x2:
+                    for j in range(0, len(random_boxh)):
+                        random_boxh[j] -= 2
+                    for m in range(0, len(coinh)):
+                        coinh[m] -= 2
                     upgroundh -= 2
                     upground2h -= 2
                 else:
+                    for j in range(0, len(random_boxh)):
+                        random_boxh[j] += 2
+                    for m in range(0, len(coinh)):
+                        coinh[m] += 2
                     upgroundh += 2
                     upground2h += 2
 
             elif left == 1:
+                for j in range(0, len(random_boxw)):
+                    random_boxw[j] += 7
+                for k in range(0, len(upgroundw)):
+                    upgroundw[k] += 7
+                for l in range(0, len(upground2w)):
+                    upground2w[l] += 7
+                for m in range(0, len(coinw)):
+                    coinw[m] += 7
                 if x < x2:
+                    for j in range(0, len(random_boxh)):
+                        random_boxh[j] += 2
+                    for m in range(0, len(coinh)):
+                        coinh[m] += 2
                     upgroundh += 2
                     upground2h += 2
                 else:
+                    for j in range(0, len(random_boxh)):
+                        random_boxh[j] -= 2
+                    for m in range(0, len(coinh)):
+                        coinh[m] -= 2
                     upgroundh -= 2
                     upground2h -= 2
+
+        else:
+            for j in range(0, len(random_boxw)):
+                random_boxw[j] -= dir * 7
+            for k in range(0, len(upgroundw)):
+                upgroundw[k] -= dir * 7
+            for l in range(0, len(upground2w)):
+                upground2w[l] -= dir * 7
+            for m in range(0, len(coinw)):
+                coinw[m] -= dir * 7
 
     def draw_random_box(self):
         for j in range(0, len(random_boxw)):
@@ -410,17 +437,6 @@ def draw():
 #         elif left == 1:
 #             strong.clip_draw((16 - fireframe) * 50, 0, 50, 100, x, y + 27)
 #
-#     elif right == 1:
-#         if mode == 0:
-#             mario.clip_draw(frame * 50, 50, 50, 50, x, y)
-#         else:
-#             walk.clip_draw(frame * 50, 50, 50, 50, x, y)
-#     elif left == 1:
-#         if mode == 0:
-#             mario.clip_draw((7 - frame) * 50, 0, 50, 50, x, y - 5)
-#         else:
-#             walk.clip_draw((7 - frame) * 50, 0, 50, 50, x, y)
-#
 #     if keep == 1:
 #         if last == 1:
 #             fire.clip_draw(longattack * 70, 50, 70, 50, x + firex, firey)
@@ -441,20 +457,6 @@ def draw():
 #         attackframe3 = (attackframe3 + 1) % 8
 #     elif Get == 1:
 #         fireframe = (fireframe + 1) % 17
-#     else:
-#         frame = (frame + 1) % 8
-#         if x >= 10 and x <= 250:
-#             x += dir * 5
-#         skyw -= dir * 5 // 2
-#         groundw -= dir * 7
-#         for j in range(0, len(random_boxw)):
-#             random_boxw[j] -= dir * 7
-#         for k in range(0, len(upgroundw)):
-#             upgroundw[k] -= dir * 7
-#         for l in range(0, len(upground2w)):
-#             upground2w[l] -= dir * 7
-#         for m in range(0, len(coinw)):
-#             coinw[m] -= dir * 7
 #
 #     if keep == 1:
 #         longattack = (longattack + 1) % 2
