@@ -21,8 +21,15 @@ skyh = 300
 groundw = WIDTH // 4
 groundh = 350
 dir = 0
-right = 1
 Wait = 0
+Jump = 0
+i = 0
+x1 = 0
+x2 = 0
+x3 = 0
+y1 = 0
+y2 = 0
+y3 = 0
 
 class Sky:
     def __init__(self):
@@ -42,16 +49,19 @@ class Mario:
     def __init__(self):
         self.Start = 1
         self.mode = 0
+        self.i = 0
         self.x, self.y = 0, 95
         self.firstframe = 0
         self.waitframe = 0
         self.frame = 0
+        self.jumpframe = 0
         self.start = load_image('start.png')
         self.wait = load_image('wait.png')
         self.mario = load_image('mario.png')
+        self.jump = load_image('jump.png')
 
     def update(self):
-        global Wait
+        global Wait, skyw, groundw, i, skyh, groundh, upgroundh, upground2h, Jump, x1, x2, x3, y1, y2, y3
 
         if self.Start == 1:
             self.firstframe = (self.firstframe + 1) % 10
@@ -65,15 +75,104 @@ class Mario:
         elif Wait == 1:
             self.waitframe = (self.waitframe + 1) % 7
 
+        elif Jump == 1:
+            if i == 0:
+                if right == 1:
+                    x1, y1 = self.x, self.y
+                    x3, y3 = self.x + 20, self.y
+                    x2, y2 = self.x + 10, self.y + 75
+                elif left == 1:
+                    x1, y1 = self.x, self.y
+                    x3, y3 = self.x - 20, self.y
+                    x2, y2 = self.x - 10, self.y + 75
+
+            t = i / 100
+
+            self.x = (2 * t ** 2 - 3 * t + 1) * x1 + (-4 * t ** 2 + 4 * t) * x2 + (2 * t ** 2 - t) * x3
+            self.y = (2 * t ** 2 - 3 * t + 1) * y1 + (-4 * t ** 2 + 4 * t) * y2 + (2 * t ** 2 - t) * y3
+
+            i += 4
+
+            if right == 1:
+                if self.x < x2:
+                    skyh -= 2
+                    groundh -= 2
+                    # firey -= 2
+                    for j in range(0, len(random_boxw)):
+                        random_boxh[j] -= 2
+                    upgroundh -= 2
+                    upground2h -= 2
+                    for m in range(0, len(coinw)):
+                        coinh[m] -= 2
+                else:
+                    skyh += 2
+                    groundh += 2
+                    for j in range(0, len(random_boxw)):
+                        random_boxh[j] += 2
+                    upgroundh += 2
+                    upground2h += 2
+                    for m in range(0, len(coinw)):
+                        coinh[m] += 2
+            elif left == 1:
+                if self.x < x2:
+                    skyh += 2
+                    groundh += 2
+                    for j in range(0, len(random_boxw)):
+                        random_boxh[j] += 2
+                    upgroundh += 2
+                    upground2h += 2
+                    for m in range(0, len(coinw)):
+                        coinh[m] += 2
+                else:
+                    skyh -= 2
+                    groundh -= 2
+                    for j in range(0, len(random_boxw)):
+                        random_boxh[j] -= 2
+                    upgroundh -= 2
+                    upground2h -= 2
+                    for m in range(0, len(coinw)):
+                        coinh[m] -= 2
+
+            if i == 104:
+                Jump = 0
+                Wait = 1
+                i = 0
+
+            self.jumpframe = (self.jumpframe + 1) % 14
+
+            if right == 1:
+                skyw -= 5 // 2
+                groundw -= 7
+                for j in range(0, len(random_boxw)):
+                    random_boxw[j] -= 7
+                for k in range(0, len(upgroundw)):
+                    upgroundw[k] -= 7
+                for l in range(0, len(upground2w)):
+                    upground2w[l] -= 7
+                for m in range(0, len(coinw)):
+                    coinw[m] -= 7
+            elif left == 1:
+                skyw += 5 // 2
+                groundw += 7
+                for j in range(0, len(random_boxw)):
+                    random_boxw[j] += 7
+                for k in range(0, len(upgroundw)):
+                    upgroundw[k] += 7
+                for l in range(0, len(upground2w)):
+                    upground2w[l] += 7
+                for m in range(0, len(coinw)):
+                    coinw[m] += 7
+
         else:
             self.frame = (self.frame + 1) % 8
-            global skyw, groundw
             if self.x >= 10 and self.x <= 250:
                 self.x += dir * 5
             skyw -= dir * 5 // 2
             groundw -= dir * 7
 
     def draw(self):
+        global Wait, Jump, skyh, groundh, upgroundh, upground2h, i
+
         if self.Start == 1:
             self.start.clip_draw(self.firstframe * 50, 0, 50, 50, self.x, self.y)
 
@@ -89,6 +188,18 @@ class Mario:
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
 
+        elif Jump == 1:
+            if right == 1:
+                if self.mode == 0:
+                    self.jump.clip_draw((self.jumpframe + 5) * 50, 50, 50, 50, self.x, self.y)
+                # else:
+                #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
+            elif left == 1:
+                if self.mode == 0:
+                    self.jump.clip_draw((13 - self.jumpframe) * 50, 0, 50, 50, self.x, self.y)
+                # else:
+                #     modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
+
         elif right == 1:
             if self.mode == 0:
                 self.mario.clip_draw(self.frame * 50, 50, 50, 50, self.x, self.y)
@@ -97,8 +208,8 @@ class Mario:
         elif left == 1:
             if self.mode == 0:
                 self.mario.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y - 5)
-            else:
-                self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
+            # else:
+            #     self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
 
 class Object:
     upground = None
@@ -205,7 +316,6 @@ def draw():
 
 # open_canvas(WIDTH // 2, 600)
 #
-# jump = load_image('jump.png')
 # attack1 = load_image('attack1.png')
 # flower = load_image('flower.png')
 # strong = load_image('strong.png')
@@ -216,9 +326,6 @@ def draw():
 # attack3 = load_image('attack3.png')
 # fire = load_image('fire.png')
 #
-# Jump = 0
-# i = 0
-# jumpframe = 0
 # Attack1 = 0
 # attackframe1 = 0
 # getflower = 0
@@ -238,86 +345,6 @@ def draw():
 #
 # while running:
 #     clear_canvas()
-#
-#     elif Jump == 1:
-#         if i == 0:
-#             if right == 1:
-#                 x1, y1 = x, y
-#                 x3, y3 = x + 20, y
-#                 x2, y2 = x + 10, y + 75
-#             elif left == 1:
-#                 x1, y1 = x, y
-#                 x3, y3 = x - 20, y
-#                 x2, y2 = x - 10, y + 75
-#
-#         t = i / 100
-#         x = (2 * t ** 2 - 3 * t + 1) * x1 + (-4 * t ** 2 + 4 * t) * x2 + (2 * t ** 2 - t) * x3
-#         y = (2 * t ** 2 - 3 * t + 1) * y1 + (-4 * t ** 2 + 4 * t) * y2 + (2 * t ** 2 - t) * y3
-#
-#         if right == 1:
-#             if x < x2:
-#                 skyh -= 2
-#                 groundh -= 2
-#                 flowerh -= 2
-#                 firey -= 2
-#                 for j in range(0, len(random_boxw)):
-#                     random_boxh[j] -= 2
-#                 upgroundh -= 2
-#                 upground2h -= 2
-#                 for m in range(0, len(coinw)):
-#                     coinh[m] -= 2
-#             else:
-#                 skyh += 2
-#                 groundh += 2
-#                 flowerh += 2
-#                 firey += 2
-#                 for j in range(0, len(random_boxw)):
-#                     random_boxh[j] += 2
-#                 upgroundh += 2
-#                 upground2h += 2
-#                 for m in range(0, len(coinw)):
-#                     coinh[m] += 2
-#         elif left == 1:
-#             if x < x2:
-#                 skyh += 2
-#                 groundh += 2
-#                 flowerh += 2
-#                 firey += 2
-#                 for j in range(0, len(random_boxw)):
-#                     random_boxh[j] += 2
-#                 upgroundh += 2
-#                 upground2h += 2
-#                 for m in range(0, len(coinw)):
-#                     coinh[m] += 2
-#             else:
-#                 skyh -= 2
-#                 groundh -= 2
-#                 flowerh -= 2
-#                 firey -= 2
-#                 for j in range(0, len(random_boxw)):
-#                     random_boxh[j] -= 2
-#                 upgroundh -= 2
-#                 upground2h -= 2
-#                 for m in range(0, len(coinw)):
-#                     coinh[m] -= 2
-#
-#         i += 4
-#
-#         if right == 1:
-#             if mode == 0:
-#                 jump.clip_draw((jumpframe + 5) * 50, 50, 50, 50, x, y)
-#             else:
-#                 modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
-#         elif left == 1:
-#             if mode == 0:
-#                 jump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
-#             else:
-#                 modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
-#
-#         if i == 104:
-#             Jump = 0
-#             Wait = 1
-#             i = 0
 #
 #     elif Attack1 == 1:
 #         if right == 1:
@@ -389,33 +416,6 @@ def draw():
 #
 #     handle_events()
 #
-#
-#     elif Jump == 1:
-#         jumpframe = (jumpframe + 1) % 14
-#         if right == 1:
-#             skyw -= 5 // 2
-#             groundw -= 7
-#             flowerw -= 7
-#             for j in range(0, len(random_boxw)):
-#                 random_boxw[j] -= 7
-#             for k in range(0, len(upgroundw)):
-#                 upgroundw[k] -= 7
-#             for l in range(0, len(upground2w)):
-#                 upground2w[l] -= 7
-#             for m in range(0, len(coinw)):
-#                 coinw[m] -= 7
-#         elif left == 1:
-#             skyw += 5 // 2
-#             groundw += 7
-#             flowerw += 7
-#             for j in range(0, len(random_boxw)):
-#                 random_boxw[j] += 7
-#             for k in range(0, len(upgroundw)):
-#                 upgroundw[k] += 7
-#             for l in range(0, len(upground2w)):
-#                 upground2w[l] += 7
-#             for m in range(0, len(coinw)):
-#                 coinw[m] += 7
 #     elif Attack1 == 1:
 #         if mode == 0:
 #             attackframe1 = (attackframe1 + 1) % 11
