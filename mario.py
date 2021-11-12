@@ -20,6 +20,8 @@ skyw = WIDTH // 4
 skyh = 300
 groundw = WIDTH // 4
 groundh = 350
+x = 0
+y = 95
 dir = 0
 Wait = 0
 Jump = 0
@@ -38,6 +40,22 @@ class Sky:
     def draw(self):
         self.sky.draw(skyw, skyh)
 
+    def update(self):
+        global skyh
+
+        if Jump == 1:
+            if right == 1:
+                if x < x2:
+                    skyh -= 2
+                else:
+                    skyh += 2
+
+            elif left == 1:
+                if x < x2:
+                    skyh += 2
+                else:
+                    skyh -= 2
+
 class Ground:
     def __init__(self):
         self.ground = load_image('ground.png')
@@ -45,12 +63,27 @@ class Ground:
     def draw(self):
         self.ground.draw(groundw, groundh)
 
+    def update(self):
+        global groundh
+
+        if Jump == 1:
+            if right == 1:
+                if x < x2:
+                    groundh -= 2
+                else:
+                    groundh += 2
+
+            elif left == 1:
+                if x < x2:
+                    groundh += 2
+                else:
+                    groundh -= 2
+
 class Mario:
     def __init__(self):
         self.Start = 1
         self.mode = 0
         self.i = 0
-        self.x, self.y = 0, 95
         self.firstframe = 0
         self.waitframe = 0
         self.frame = 0
@@ -61,11 +94,11 @@ class Mario:
         self.jump = load_image('jump.png')
 
     def update(self):
-        global Wait, skyw, groundw, i, skyh, groundh, upgroundh, upground2h, Jump, x1, x2, x3, y1, y2, y3
+        global x, y, Wait, skyw, groundw, i, skyh, groundh, upgroundh, upground2h, Jump, x1, x2, x3, y1, y2, y3
 
         if self.Start == 1:
             self.firstframe = (self.firstframe + 1) % 10
-            self.x += 7
+            x += 7
             if self.firstframe == 9:
                 global Wait
                 Wait = 1
@@ -78,60 +111,20 @@ class Mario:
         elif Jump == 1:
             if i == 0:
                 if right == 1:
-                    x1, y1 = self.x, self.y
-                    x3, y3 = self.x + 20, self.y
-                    x2, y2 = self.x + 10, self.y + 75
+                    x1, y1 = x, y
+                    x3, y3 = x + 20, y
+                    x2, y2 = x + 10, y + 75
                 elif left == 1:
-                    x1, y1 = self.x, self.y
-                    x3, y3 = self.x - 20, self.y
-                    x2, y2 = self.x - 10, self.y + 75
+                    x1, y1 = x, y
+                    x3, y3 = x - 20, y
+                    x2, y2 = x - 10, y + 75
 
             t = i / 100
 
-            self.x = (2 * t ** 2 - 3 * t + 1) * x1 + (-4 * t ** 2 + 4 * t) * x2 + (2 * t ** 2 - t) * x3
-            self.y = (2 * t ** 2 - 3 * t + 1) * y1 + (-4 * t ** 2 + 4 * t) * y2 + (2 * t ** 2 - t) * y3
+            x = (2 * t ** 2 - 3 * t + 1) * x1 + (-4 * t ** 2 + 4 * t) * x2 + (2 * t ** 2 - t) * x3
+            y = (2 * t ** 2 - 3 * t + 1) * y1 + (-4 * t ** 2 + 4 * t) * y2 + (2 * t ** 2 - t) * y3
 
             i += 4
-
-            if right == 1:
-                if self.x < x2:
-                    skyh -= 2
-                    groundh -= 2
-                    # firey -= 2
-                    for j in range(0, len(random_boxw)):
-                        random_boxh[j] -= 2
-                    upgroundh -= 2
-                    upground2h -= 2
-                    for m in range(0, len(coinw)):
-                        coinh[m] -= 2
-                else:
-                    skyh += 2
-                    groundh += 2
-                    for j in range(0, len(random_boxw)):
-                        random_boxh[j] += 2
-                    upgroundh += 2
-                    upground2h += 2
-                    for m in range(0, len(coinw)):
-                        coinh[m] += 2
-            elif left == 1:
-                if self.x < x2:
-                    skyh += 2
-                    groundh += 2
-                    for j in range(0, len(random_boxw)):
-                        random_boxh[j] += 2
-                    upgroundh += 2
-                    upground2h += 2
-                    for m in range(0, len(coinw)):
-                        coinh[m] += 2
-                else:
-                    skyh -= 2
-                    groundh -= 2
-                    for j in range(0, len(random_boxw)):
-                        random_boxh[j] -= 2
-                    upgroundh -= 2
-                    upground2h -= 2
-                    for m in range(0, len(coinw)):
-                        coinh[m] -= 2
 
             if i == 104:
                 Jump = 0
@@ -165,8 +158,8 @@ class Mario:
 
         else:
             self.frame = (self.frame + 1) % 8
-            if self.x >= 10 and self.x <= 250:
-                self.x += dir * 5
+            if x >= 10 and x <= 250:
+                x += dir * 5
             skyw -= dir * 5 // 2
             groundw -= dir * 7
 
@@ -174,40 +167,40 @@ class Mario:
         global Wait, Jump, skyh, groundh, upgroundh, upground2h, i
 
         if self.Start == 1:
-            self.start.clip_draw(self.firstframe * 50, 0, 50, 50, self.x, self.y)
+            self.start.clip_draw(self.firstframe * 50, 0, 50, 50, x, y)
 
         if Wait == 1:
             if right == 1:
                 if self.mode == 0:
-                    self.wait.clip_draw(self.waitframe * 50, 50, 50, 50, self.x, self.y)
+                    self.wait.clip_draw(self.waitframe * 50, 50, 50, 50, x, y)
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
             elif left == 1:
                 if self.mode == 0:
-                    self.wait.clip_draw(self.waitframe * 50, 0, 50, 50, self.x, self.y)
+                    self.wait.clip_draw(self.waitframe * 50, 0, 50, 50, x, y)
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
 
         elif Jump == 1:
             if right == 1:
                 if self.mode == 0:
-                    self.jump.clip_draw((self.jumpframe + 5) * 50, 50, 50, 50, self.x, self.y)
+                    self.jump.clip_draw((self.jumpframe + 5) * 50, 50, 50, 50, x, y)
                 # else:
                 #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
             elif left == 1:
                 if self.mode == 0:
-                    self.jump.clip_draw((13 - self.jumpframe) * 50, 0, 50, 50, self.x, self.y)
+                    self.jump.clip_draw((13 - self.jumpframe) * 50, 0, 50, 50, x, y)
                 # else:
                 #     modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
 
         elif right == 1:
             if self.mode == 0:
-                self.mario.clip_draw(self.frame * 50, 50, 50, 50, self.x, self.y)
+                self.mario.clip_draw(self.frame * 50, 50, 50, 50, x, y)
             # else:
             #     walk.clip_draw(frame * 50, 50, 50, 50, x, y)
         elif left == 1:
             if self.mode == 0:
-                self.mario.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y - 5)
+                self.mario.clip_draw((7 - self.frame) * 50, 0, 50, 50, x, y - 5)
             # else:
             #     self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
 
@@ -301,6 +294,8 @@ def update():
     handle_events()
     object.update_random_box()
     mario.update()
+    sky.update()
+    ground.update()
     delay(0.05)
 
 def draw():
