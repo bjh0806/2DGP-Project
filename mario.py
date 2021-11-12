@@ -220,6 +220,26 @@ class Object:
     def update_random_box(self):
         self.randomframe = (self.randomframe + 1) % 4
 
+    def update(self):
+        global upgroundh, upground2h
+
+        if Jump == 1:
+            if right == 1:
+                if x < x2:
+                    upgroundh -= 2
+                    upground2h -= 2
+                else:
+                    upgroundh += 2
+                    upground2h += 2
+
+            elif left == 1:
+                if x < x2:
+                    upgroundh += 2
+                    upground2h += 2
+                else:
+                    upgroundh -= 2
+                    upground2h -= 2
+
     def draw_random_box(self):
         for j in range(0, len(random_boxw)):
             self.random_box.clip_draw(self.randomframe * 25, 0, 25, 33, random_boxw[j], random_boxh[j])
@@ -296,6 +316,7 @@ def update():
     mario.update()
     sky.update()
     ground.update()
+    object.update()
     delay(0.05)
 
 def draw():
