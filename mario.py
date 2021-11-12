@@ -38,9 +38,14 @@ class Ground:
 class Mario:
     def __init__(self):
         self.Start = 1
+        self.Wait = 0
+        self.right = 1
+        self.mode = 0
         self.x, self.y = 0, 95
         self.firstframe = 0
+        self.waitframe = 0
         self.start = load_image('start.png')
+        self.wait = load_image('wait.png')
 
     def update(self):
         if self.Start == 1:
@@ -48,11 +53,27 @@ class Mario:
             self.x += 7
             if self.firstframe == 9:
                 self.Start = 0
-                # Wait = 1
+                self.Wait = 1
                 self.firstframe = 0
 
+        elif self.Wait == 1:
+            self.waitframe = (self.waitframe + 1) % 7
+
     def draw(self):
-        self.start.clip_draw(self.firstframe * 50, 0, 50, 50, self.x, self.y)
+        if self.Start == 1:
+            self.start.clip_draw(self.firstframe * 50, 0, 50, 50, self.x, self.y)
+
+        if self.Wait == 1:
+            if self.right == 1:
+                if self.mode == 0:
+                    self.wait.clip_draw(self.waitframe * 50, 50, 50, 50, self.x, self.y)
+                # else:
+                #     modewait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
+            elif self.left == 1:
+                if self.mode == 0:
+                    self.wait.clip_draw(self.waitframe * 50, 0, 50, 50, self.x, self.y)
+                # else:
+                #     modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
 
 class Object:
     upground = None
@@ -159,7 +180,6 @@ def draw():
 # open_canvas(WIDTH // 2, 600)
 #
 # mario = load_image('mario.png')
-# wait = load_image('wait.png')
 # jump = load_image('jump.png')
 # attack1 = load_image('attack1.png')
 # flower = load_image('flower.png')
@@ -174,8 +194,6 @@ def draw():
 # running = True
 # frame = 0
 # dir = 0
-# Wait = 0
-# waitframe = 0
 # Jump = 0
 # i = 0
 # jumpframe = 0
@@ -199,17 +217,6 @@ def draw():
 # while running:
 #     clear_canvas()
 #
-#     elif Wait == 1:
-#         if right == 1:
-#             if mode == 0:
-#                 wait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
-#             else:
-#                 modewait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
-#         elif left == 1:
-#             if mode == 0:
-#                 wait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
-#             else:
-#                 modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
 #     elif Jump == 1:
 #         if i == 0:
 #             if right == 1:
@@ -361,8 +368,6 @@ def draw():
 #     handle_events()
 #
 #
-#     elif Wait == 1:
-#         waitframe = (waitframe + 1) % 7
 #     elif Jump == 1:
 #         jumpframe = (jumpframe + 1) % 14
 #         if right == 1:
@@ -437,6 +442,5 @@ def draw():
 #     if left == 0 and right == 0:
 #         Wait = 1
 #
-#     delay(0.05)
 #
 # close_canvas()
