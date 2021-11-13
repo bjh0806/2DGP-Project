@@ -151,10 +151,54 @@ class MjumpState:
                 # else:
                 #     modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
 
+class WalkState:
+    def enter(Mario, event):
+        global dir, left, right, Wait
+        if event == RIGHT_DOWN:
+            dir += 1
+            left = 0
+            right = 1
+            Wait = 0
+        elif event == LEFT_DOWN:
+            dir -= 1
+            left = 1
+            right = 0
+            Wait = 0
+        elif event == RIGHT_UP:
+            dir -= 1
+            Wait = 1
+        elif event == LEFT_UP:
+            dir += 1
+            Wait = 1
+
+    def exit(Mario, event):
+        pass
+
+    def do(Mario):
+        global x
+        Mario.frame = (Mario.frame + 1) % 8
+        if x >= 10 and x <= 250:
+            x += dir * 5
+
+    def draw(Mario):
+        if right == 1:
+            if Mario.mode == 0:
+                Mario.mario.clip_draw(Mario.frame * 50, 50, 50, 50, x, y)
+            # else:
+            #     walk.clip_draw(frame * 50, 50, 50, 50, x, y)
+        elif left == 1:
+            if Mario.mode == 0:
+                Mario.mario.clip_draw((7 - Mario.frame) * 50, 0, 50, 50, x, y - 5)
+            # else:
+            #     self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
+
 next_state_table = {
     StartState: {WAIT: WaitState},
-    WaitState: {SPACE: JumpState},
+    WaitState: {SPACE: JumpState, RIGHT_DOWN: WalkState,
+                LEFT_DOWN: WalkState},
     JumpState: {JUMP: JumpState, WAIT: WaitState},
+    WalkState: {RIGHT_DOWN: WalkState, LEFT_DOWN: WalkState,
+                RIGHT_UP: WaitState, LEFT_UP: WaitState}
 }
 
 WIDTH, HEIGHT = 1600, 900
@@ -277,32 +321,6 @@ class Mario:
             self.cur_state.enter(self, event)
         # global x, y, Wait, skyw, groundw, i, skyh, groundh, upgroundh, upground2h, Jump, x1, x2, x3, y1, y2, y3
         #
-        #
-        # elif Jump == 1:
-        #     if i == 0:
-        #         if right == 1:
-        #             x1, y1 = x, y
-        #             x3, y3 = x + 20, y
-        #             x2, y2 = x + 10, y + 75
-        #         elif left == 1:
-        #             x1, y1 = x, y
-        #             x3, y3 = x - 20, y
-        #             x2, y2 = x - 10, y + 75
-        #
-        #     t = i / 100
-        #
-        #     x = (2 * t ** 2 - 3 * t + 1) * x1 + (-4 * t ** 2 + 4 * t) * x2 + (2 * t ** 2 - t) * x3
-        #     y = (2 * t ** 2 - 3 * t + 1) * y1 + (-4 * t ** 2 + 4 * t) * y2 + (2 * t ** 2 - t) * y3
-        #
-        #     i += 4
-        #
-        #     if i == 104:
-        #         Jump = 0
-        #         Wait = 1
-        #         i = 0
-        #
-        #     self.jumpframe = (self.jumpframe + 1) % 14
-        #
         # else:
         #     self.frame = (self.frame + 1) % 8
         #     if x >= 10 and x <= 250:
@@ -312,19 +330,6 @@ class Mario:
         self.cur_state.draw(self)
         debug_print('State: ' + str(self.cur_state))
         # global Wait, Jump, skyh, groundh, upgroundh, upground2h, i
-        #
-        #
-        # elif Jump == 1:
-        #     if right == 1:
-        #         if self.mode == 0:
-        #             self.jump.clip_draw((self.jumpframe + 5) * 50, 50, 50, 50, x, y)
-        #         # else:
-        #         #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
-        #     elif left == 1:
-        #         if self.mode == 0:
-        #             self.jump.clip_draw((13 - self.jumpframe) * 50, 0, 50, 50, x, y)
-        #         # else:
-        #         #     modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
         #
         # elif right == 1:
         #     if self.mode == 0:
