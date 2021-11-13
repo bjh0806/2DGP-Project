@@ -37,8 +37,14 @@ class StartState:
 
 class WaitState:
     def enter(Mario, event):
-        global Wait
+        global Wait, dir
         Wait = 1
+        if event == RIGHT_UP:
+            dir -= 1
+            Wait = 1
+        elif event == LEFT_UP:
+            dir += 1
+            Wait = 1
 
     def exit(Mario, event):
         global Wait
@@ -164,12 +170,6 @@ class WalkState:
             left = 1
             right = 0
             Wait = 0
-        elif event == RIGHT_UP:
-            dir -= 1
-            Wait = 1
-        elif event == LEFT_UP:
-            dir += 1
-            Wait = 1
 
     def exit(Mario, event):
         pass
