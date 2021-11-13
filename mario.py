@@ -5,7 +5,7 @@ import start_state
 
 name = "MainState"
 
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT, JUMP = range(7)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT = range(6)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_d): RIGHT_DOWN,
@@ -111,8 +111,12 @@ class JumpState:
 
 class MjumpState:
     def enter(Mario, event):
-        global Jump
+        global Jump, dir
         Jump = 1
+        if event == RIGHT_UP:
+            dir -= 1
+        elif event == LEFT_UP:
+            dir += 1
 
     def exit(Mario, event):
         pass
@@ -196,9 +200,13 @@ next_state_table = {
     StartState: {WAIT: WaitState},
     WaitState: {SPACE: JumpState, RIGHT_DOWN: WalkState,
                 LEFT_DOWN: WalkState},
-    JumpState: {JUMP: JumpState, WAIT: WaitState},
+    JumpState: {WAIT: WaitState},
     WalkState: {RIGHT_DOWN: WalkState, LEFT_DOWN: WalkState,
-                RIGHT_UP: WaitState, LEFT_UP: WaitState}
+                RIGHT_UP: WaitState, LEFT_UP: WaitState,
+                SPACE: MjumpState},
+    MjumpState: {WAIT: WaitState, RIGHT_DOWN: WalkState,
+                 LEFT_DOWN: WalkState, RIGHT_UP: MjumpState,
+                 LEFT_UP: MjumpState}
 }
 
 WIDTH, HEIGHT = 1600, 900
@@ -319,28 +327,10 @@ class Mario:
             self.cur_state.exit(self, event)
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
-        # global x, y, Wait, skyw, groundw, i, skyh, groundh, upgroundh, upground2h, Jump, x1, x2, x3, y1, y2, y3
-        #
-        # else:
-        #     self.frame = (self.frame + 1) % 8
-        #     if x >= 10 and x <= 250:
-        #         x += dir * 5
 
     def draw(self):
         self.cur_state.draw(self)
         debug_print('State: ' + str(self.cur_state))
-        # global Wait, Jump, skyh, groundh, upgroundh, upground2h, i
-        #
-        # elif right == 1:
-        #     if self.mode == 0:
-        #         self.mario.clip_draw(self.frame * 50, 50, 50, 50, x, y)
-        #     # else:
-        #     #     walk.clip_draw(frame * 50, 50, 50, 50, x, y)
-        # elif left == 1:
-        #     if self.mode == 0:
-        #         self.mario.clip_draw((7 - self.frame) * 50, 0, 50, 50, x, y - 5)
-        #     # else:
-        #     #     self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
 
 class Object:
     upground = None
@@ -464,16 +454,6 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN:
-            # if event.key == SDLK_a:
-            #     dir -= 1
-            #     left = 1
-            #     right = 0
-            #     Wait = 0
-            # elif event.key == SDLK_d:
-            #     dir += 1
-            #     left = 0
-            #     right = 1
-            #     Wait = 0
             if event.key == SDLK_ESCAPE:
                 game_framework.change_state(start_state)
         #     elif event.key == SDLK_SPACE:
@@ -487,15 +467,6 @@ def handle_events():
         #             Attack3 = 1
         #             keep = 1
         #             Wait = 0
-        # elif event.type == SDL_KEYUP:
-        #     if event.key == SDLK_a:
-        #         dir += 1
-        #         if Jump == 0:
-        #             Wait = 1
-        #     elif event.key == SDLK_d:
-        #         dir -= 1
-        #         if Jump == 0:
-        #             Wait = 1
 
 def update():
     handle_events()
