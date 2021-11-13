@@ -5,6 +5,45 @@ import start_state
 
 name = "MainState"
 
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT, START = range(7)
+
+key_event_table = {
+    (SDL_KEYDOWN, SDLK_d): RIGHT_DOWN,
+    (SDL_KEYDOWN, SDLK_a): LEFT_DOWN,
+    (SDL_KEYUP, SDLK_d): RIGHT_UP,
+    (SDL_KEYUP, SDLK_a): LEFT_UP,
+    (SDL_KEYDOWN, SDLK_SPACE): SPACE
+}
+
+class StartState:
+    def enter(Mario, event):
+        global Start
+        Start = 1
+
+    def exit(Mario):
+        global Start
+        Start = 0
+
+    def do(Mario):
+        global x
+        Mario.firstframe = (Mario.firstframe + 1) % 10
+        x += 7
+        if Mario.firstframe == 9:
+            Mario.Start = 0
+            Mario.firstframe = 0
+            Mario.add_event(WAIT)
+
+    def draw(Mario):
+        if Start == 1:
+            Mario.start.clip_draw(Mario.firstframe * 50, 0, 50, 50, x, y)
+
+class WaitState:
+    pass
+
+next_state_table = {
+    StartState: {RIGHT_UP: WaitState},
+}
+
 WIDTH, HEIGHT = 1600, 900
 left, right = 0, 1
 last = 1
@@ -102,105 +141,115 @@ class Mario:
         self.wait = load_image('wait.png')
         self.mario = load_image('mario.png')
         self.jump = load_image('jump.png')
+        self.event_que = []
+        self.cur_state = StartState
+        self.cur_state.enter(self, None)
+
+    def add_event(self, event):
+        self.event_que.insert(0, event)
 
     def update(self):
-        global x, y, Wait, skyw, groundw, i, skyh, groundh, upgroundh, upground2h, Jump, x1, x2, x3, y1, y2, y3
-
-        if self.Start == 1:
-            self.firstframe = (self.firstframe + 1) % 10
-            x += 7
-            if self.firstframe == 9:
-                global Wait
-                Wait = 1
-                self.Start = 0
-                self.firstframe = 0
-
-        elif Wait == 1:
-            self.waitframe = (self.waitframe + 1) % 7
-
-        elif Jump == 1:
-            if i == 0:
-                if right == 1:
-                    x1, y1 = x, y
-                    x3, y3 = x + 20, y
-                    x2, y2 = x + 10, y + 75
-                elif left == 1:
-                    x1, y1 = x, y
-                    x3, y3 = x - 20, y
-                    x2, y2 = x - 10, y + 75
-
-            t = i / 100
-
-            x = (2 * t ** 2 - 3 * t + 1) * x1 + (-4 * t ** 2 + 4 * t) * x2 + (2 * t ** 2 - t) * x3
-            y = (2 * t ** 2 - 3 * t + 1) * y1 + (-4 * t ** 2 + 4 * t) * y2 + (2 * t ** 2 - t) * y3
-
-            i += 4
-
-            if i == 104:
-                Jump = 0
-                Wait = 1
-                i = 0
-
-            self.jumpframe = (self.jumpframe + 1) % 14
-
-        else:
-            self.frame = (self.frame + 1) % 8
-            if x >= 10 and x <= 250:
-                x += dir * 5
+        self.cur_state.do(self)
+        if len(self.event_que) > 0:
+            event = self.event_que.pop()
+            self.cur_state.exit(self, event)
+            self.cur_state = next_state_table[self.cur_state][event]
+            self.cur_state.enter(self, event)
+        # global x, y, Wait, skyw, groundw, i, skyh, groundh, upgroundh, upground2h, Jump, x1, x2, x3, y1, y2, y3
+        #
+        # if Wait == 1:
+        #     self.waitframe = (self.waitframe + 1) % 7
+        #
+        # elif Jump == 1:
+        #     if i == 0:
+        #         if right == 1:
+        #             x1, y1 = x, y
+        #             x3, y3 = x + 20, y
+        #             x2, y2 = x + 10, y + 75
+        #         elif left == 1:
+        #             x1, y1 = x, y
+        #             x3, y3 = x - 20, y
+        #             x2, y2 = x - 10, y + 75
+        #
+        #     t = i / 100
+        #
+        #     x = (2 * t ** 2 - 3 * t + 1) * x1 + (-4 * t ** 2 + 4 * t) * x2 + (2 * t ** 2 - t) * x3
+        #     y = (2 * t ** 2 - 3 * t + 1) * y1 + (-4 * t ** 2 + 4 * t) * y2 + (2 * t ** 2 - t) * y3
+        #
+        #     i += 4
+        #
+        #     if i == 104:
+        #         Jump = 0
+        #         Wait = 1
+        #         i = 0
+        #
+        #     self.jumpframe = (self.jumpframe + 1) % 14
+        #
+        # else:
+        #     self.frame = (self.frame + 1) % 8
+        #     if x >= 10 and x <= 250:
+        #         x += dir * 5
 
     def draw(self):
-        global Wait, Jump, skyh, groundh, upgroundh, upground2h, i
+        self.cur_state.draw(self)
+        # global Wait, Jump, skyh, groundh, upgroundh, upground2h, i
+        #
+        # if Wait == 1:
+        #     if right == 1:
+        #         if self.mode == 0:
+        #             self.wait.clip_draw(self.waitframe * 50, 50, 50, 50, x, y)
+        #         # else:
+        #         #     modewait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
+        #     elif left == 1:
+        #         if self.mode == 0:
+        #             self.wait.clip_draw(self.waitframe * 50, 0, 50, 50, x, y)
+        #         # else:
+        #         #     modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
+        #
+        # elif Jump == 1:
+        #     if right == 1:
+        #         if self.mode == 0:
+        #             self.jump.clip_draw((self.jumpframe + 5) * 50, 50, 50, 50, x, y)
+        #         # else:
+        #         #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
+        #     elif left == 1:
+        #         if self.mode == 0:
+        #             self.jump.clip_draw((13 - self.jumpframe) * 50, 0, 50, 50, x, y)
+        #         # else:
+        #         #     modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
+        #
+        # elif right == 1:
+        #     if self.mode == 0:
+        #         self.mario.clip_draw(self.frame * 50, 50, 50, 50, x, y)
+        #     # else:
+        #     #     walk.clip_draw(frame * 50, 50, 50, 50, x, y)
+        # elif left == 1:
+        #     if self.mode == 0:
+        #         self.mario.clip_draw((7 - self.frame) * 50, 0, 50, 50, x, y - 5)
+        #     # else:
+        #     #     self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
 
-        if self.Start == 1:
-            self.start.clip_draw(self.firstframe * 50, 0, 50, 50, x, y)
-
-        if Wait == 1:
-            if right == 1:
-                if self.mode == 0:
-                    self.wait.clip_draw(self.waitframe * 50, 50, 50, 50, x, y)
-                # else:
-                #     modewait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
-            elif left == 1:
-                if self.mode == 0:
-                    self.wait.clip_draw(self.waitframe * 50, 0, 50, 50, x, y)
-                # else:
-                #     modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
-
-        elif Jump == 1:
-            if right == 1:
-                if self.mode == 0:
-                    self.jump.clip_draw((self.jumpframe + 5) * 50, 50, 50, 50, x, y)
-                # else:
-                #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
-            elif left == 1:
-                if self.mode == 0:
-                    self.jump.clip_draw((13 - self.jumpframe) * 50, 0, 50, 50, x, y)
-                # else:
-                #     modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
-
-        elif right == 1:
-            if self.mode == 0:
-                self.mario.clip_draw(self.frame * 50, 50, 50, 50, x, y)
-            # else:
-            #     walk.clip_draw(frame * 50, 50, 50, 50, x, y)
-        elif left == 1:
-            if self.mode == 0:
-                self.mario.clip_draw((7 - self.frame) * 50, 0, 50, 50, x, y - 5)
-            # else:
-            #     self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
+    def handle_event(self, event):
+        if (event.type, event.key) in key_event_table:
+            key_event = key_event_table[(event.type, event.key)]
+            self.add_event(key_event)
 
 class Object:
     upground = None
     upground2 = None
+    random_box = None
+    coin = None
 
     def __init__(self):
-        self.random_box = load_image('random_box.png')
-        self.randomframe = random.randint(0, 3)
+        if Object.random_box == None:
+            Object.random_box = load_image('random_box.png')
         if Object.upground == None:
             Object.upground = load_image('upground.png')
         if Object.upground2 == None:
             Object.upground2 = load_image('upground_double.png')
-        self.coin = load_image('coin.png')
+        if Object.coin == None:
+            Object.coin = load_image('coin.png')
+        self.randomframe = random.randint(0, 3)
 
     def update_random_box(self):
         self.randomframe = (self.randomframe + 1) % 4
