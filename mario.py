@@ -5,7 +5,7 @@ import start_state
 
 name = "MainState"
 
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE = range(5)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT, JUMP = range(7)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_d): RIGHT_DOWN,
@@ -17,24 +17,22 @@ key_event_table = {
 
 class StartState:
     def enter(Mario, event):
-        global Start
-        Start = 1
+        Mario.Start = 1
 
     def exit(Mario, event):
-        global Start
-        Start = 0
+        Mario.Start = 0
 
     def do(Mario):
         global x, Start, Wait
         Mario.firstframe = (Mario.firstframe + 1) % 10
         x += 7
         if Mario.firstframe == 9:
-            Start = 0
+            Mario.Start = 0
             Mario.firstframe = 0
-            Mario.add_event(RIGHT_UP)
+            Mario.add_event(WAIT)
 
     def draw(Mario):
-        if Start == 1:
+        if Mario.Start == 1:
             Mario.start.clip_draw(Mario.firstframe * 50, 0, 50, 50, x, y)
 
 class WaitState:
@@ -63,9 +61,52 @@ class WaitState:
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
 
+class JumpState:
+    def enter(Mario, event):
+        global jump
+        jump = 1
+
+    def exit(Mario, event):
+        pass
+
+    def do(Mario):
+        global jump, i, y, y1, y2, y3
+        if jump == 1:
+            if i == 0:
+                y1 = y
+                y3 = y
+                y2 = y + 75
+
+            t = i / 100
+
+            y = (2 * t ** 2 - 3 * t + 1) * y1 + (-4 * t ** 2 + 4 * t) * y2 + (2 * t ** 2 - t) * y3
+
+            i += 4
+
+            if i == 104:
+                jump = 0
+                i = 0
+                Mario.add_event(WAIT)
+
+            Mario.jumpframe = (Mario.jumpframe + 1) % 14
+
+    def draw(Mario):
+        if jump == 1:
+            if right == 1:
+                if Mario.mode == 0:
+                    Mario.jump.clip_draw((Mario.jumpframe + 5) * 50, 50, 50, 50, x, y)
+                # else:
+                #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
+            elif left == 1:
+                if Mario.mode == 0:
+                    Mario.jump.clip_draw((13 - Mario.jumpframe) * 50, 0, 50, 50, x, y)
+                # else:
+                #     modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
+
 next_state_table = {
-    StartState: {RIGHT_UP: WaitState, LEFT_UP: WaitState},
-    WaitState: {RIGHT_UP: WaitState, LEFT_UP: WaitState},
+    StartState: {WAIT: WaitState},
+    WaitState: {SPACE: JumpState},
+    JumpState: {JUMP: JumpState, WAIT: WaitState},
 }
 
 WIDTH, HEIGHT = 1600, 900
@@ -88,6 +129,7 @@ y = 95
 dir = 0
 Wait = 0
 Jump = 0
+jump = 0
 i = 0
 x1 = 0
 x2 = 0
@@ -166,8 +208,14 @@ class Mario:
         self.mario = load_image('mario.png')
         self.jump = load_image('jump.png')
         self.event_que = []
-        self.cur_state = StartState
+        if self.Start == 1:
+            self.cur_state = StartState
+        else:
+            self.cur_state = WaitState
         self.cur_state.enter(self, None)
+
+    def change_state(self, state):
+        pass
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -214,6 +262,7 @@ class Mario:
 
     def draw(self):
         self.cur_state.draw(self)
+        debug_print('State: ' + str(self.cur_state))
         # global Wait, Jump, skyh, groundh, upgroundh, upground2h, i
         #
         #
@@ -239,11 +288,6 @@ class Mario:
         #         self.mario.clip_draw((7 - self.frame) * 50, 0, 50, 50, x, y - 5)
         #     # else:
         #     #     self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
-
-    def handle_event(self, event):
-        if (event.type, event.key) in key_event_table:
-            key_event = key_event_table[(event.type, event.key)]
-            self.add_event(key_event)
 
 class Object:
     upground = None
@@ -361,41 +405,44 @@ def handle_events():
     global x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
     events = get_events()
     for event in events:
+        if (event.type, event.key) in key_event_table:
+            key_event = key_event_table[(event.type, event.key)]
+            mario.add_event(key_event)
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN:
-            if event.key == SDLK_a:
-                dir -= 1
-                left = 1
-                right = 0
-                Wait = 0
-            elif event.key == SDLK_d:
-                dir += 1
-                left = 0
-                right = 1
-                Wait = 0
-            elif event.key == SDLK_ESCAPE:
+            # if event.key == SDLK_a:
+            #     dir -= 1
+            #     left = 1
+            #     right = 0
+            #     Wait = 0
+            # elif event.key == SDLK_d:
+            #     dir += 1
+            #     left = 0
+            #     right = 1
+            #     Wait = 0
+            if event.key == SDLK_ESCAPE:
                 game_framework.change_state(start_state)
-            elif event.key == SDLK_SPACE:
-                Jump = 1
-                Wait = 0
-            elif event.key == SDLK_z:
-                Attack1 = 1
-                Wait = 0
-            elif event.key == SDLK_LCTRL:
-                if mode == 1:
-                    Attack3 = 1
-                    keep = 1
-                    Wait = 0
-        elif event.type == SDL_KEYUP:
-            if event.key == SDLK_a:
-                dir += 1
-                if Jump == 0:
-                    Wait = 1
-            elif event.key == SDLK_d:
-                dir -= 1
-                if Jump == 0:
-                    Wait = 1
+        #     elif event.key == SDLK_SPACE:
+        #         Jump = 1
+        #         Wait = 0
+        #     elif event.key == SDLK_z:
+        #         Attack1 = 1
+        #         Wait = 0
+        #     elif event.key == SDLK_LCTRL:
+        #         if mode == 1:
+        #             Attack3 = 1
+        #             keep = 1
+        #             Wait = 0
+        # elif event.type == SDL_KEYUP:
+        #     if event.key == SDLK_a:
+        #         dir += 1
+        #         if Jump == 0:
+        #             Wait = 1
+        #     elif event.key == SDLK_d:
+        #         dir -= 1
+        #         if Jump == 0:
+        #             Wait = 1
 
 def update():
     handle_events()
