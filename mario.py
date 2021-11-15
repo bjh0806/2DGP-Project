@@ -197,9 +197,12 @@ class WalkState:
             #     self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
 
 next_state_table = {
-    StartState: {WAIT: WaitState},
+    StartState: {WAIT: WaitState, RIGHT_DOWN: StartState,
+                 LEFT_DOWN: StartState, RIGHT_UP: StartState,
+                 LEFT_UP: StartState},
     WaitState: {SPACE: JumpState, RIGHT_DOWN: WalkState,
-                LEFT_DOWN: WalkState},
+                LEFT_DOWN: WalkState, RIGHT_UP: WaitState,
+                LEFT_UP: WaitState},
     JumpState: {WAIT: WaitState},
     WalkState: {RIGHT_DOWN: WalkState, LEFT_DOWN: WalkState,
                 RIGHT_UP: WaitState, LEFT_UP: WaitState,
