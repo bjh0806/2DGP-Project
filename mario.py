@@ -16,6 +16,7 @@ ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8
 FRAMES_PER_ACTION2 = 7
 FRAMES_PER_ACTION3 = 14
+FRAMES_PER_ACTION4 = 4
 
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT = range(6)
 
@@ -372,7 +373,7 @@ class Object:
         self.randomframe = random.randint(0, 3)
 
     def update_random_box(self):
-        self.randomframe = (self.randomframe + 1) % 4
+        self.randomframe = (self.randomframe + + FRAMES_PER_ACTION4 * ACTION_PER_TIME * game_framework.frame_time) % 4
 
     def update(self):
         global upgroundh, upground2h
@@ -438,7 +439,7 @@ class Object:
 
     def draw_random_box(self):
         for j in range(0, len(random_boxw)):
-            self.random_box.clip_draw(self.randomframe * 25, 0, 25, 33, random_boxw[j], random_boxh[j])
+            self.random_box.clip_draw(int(self.randomframe) * 25, 0, 25, 33, random_boxw[j], random_boxh[j])
 
     def draw_upground(self):
         for k in range(0, len(upgroundw)):
