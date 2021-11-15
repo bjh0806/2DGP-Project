@@ -241,62 +241,6 @@ y1 = 0
 y2 = 0
 y3 = 0
 
-class Sky:
-    def __init__(self):
-        self.sky = load_image('sky.png')
-
-    def draw(self):
-        self.sky.draw(skyw, skyh)
-
-    def update(self):
-        global skyh, skyw
-
-        if Jump == 1:
-            if right == 1:
-                skyw -= 5 // 2
-                if x < x2:
-                    skyh -= 2
-                else:
-                    skyh += 2
-
-            elif left == 1:
-                skyw += 5 // 2
-                if x < x2:
-                    skyh += 2
-                else:
-                    skyh -= 2
-
-        else:
-            skyw -= dir * 5 // 2
-
-class Ground:
-    def __init__(self):
-        self.ground = load_image('ground.png')
-
-    def draw(self):
-        self.ground.draw(groundw, groundh)
-
-    def update(self):
-        global groundh, groundw
-
-        if Jump == 1:
-            if right == 1:
-                groundw -= 7
-                if x < x2:
-                    groundh -= 2
-                else:
-                    groundh += 2
-
-            elif left == 1:
-                groundw += 7
-                if x < x2:
-                    groundh += 2
-                else:
-                    groundh -= 2
-
-        else:
-            groundw -= dir * 7
-
 class Mario:
     def __init__(self):
         self.Start = 1
