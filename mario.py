@@ -267,19 +267,6 @@ class Mario:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
 
-def enter():
-    global object, sky, ground, mario
-    object = Object()
-    sky = Sky()
-    ground = Ground()
-    mario = Mario()
-
-def exit():
-    global object, sky, ground, mario
-    del(object)
-    del(sky)
-    del(ground)
-    del(mario)
         #     elif event.key == SDLK_SPACE:
         #         Jump = 1
         #         Wait = 0
