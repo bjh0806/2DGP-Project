@@ -15,6 +15,7 @@ TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8
 FRAMES_PER_ACTION2 = 7
+FRAMES_PER_ACTION3 = 14
 
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT = range(6)
 
@@ -105,18 +106,18 @@ class JumpState:
                 i = 0
                 Mario.add_event(WAIT)
 
-            Mario.jumpframe = (Mario.jumpframe + 1) % 14
+            Mario.jumpframe = (Mario.jumpframe + FRAMES_PER_ACTION3 * ACTION_PER_TIME * game_framework.frame_time) % 14
 
     def draw(Mario):
         if jump == 1:
             if right == 1:
                 if Mario.mode == 0:
-                    Mario.jump.clip_draw((Mario.jumpframe + 5) * 50, 50, 50, 50, x, y)
+                    Mario.jump.clip_draw((int(Mario.jumpframe) + 5) * 50, 50, 50, 50, x, y)
                 # else:
                 #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
             elif left == 1:
                 if Mario.mode == 0:
-                    Mario.jump.clip_draw((13 - Mario.jumpframe) * 50, 0, 50, 50, x, y)
+                    Mario.jump.clip_draw((13 - int(Mario.jumpframe)) * 50, 0, 50, 50, x, y)
                 # else:
                 #     modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
 
@@ -157,18 +158,18 @@ class MjumpState:
                 i = 0
                 Mario.add_event(WAIT)
 
-            Mario.jumpframe = (Mario.jumpframe + 1) % 14
+            Mario.jumpframe = (Mario.jumpframe + FRAMES_PER_ACTION3 * ACTION_PER_TIME * game_framework.frame_time) % 14
 
     def draw(Mario):
         if Jump == 1:
             if right == 1:
                 if Mario.mode == 0:
-                    Mario.jump.clip_draw((Mario.jumpframe + 5) * 50, 50, 50, 50, x, y)
+                    Mario.jump.clip_draw((int(Mario.jumpframe) + 5) * 50, 50, 50, 50, x, y)
                 # else:
                 #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
             elif left == 1:
                 if Mario.mode == 0:
-                    Mario.jump.clip_draw((13 - Mario.jumpframe) * 50, 0, 50, 50, x, y)
+                    Mario.jump.clip_draw((13 - int(Mario.jumpframe)) * 50, 0, 50, 50, x, y)
                 # else:
                 #     modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
 
