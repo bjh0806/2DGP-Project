@@ -11,6 +11,10 @@ RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 8
+
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT = range(6)
 
 key_event_table = {
@@ -192,19 +196,19 @@ class WalkState:
 
     def do(Mario):
         global x
-        Mario.frame = (Mario.frame + 1) % 8
+        Mario.frame = (Mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
         if x >= 10 and x <= 250:
             x += Mario.velocity * game_framework.frame_time
 
     def draw(Mario):
         if right == 1:
             if Mario.mode == 0:
-                Mario.mario.clip_draw(Mario.frame * 50, 50, 50, 50, x, y)
+                Mario.mario.clip_draw(int(Mario.frame) * 50, 50, 50, 50, x, y)
             # else:
-            #     walk.clip_draw(frame * 50, 50, 50, 50, x, y)
+            #     walk.clip_+draw(frame * 50, 50, 50, 50, x, y)
         elif left == 1:
             if Mario.mode == 0:
-                Mario.mario.clip_draw((7 - Mario.frame) * 50, 0, 50, 50, x, y - 5)
+                Mario.mario.clip_draw((7 - int(Mario.frame)) * 50, 0, 50, 50, x, y - 5)
             # else:
             #     self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
 
