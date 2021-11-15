@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import start_state
+import game_world
 
 from sky import Sky
 from ground import Ground
@@ -27,6 +28,7 @@ def exit():
     del ground
     del object
     del mario
+    game_world.clear()
 
 def pause():
     pass
@@ -45,14 +47,16 @@ def update():
     object.update_random_box()
     mario.update()
     sky.update()
-    ground.update()
+    for game_object in game_world.all_objects():
+        game_object.update()
     object.update()
     delay(0.05)
     
 def draw():
     clear_canvas()
     sky.draw()
-    ground.draw()
+    for game_object in game_world.all_objects():
+        game_object.draw()
     mario.draw()
     object.draw_random_box()
     object.draw_upground()

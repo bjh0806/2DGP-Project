@@ -1,4 +1,6 @@
 from pico2d import *
+from ground import Ground
+import game_world
 
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT = range(6)
 
@@ -38,6 +40,7 @@ class WaitState:
         elif event == LEFT_UP:
             Mario.dir += 1
             Mario.Wait = 1
+        Mario.give()
 
     def exit(Mario, event):
         Mario.Wait = 0
@@ -106,6 +109,7 @@ class MjumpState:
             Mario.dir -= 1
         elif event == LEFT_UP:
             Mario.dir += 1
+        Mario.give()
 
     def exit(Mario, event):
         pass
@@ -161,6 +165,7 @@ class WalkState:
             Mario.left = 1
             Mario.right = 0
             Mario.Wait = 0
+        Mario.give()
 
     def exit(Mario, event):
         pass
@@ -232,6 +237,10 @@ class Mario:
         else:
             self.cur_state = WaitState
         self.cur_state.enter(self, None)
+
+    def give(self):
+        ground = Ground(self.dir)
+        game_world.add_object(ground, 0)
 
     def change_state(self, state):
         pass
