@@ -14,6 +14,7 @@ RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8
+FRAMES_PER_ACTION2 = 7
 
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT = range(6)
 
@@ -62,18 +63,18 @@ class WaitState:
 
     def do(Mario):
         if Wait == 1:
-            Mario.waitframe = (Mario.waitframe + 1) % 7
+            Mario.waitframe = (Mario.waitframe + FRAMES_PER_ACTION2 * ACTION_PER_TIME * game_framework.frame_time) % 7
 
     def draw(Mario):
         if Wait == 1:
             if right == 1:
                 if Mario.mode == 0:
-                    Mario.wait.clip_draw(Mario.waitframe * 50, 50, 50, 50, x, y)
+                    Mario.wait.clip_draw(int(Mario.waitframe) * 50, 50, 50, 50, x, y)
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
             elif left == 1:
                 if Mario.mode == 0:
-                    Mario.wait.clip_draw(Mario.waitframe * 50, 0, 50, 50, x, y)
+                    Mario.wait.clip_draw(int(Mario.waitframe) * 50, 0, 50, 50, x, y)
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
 
