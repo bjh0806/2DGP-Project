@@ -80,6 +80,9 @@ def pop_state():
 def quit():
     global running
     running = False
+    
+import time
+frame_time = 0.0
 
 
 def run(start_state):

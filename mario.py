@@ -171,15 +171,21 @@ class WalkState:
     def enter(Mario, event):
         global dir, left, right, Wait
         if event == RIGHT_DOWN:
+            Mario.velocity += RUN_SPEED_PPS
             dir += 1
             left = 0
             right = 1
             Wait = 0
         elif event == LEFT_DOWN:
+            Mario.velocity -= RUN_SPEED_PPS
             dir -= 1
             left = 1
             right = 0
             Wait = 0
+        elif event == RIGHT_UP:
+            Mario.velocity -= RUN_SPEED_PPS
+        elif event == LEFT_UP:
+            Mario.velocity += RUN_SPEED_PPS
 
     def exit(Mario, event):
         pass
@@ -188,7 +194,7 @@ class WalkState:
         global x
         Mario.frame = (Mario.frame + 1) % 8
         if x >= 10 and x <= 250:
-            x += dir * 5
+            x += Mario.velocity * game_framework.frame_time
 
     def draw(Mario):
         if right == 1:
@@ -308,6 +314,7 @@ class Mario:
         self.Start = 1
         self.mode = 0
         self.i = 0
+        self.velocity = 0
         self.firstframe = 0
         self.waitframe = 0
         self.frame = 0
