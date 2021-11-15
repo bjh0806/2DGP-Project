@@ -5,6 +5,12 @@ import start_state
 
 name = "MainState"
 
+PIXEL_PER_METER = (6.0 / 0.6)
+RUN_SPEED_KMPH = 10.0
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT = range(6)
 
 key_event_table = {
