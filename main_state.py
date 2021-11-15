@@ -2,18 +2,22 @@ from pico2d import *
 import game_framework
 
 from sky import Sky
+from ground import Ground
 
 name = "MainState"
 
 sky = None
+ground = None
 
 def enter():
-    global sky
+    global sky, ground
     sky = Sky()
+    ground = Ground()
 
 def exit():
-    global sky
+    global sky, ground
     del sky
+    del ground
 
 def pause():
     pass
@@ -28,8 +32,10 @@ def handle_events():
             
 def update():
     sky.update()
+    ground.update()
     
 def draw():
     clear_canvas()
     sky.draw()
+    ground.draw()
     update_canvas()

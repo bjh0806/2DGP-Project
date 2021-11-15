@@ -1,10 +1,10 @@
 from pico2d import *
 
-class Sky:
+class Ground:
     def __init__(self):
-        self.sky = load_image('sky.png')
-        self.skyw = 400
-        self.skyh = 300
+        self.ground = load_image('ground.png')
+        self.groundw = 400
+        self.groundh = 350
         self.Jump = 0
         self.right = 1
         self.left = 0
@@ -13,23 +13,23 @@ class Sky:
         self.dir = 0
 
     def draw(self):
-        self.sky.draw(self.skyw, self.skyh)
+        self.ground.draw(self.groundw, self.groundh)
 
     def update(self):
         if self.Jump == 1:
             if self.right == 1:
-                self.skyw -= 5 // 2
+                self.groundw -= 7
                 if self.x < self.x2:
-                    self.skyh -= 2
+                    self.groundh -= 2
                 else:
-                    self.skyh += 2
+                    self.groundh += 2
 
             elif self.left == 1:
-                self.skyw += 5 // 2
+                self.groundw += 7
                 if self.x < self.x2:
-                    self.skyh += 2
+                    self.groundh += 2
                 else:
-                    self.skyh -= 2
+                    self.groundh -= 2
 
         else:
-            self.skyw -= self.dir * 5 // 2
+            self.groundw -= self.dir * 7
