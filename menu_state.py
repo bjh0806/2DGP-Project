@@ -1,6 +1,6 @@
 from pico2d import *
 import game_framework
-import mario
+import main_state
 
 name = "MenuState"
 image = None
@@ -20,12 +20,12 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_MOUSEBUTTONDOWN:
             if event.x >= 470 and event.y <= 200 and event.y >= 100:
-                game_framework.change_state(mario)
+                game_framework.change_state(main_state)
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-                game_framework.change_state(mario)
+                game_framework.change_state(main_state)
 
 def draw():
     clear_canvas()
