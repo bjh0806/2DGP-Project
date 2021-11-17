@@ -6,7 +6,7 @@ class Sky:
         self.skyw = 400
         self.skyh = 300
         self.Jump = 0
-        self.right = 0
+        self.right = 1
         self.left = 0
         self.x = 0
         self.x2 = 0

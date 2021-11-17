@@ -260,34 +260,6 @@ y1 = 0
 y2 = 0
 y3 = 0
 
-class Ground:
-    def __init__(self):
-        self.ground = load_image('ground.png')
-
-    def draw(self):
-        self.ground.draw(groundw, groundh)
-
-    def update(self):
-        global groundh, groundw
-
-        if Jump == 1:
-            if right == 1:
-                groundw -= 7
-                if x < x2:
-                    groundh -= 2
-                else:
-                    groundh += 2
-
-            elif left == 1:
-                groundw += 7
-                if x < x2:
-                    groundh += 2
-                else:
-                    groundh -= 2
-
-        else:
-            groundw -= dir * 7
-
 class Mario:
     def __init__(self):
         self.Start = 1
