@@ -27,7 +27,6 @@ class StartState:
 
     def exit(Mario, event):
         Mario.Start = 0
-        Mario.Wait = 1
 
     def do(Mario):
         Mario.firstframe = (Mario.firstframe + 1) % 10
@@ -43,12 +42,11 @@ class StartState:
 
 class WaitState:
     def enter(Mario, event):
+        Mario.Wait = 1
         if event == RIGHT_UP:
             Mario.dir -= 1
-            Mario.Wait = 1
         elif event == LEFT_UP:
             Mario.dir += 1
-            Mario.Wait = 1
 
     def exit(Mario, event):
         Mario.Wait = 0
@@ -135,8 +133,8 @@ class MjumpState:
 
             t = Mario.i / 100
 
-            Mario.x = (2 * t ** 2 - 3 * t + 1) * x1 + (-4 * t ** 2 + 4 * t) * x2 + (2 * t ** 2 - t) * x3
-            Mario.y = (2 * t ** 2 - 3 * t + 1) * y1 + (-4 * t ** 2 + 4 * t) * y2 + (2 * t ** 2 - t) * y3
+            Mario.x = (2 * t ** 2 - 3 * t + 1) * Mario.x1 + (-4 * t ** 2 + 4 * t) * Mario.x2 + (2 * t ** 2 - t) * Mario.x3
+            Mario.y = (2 * t ** 2 - 3 * t + 1) * Mario.y1 + (-4 * t ** 2 + 4 * t) * Mario.y2 + (2 * t ** 2 - t) * Mario.y3
 
             Mario.i += 4
 
