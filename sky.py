@@ -1,6 +1,7 @@
 from pico2d import *
 
 class Sky:
+    dir = 0
     def __init__(self):
         self.sky = load_image('sky.png')
         self.skyw = 400
@@ -10,7 +11,6 @@ class Sky:
         self.left = 0
         self.x = 0
         self.x2 = 0
-        self.dir = 0
         
     def draw(self):
         self.sky.draw(self.skyw, self.skyh)
@@ -30,4 +30,4 @@ class Sky:
                 else:
                     self.skyh -= 2
         else:
-            self.skyw -= self.dir * 5 // 2
+            self.skyw -= Sky.dir * 5 // 2

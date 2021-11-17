@@ -11,6 +11,7 @@ class Object:
     upground2 = None
     random_box = None
     coin = None
+    dir = 0
 
     def __init__(self):
         if Object.random_box == None:
@@ -29,7 +30,6 @@ class Object:
         self.left = 0
         self.x = 0
         self.x2 = 0
-        self.dir = 0
         self.random_boxw = [300, 400, 425, 855, 1100, 1900, 2025]
         self.random_boxh = [200, 200, 200, 300, 200, 200, 200]
         self.upgroundw = [700]
@@ -94,13 +94,13 @@ class Object:
 
         else:
             for j in range(0, len(self.random_boxw)):
-                self.random_boxw[j] -= self.dir * 7
+                self.random_boxw[j] -= Object.dir * 7
             for k in range(0, len(self.upgroundw)):
-                self.upgroundw[k] -= self.dir * 7
+                self.upgroundw[k] -= Object.dir * 7
             for l in range(0, len(self.upground2w)):
-                self.upground2w[l] -= self.dir * 7
+                self.upground2w[l] -= Object.dir * 7
             for m in range(0, len(self.coinw)):
-                self.coinw[m] -= self.dir * 7
+                self.coinw[m] -= Object.dir * 7
 
     def draw_random_box(self):
         for j in range(0, len(self.random_boxw)):

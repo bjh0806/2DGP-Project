@@ -1,7 +1,10 @@
 from pico2d import *
 import game_framework
+from ground import Ground
+from sky import Sky
+from object import Object
 
-PIXEL_PER_METER = (6.0 / 0.6)
+PIXEL_PER_METER = (10.0 / 0.3)
 RUN_SPEED_KMPH = 10.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
@@ -45,8 +48,14 @@ class WaitState:
         Mario.Wait = 1
         if event == RIGHT_UP:
             Mario.dir -= 1
+            Ground.dir = Mario.dir
+            Sky.dir = Mario.dir
+            Object.dir = Mario.dir
         elif event == LEFT_UP:
             Mario.dir += 1
+            Ground.dir = Mario.dir
+            Sky.dir = Mario.dir
+            Object.dir = Mario.dir
 
     def exit(Mario, event):
         Mario.Wait = 0
@@ -113,8 +122,14 @@ class MjumpState:
         Mario.Jump = 1
         if event == RIGHT_UP:
             Mario.dir -= 1
+            Ground.dir = Mario.dir
+            Sky.dir = Mario.dir
+            Object.dir = Mario.dir
         elif event == LEFT_UP:
             Mario.dir += 1
+            Ground.dir = Mario.dir
+            Sky.dir = Mario.dir
+            Object.dir = Mario.dir
 
     def exit(Mario, event):
         pass
@@ -163,12 +178,18 @@ class WalkState:
         if event == RIGHT_DOWN:
             Mario.velocity += RUN_SPEED_PPS
             Mario.dir += 1
+            Ground.dir = Mario.dir
+            Sky.dir = Mario.dir
+            Object.dir = Mario.dir
             Mario.left = 0
             Mario.right = 1
             Mario.Wait = 0
         elif event == LEFT_DOWN:
             Mario.velocity -= RUN_SPEED_PPS
             Mario.dir -= 1
+            Ground.dir = Mario.dir
+            Sky.dir = Mario.dir
+            Object.dir = Mario.dir
             Mario.left = 1
             Mario.right = 0
             Mario.Wait = 0
