@@ -1,7 +1,7 @@
 from pico2d import *
 import random
 import game_framework
-import start_state
+import menu_state
 
 name = "MainState"
 
@@ -478,7 +478,7 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_ESCAPE:
-                game_framework.change_state(start_state)
+                game_framework.change_state(menu_state)
         #     elif event.key == SDLK_SPACE:
         #         Jump = 1
         #         Wait = 0
