@@ -18,6 +18,9 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
+        elif event.type == SDL_MOUSEBUTTONDOWN:
+            if event.x >= 470 and event.y <= 200 and event.y >= 100:
+                game_framework.change_state(mario)
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
