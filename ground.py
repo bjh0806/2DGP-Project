@@ -1,8 +1,7 @@
 from pico2d import *
-import game_world
 
 class Ground:
-    def __init__(self, dir = 0):
+    def __init__(self):
         self.ground = load_image('ground.png')
         self.groundw = 400
         self.groundh = 350
@@ -11,7 +10,7 @@ class Ground:
         self.left = 0
         self.x = 0
         self.x2 = 0
-        self.dir = dir
+        self.dir = 0
 
     def draw(self):
         self.ground.draw(self.groundw, self.groundh)
@@ -31,6 +30,5 @@ class Ground:
                     self.groundh += 2
                 else:
                     self.groundh -= 2
-
         else:
             self.groundw -= self.dir * 7

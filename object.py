@@ -1,5 +1,10 @@
 from pico2d import *
 import random
+import game_framework
+
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION4 = 4
 
 class Object:
     upground = None
@@ -35,7 +40,7 @@ class Object:
         self.coinh = [130, 160, 180, 180, 210, 230]
 
     def update_random_box(self):
-        self.randomframe = (self.randomframe + 1) % 4
+        self.randomframe = (self.randomframe + 8 * game_framework.frame_time) % 4
 
     def update(self):
         if self.Jump == 1:
@@ -99,7 +104,7 @@ class Object:
 
     def draw_random_box(self):
         for j in range(0, len(self.random_boxw)):
-            self.random_box.clip_draw(self.randomframe * 25, 0, 25, 33, self.random_boxw[j], self.random_boxh[j])
+            self.random_box.clip_draw(int(self.randomframe) * 25, 0, 25, 33, self.random_boxw[j], self.random_boxh[j])
 
     def draw_upground(self):
         for k in range(0, len(self.upgroundw)):

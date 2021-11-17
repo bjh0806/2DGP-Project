@@ -1,6 +1,15 @@
 from pico2d import *
-from ground import Ground
-import game_world
+import game_framework
+
+PIXEL_PER_METER = (6.0 / 0.6)
+RUN_SPEED_KMPH = 10.0
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 8
 
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT = range(6)
 
@@ -18,6 +27,7 @@ class StartState:
 
     def exit(Mario, event):
         Mario.Start = 0
+        Mario.Wait = 1
 
     def do(Mario):
         Mario.firstframe = (Mario.firstframe + 1) % 10
@@ -33,32 +43,30 @@ class StartState:
 
 class WaitState:
     def enter(Mario, event):
-        Mario.Wait = 1
         if event == RIGHT_UP:
             Mario.dir -= 1
             Mario.Wait = 1
         elif event == LEFT_UP:
             Mario.dir += 1
             Mario.Wait = 1
-        Mario.give()
 
     def exit(Mario, event):
         Mario.Wait = 0
 
     def do(Mario):
         if Mario.Wait == 1:
-            Mario.waitframe = (Mario.waitframe + 1) % 7
+            Mario.waitframe = (Mario.waitframe + 7 * ACTION_PER_TIME * game_framework.frame_time) % 7
 
     def draw(Mario):
         if Mario.Wait == 1:
             if Mario.right == 1:
                 if Mario.mode == 0:
-                    Mario.wait.clip_draw(Mario.waitframe * 50, 50, 50, 50, Mario.x, Mario.y)
+                    Mario.wait.clip_draw(int(Mario.waitframe) * 50, 50, 50, 50, Mario.x, Mario.y)
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
             elif Mario.left == 1:
                 if Mario.mode == 0:
-                    Mario.wait.clip_draw(Mario.waitframe * 50, 0, 50, 50, Mario.x, Mario.y)
+                    Mario.wait.clip_draw(int(Mario.waitframe) * 50, 0, 50, 50, Mario.x, Mario.y)
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
 
@@ -87,18 +95,18 @@ class JumpState:
                 Mario.i = 0
                 Mario.add_event(WAIT)
 
-            Mario.jumpframe = (Mario.jumpframe + 1) % 14
+            Mario.jumpframe = (Mario.jumpframe + 14 * ACTION_PER_TIME * game_framework.frame_time) % 14
 
     def draw(Mario):
         if Mario.jj == 1:
             if Mario.right == 1:
                 if Mario.mode == 0:
-                    Mario.jump.clip_draw((Mario.jumpframe + 5) * 50, 50, 50, 50, Mario.x, Mario.y)
+                    Mario.jump.clip_draw((int(Mario.jumpframe) + 5) * 50, 50, 50, 50, Mario.x, Mario.y)
                 # else:
                 #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
             elif Mario.left == 1:
                 if Mario.mode == 0:
-                    Mario.jump.clip_draw((13 - Mario.jumpframe) * 50, 0, 50, 50, Mario.x, Mario.y)
+                    Mario.jump.clip_draw((13 - int(Mario.jumpframe)) * 50, 0, 50, 50, Mario.x, Mario.y)
                 # else:
                 #     modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
 
@@ -109,7 +117,6 @@ class MjumpState:
             Mario.dir -= 1
         elif event == LEFT_UP:
             Mario.dir += 1
-        Mario.give()
 
     def exit(Mario, event):
         pass
@@ -128,8 +135,8 @@ class MjumpState:
 
             t = Mario.i / 100
 
-            Mario.x = (2 * t ** 2 - 3 * t + 1) * Mario.x1 + (-4 * t ** 2 + 4 * t) * Mario.x2 + (2 * t ** 2 - t) * Mario.x3
-            Mario.y = (2 * t ** 2 - 3 * t + 1) * Mario.y1 + (-4 * t ** 2 + 4 * t) * Mario.y2 + (2 * t ** 2 - t) * Mario.y3
+            Mario.x = (2 * t ** 2 - 3 * t + 1) * x1 + (-4 * t ** 2 + 4 * t) * x2 + (2 * t ** 2 - t) * x3
+            Mario.y = (2 * t ** 2 - 3 * t + 1) * y1 + (-4 * t ** 2 + 4 * t) * y2 + (2 * t ** 2 - t) * y3
 
             Mario.i += 4
 
@@ -138,52 +145,57 @@ class MjumpState:
                 Mario.i = 0
                 Mario.add_event(WAIT)
 
-            Mario.jumpframe = (Mario.jumpframe + 1) % 14
+            Mario.jumpframe = (Mario.jumpframe + 14 * ACTION_PER_TIME * game_framework.frame_time) % 14
 
     def draw(Mario):
         if Mario.Jump == 1:
             if Mario.right == 1:
                 if Mario.mode == 0:
-                    Mario.jump.clip_draw((Mario.jumpframe + 5) * 50, 50, 50, 50, Mario.x, Mario.y)
+                    Mario.jump.clip_draw((int(Mario.jumpframe) + 5) * 50, 50, 50, 50, Mario.x, Mario.y)
                 # else:
                 #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
             elif Mario.left == 1:
                 if Mario.mode == 0:
-                    Mario.jump.clip_draw((13 - Mario.jumpframe) * 50, 0, 50, 50, Mario.x, Mario.y)
+                    Mario.jump.clip_draw((13 - int(Mario.jumpframe)) * 50, 0, 50, 50, Mario.x, Mario.y)
                 # else:
                 #     modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
 
 class WalkState:
     def enter(Mario, event):
         if event == RIGHT_DOWN:
+            Mario.velocity += RUN_SPEED_PPS
             Mario.dir += 1
             Mario.left = 0
             Mario.right = 1
             Mario.Wait = 0
         elif event == LEFT_DOWN:
+            Mario.velocity -= RUN_SPEED_PPS
             Mario.dir -= 1
             Mario.left = 1
             Mario.right = 0
             Mario.Wait = 0
-        Mario.give()
+        elif event == RIGHT_UP:
+            Mario.velocity -= RUN_SPEED_PPS
+        elif event == LEFT_UP:
+            Mario.velocity += RUN_SPEED_PPS
 
     def exit(Mario, event):
         pass
 
     def do(Mario):
-        Mario.frame = (Mario.frame + 1) % 8
+        Mario.frame = (Mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
         if Mario.x >= 10 and Mario.x <= 250:
-            Mario.x += Mario.dir * 5
+            Mario.x += Mario.velocity * game_framework.frame_time
 
     def draw(Mario):
         if Mario.right == 1:
             if Mario.mode == 0:
-                Mario.mario.clip_draw(Mario.frame * 50, 50, 50, 50, Mario.x, Mario.y)
+                Mario.mario.clip_draw(int(Mario.frame) * 50, 50, 50, 50, Mario.x, Mario.y)
             # else:
-            #     walk.clip_draw(frame * 50, 50, 50, 50, x, y)
+            #     walk.clip_+draw(frame * 50, 50, 50, 50, x, y)
         elif Mario.left == 1:
             if Mario.mode == 0:
-                Mario.mario.clip_draw((7 - Mario.frame) * 50, 0, 50, 50, Mario.x, Mario.y - 5)
+                Mario.mario.clip_draw((7 - int(Mario.frame)) * 50, 0, 50, 50, Mario.x, Mario.y - 5)
             # else:
             #     self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
 
@@ -223,6 +235,7 @@ class Mario:
         self.y1 = 0
         self.y2 = 0
         self.y3 = 0
+        self.velocity = 0
         self.firstframe = 0
         self.waitframe = 0
         self.frame = 0

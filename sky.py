@@ -11,10 +11,10 @@ class Sky:
         self.x = 0
         self.x2 = 0
         self.dir = 0
-
+        
     def draw(self):
         self.sky.draw(self.skyw, self.skyh)
-
+        
     def update(self):
         if self.Jump == 1:
             if self.right == 1:
@@ -23,13 +23,11 @@ class Sky:
                     self.skyh -= 2
                 else:
                     self.skyh += 2
-
             elif self.left == 1:
                 self.skyw += 5 // 2
                 if self.x < self.x2:
                     self.skyh += 2
                 else:
                     self.skyh -= 2
-
         else:
             self.skyw -= self.dir * 5 // 2

@@ -1,7 +1,6 @@
 from pico2d import *
 import game_framework
-import start_state
-import game_world
+import menu_state
 
 from sky import Sky
 from ground import Ground
@@ -28,7 +27,6 @@ def exit():
     del ground
     del object
     del mario
-    game_world.clear()
 
 def pause():
     pass
@@ -39,27 +37,25 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.quit()
+            game_framework.change_state(menu_state)
         else:
             mario.handle_event(event)
             
 def update():
-    object.update_random_box()
-    mario.update()
     sky.update()
-    for game_object in game_world.all_objects():
-        game_object.update()
+    ground.update()
+    object.update_random_box()
     object.update()
+    mario.update()
     delay(0.05)
     
 def draw():
     clear_canvas()
     sky.draw()
-    for game_object in game_world.all_objects():
-        game_object.draw()
-    mario.draw()
+    ground.draw()
     object.draw_random_box()
     object.draw_upground()
     object.draw_upground2()
     object.draw_coin()
+    mario.draw()
     update_canvas()

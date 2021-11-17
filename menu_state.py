@@ -1,13 +1,13 @@
 from pico2d import *
 import game_framework
-import menu_state
+import main_state
 
-name = "StartState"
+name = "MenuState"
 image = None
 
 def enter():
     global image
-    image = load_image('title.png')
+    image = load_image('stage_select.png')
 
 def exit():
     global image
@@ -18,11 +18,14 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
+        elif event.type == SDL_MOUSEBUTTONDOWN:
+            if event.x >= 470 and event.y <= 200 and event.y >= 100:
+                game_framework.change_state(main_state)
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-                game_framework.change_state(menu_state)
+                game_framework.change_state(main_state)
 
 def draw():
     clear_canvas()
