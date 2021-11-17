@@ -11,6 +11,7 @@ from object2 import Object2
 from object3 import Object3
 from object4 import Object4
 from object5 import Object5
+from object6 import Object6
 
 name = "MainState"
 
@@ -22,9 +23,10 @@ object2 = None
 object3 = None
 object4 = None
 object5 = None
+object6 = None
 
 def enter():
-    global sky, ground, object, mario, object2, object3, object4, object5
+    global sky, ground, object, mario, object2, object3, object4, object5, object6
     sky = Sky()
     ground = Ground()
     object = Object()
@@ -32,6 +34,7 @@ def enter():
     object3 = Object3()
     object4 = Object4()
     object5 = Object5()
+    object6 = Object6()
     mario = Mario()
     game_world.add_object(sky, 0)
     game_world.add_object(ground, 0)
@@ -40,6 +43,7 @@ def enter():
     game_world.add_object(object3, 1)
     game_world.add_object(object4, 1)
     game_world.add_object(object5, 1)
+    game_world.add_object(object6, 1)
     game_world.add_object(mario, 1)
 
 def exit():

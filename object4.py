@@ -13,8 +13,8 @@ class Object4:
     def __init__(self):
         if Object4.coin == None:
             Object4.coin = load_image('coin.png')
-        self.coinw = [580, 610, 640, 740, 770, 800]
-        self.coinh = [130, 160, 180, 180, 210, 230]
+        self.coinw = [580, 610, 640, 740, 770, 800, 1300, 1330, 1360, 1390, 2175, 2205, 2235, 2265]
+        self.coinh = [130, 160, 180, 180, 210, 230, 160, 190, 190, 160, 160, 190, 190, 160]
 
     def get_bb(self):
         for m in range(0, len(self.coinw)):

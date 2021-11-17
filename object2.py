@@ -13,7 +13,7 @@ class Object2:
     def __init__(self):
         if Object2.upground2 == None:
             Object2.upground2 = load_image('upground_double.png')
-        self.upground2w = [850]
+        self.upground2w = [850, 2500]
         self.upground2h = 70
 
     def get_bb(self):

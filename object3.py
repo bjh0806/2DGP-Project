@@ -14,8 +14,8 @@ class Object3:
         if Object3.random_box == None:
             Object3.random_box = load_image('random_box.png')
         self.randomframe = random.randint(0, 3)
-        self.random_boxw = [300, 400, 425, 855, 1100, 1900, 2025]
-        self.random_boxh = [200, 200, 200, 300, 200, 200, 200]
+        self.random_boxw = [300, 400, 425, 855, 1100, 1600, 1825, 2000, 2025]
+        self.random_boxh = [200, 200, 200, 300, 200, 200, 200, 200, 200]
 
     def get_bb(self):
         for j in range(0, len(self.random_boxw)):

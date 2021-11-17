@@ -14,8 +14,8 @@ class Object5:
         if Object5.block == None:
             Object5.block = load_image('block.png')
         self.frame = random.randint(0, 3)
-        self.blockw = [1075, 1124]
-        self.blockh = [200, 200]
+        self.blockw = [1075, 1124, 1800, 1849]
+        self.blockh = [200, 200, 200, 200]
 
     def get_bb(self):
         for j in range(0, len(self.blockw)):
