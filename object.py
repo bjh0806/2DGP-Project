@@ -38,10 +38,8 @@ class Object:
         self.coinw = [580, 610, 640, 740, 770, 800]
         self.coinh = [130, 160, 180, 180, 210, 230]
 
-    def update_random_box(self):
-        self.randomframe = (self.randomframe + 8 * game_framework.frame_time) % 4
-
     def update(self):
+        self.randomframe = (self.randomframe + 8 * game_framework.frame_time) % 4
         if Object.Jump == 1:
             if Object.right == 1:
                 for j in range(0, len(self.random_boxw)):
@@ -101,18 +99,12 @@ class Object:
             for m in range(0, len(self.coinw)):
                 self.coinw[m] -= Object.dir * 7
 
-    def draw_random_box(self):
+    def draw(self):
         for j in range(0, len(self.random_boxw)):
             self.random_box.clip_draw(int(self.randomframe) * 25, 0, 25, 33, self.random_boxw[j], self.random_boxh[j])
-
-    def draw_upground(self):
         for k in range(0, len(self.upgroundw)):
             self.upground.draw(self.upgroundw[k], self.upgroundh)
-
-    def draw_upground2(self):
         for l in range(0, len(self.upground2w)):
             self.upground2.draw(self.upground2w[l], self.upground2h)
-
-    def draw_coin(self):
         for m in range(0, len(self.coinw)):
             self.coin.draw(self.coinw[m], self.coinh[m])

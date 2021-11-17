@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import menu_state
+import game_world
 
 from sky import Sky
 from ground import Ground
@@ -20,13 +21,13 @@ def enter():
     ground = Ground()
     object = Object()
     mario = Mario()
+    game_world.add_object(sky, 0)
+    game_world.add_object(ground, 0)
+    game_world.add_object(object, 1)
+    game_world.add_object(mario, 1)
 
 def exit():
-    global sky, ground, object, mario
-    del sky
-    del ground
-    del object
-    del mario
+    game_world.clear()
 
 def pause():
     pass
@@ -42,20 +43,12 @@ def handle_events():
             mario.handle_event(event)
             
 def update():
-    sky.update()
-    ground.update()
-    object.update_random_box()
-    object.update()
-    mario.update()
+    for game_object in game_world.all_objects():
+        game_object.update()
     delay(0.05)
     
 def draw():
     clear_canvas()
-    sky.draw()
-    ground.draw()
-    object.draw_random_box()
-    object.draw_upground()
-    object.draw_upground2()
-    object.draw_coin()
-    mario.draw()
+    for game_object in game_world.all_objects():
+        game_object.draw()
     update_canvas()
