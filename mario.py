@@ -1,9 +1,4 @@
 from pico2d import *
-import random
-import game_framework
-import menu_state
-
-name = "MainState"
 
 PIXEL_PER_METER = (6.0 / 0.6)
 RUN_SPEED_KMPH = 10.0
@@ -231,21 +226,8 @@ next_state_table = {
                  LEFT_UP: MjumpState}
 }
 
-WIDTH, HEIGHT = 1600, 900
 left, right = 0, 1
 last = 1
-random_boxw = [300, 400, 425, 855, 1100, 1900, 2025]
-random_boxh = [200, 200, 200, 300, 200, 200, 200]
-upgroundw = [700]
-upgroundh = 50
-upground2w = [850]
-upground2h = 70
-coinw = [580, 610, 640, 740, 770, 800]
-coinh = [130, 160, 180, 180, 210, 230]
-skyw = WIDTH // 4
-skyh = 300
-groundw = WIDTH // 4
-groundh = 350
 x = 0
 y = 95
 dir = 0
@@ -299,6 +281,12 @@ class Mario:
         self.cur_state.draw(self)
         debug_print('State: ' + str(self.cur_state))
 
+    def handle_event(self, event):
+        global x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
+        if (event.type, event.key) in key_event_table:
+            key_event = key_event_table[(event.type, event.key)]
+            self.add_event(key_event)
+
 def enter():
     global object, sky, ground, mario
     object = Object()
@@ -312,19 +300,6 @@ def exit():
     del(sky)
     del(ground)
     del(mario)
-
-def handle_events():
-    global x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
-    events = get_events()
-    for event in events:
-        if (event.type, event.key) in key_event_table:
-            key_event = key_event_table[(event.type, event.key)]
-            mario.add_event(key_event)
-        if event.type == SDL_QUIT:
-            game_framework.quit()
-        elif event.type == SDL_KEYDOWN:
-            if event.key == SDLK_ESCAPE:
-                game_framework.change_state(menu_state)
         #     elif event.key == SDLK_SPACE:
         #         Jump = 1
         #         Wait = 0
@@ -336,26 +311,6 @@ def handle_events():
         #             Attack3 = 1
         #             keep = 1
         #             Wait = 0
-
-def update():
-    handle_events()
-    object.update_random_box()
-    mario.update()
-    sky.update()
-    ground.update()
-    object.update()
-    delay(0.05)
-
-def draw():
-    clear_canvas()
-    sky.draw()
-    ground.draw()
-    mario.draw()
-    object.draw_random_box()
-    object.draw_upground()
-    object.draw_upground2()
-    object.draw_coin()
-    update_canvas()
 
 # open_canvas(WIDTH // 2, 600)
 #
