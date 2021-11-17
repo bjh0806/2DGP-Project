@@ -1,5 +1,10 @@
 from pico2d import *
 import random
+import game_framework
+
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION4 = 4
 
 class Object:
     upground = None
@@ -35,7 +40,7 @@ class Object:
         self.coinh = [130, 160, 180, 180, 210, 230]
 
     def update_random_box(self):
-        self.randomframe = (self.randomframe + + FRAMES_PER_ACTION4 * ACTION_PER_TIME * game_framework.frame_time) % 4
+        self.randomframe = (self.randomframe + 8 * game_framework.frame_time) % 4
 
     def update(self):
         if self.Jump == 1:
