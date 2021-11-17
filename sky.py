@@ -2,30 +2,30 @@ from pico2d import *
 
 class Sky:
     dir = 0
+    Jump = 0
+    right = 1
+    left = 0
+    x = 0
+    x2 = 0
     def __init__(self):
         self.sky = load_image('sky.png')
         self.skyw = 400
         self.skyh = 300
-        self.Jump = 0
-        self.right = 1
-        self.left = 0
-        self.x = 0
-        self.x2 = 0
         
     def draw(self):
         self.sky.draw(self.skyw, self.skyh)
         
     def update(self):
-        if self.Jump == 1:
-            if self.right == 1:
+        if Sky.Jump == 1:
+            if Sky.right == 1:
                 self.skyw -= 5 // 2
-                if self.x < self.x2:
+                if Sky.x < Sky.x2:
                     self.skyh -= 2
                 else:
                     self.skyh += 2
-            elif self.left == 1:
+            elif Sky.left == 1:
                 self.skyw += 5 // 2
-                if self.x < self.x2:
+                if Sky.x < Sky.x2:
                     self.skyh += 2
                 else:
                     self.skyh -= 2

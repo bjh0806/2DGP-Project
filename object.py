@@ -12,7 +12,11 @@ class Object:
     random_box = None
     coin = None
     dir = 0
-
+    Jump = 0
+    right = 1
+    left = 0
+    x = 0
+    x2 = 0
     def __init__(self):
         if Object.random_box == None:
             Object.random_box = load_image('random_box.png')
@@ -25,11 +29,6 @@ class Object:
         self.randomframe = random.randint(0, 3)
         self.upgroundh = 50
         self.upground2h = 70
-        self.Jump = 0
-        self.right = 1
-        self.left = 0
-        self.x = 0
-        self.x2 = 0
         self.random_boxw = [300, 400, 425, 855, 1100, 1900, 2025]
         self.random_boxh = [200, 200, 200, 300, 200, 200, 200]
         self.upgroundw = [700]
@@ -43,8 +42,8 @@ class Object:
         self.randomframe = (self.randomframe + 8 * game_framework.frame_time) % 4
 
     def update(self):
-        if self.Jump == 1:
-            if self.right == 1:
+        if Object.Jump == 1:
+            if Object.right == 1:
                 for j in range(0, len(self.random_boxw)):
                     self.random_boxw[j] -= 7
                 for k in range(0, len(self.upgroundw)):
@@ -53,7 +52,7 @@ class Object:
                     self.upground2w[l] -= 7
                 for m in range(0, len(self.coinw)):
                     self.coinw[m] -= 7
-                if self.x < self.x2:
+                if Object.x < Object.x2:
                     for j in range(0, len(self.random_boxh)):
                         self.random_boxh[j] -= 2
                     for m in range(0, len(self.coinh)):
@@ -68,7 +67,7 @@ class Object:
                     self.upgroundh += 2
                     self.upground2h += 2
 
-            elif self.left == 1:
+            elif Object.left == 1:
                 for j in range(0, len(self.random_boxw)):
                     self.random_boxw[j] += 7
                 for k in range(0, len(self.upgroundw)):
@@ -77,7 +76,7 @@ class Object:
                     self.upground2w[l] += 7
                 for m in range(0, len(self.coinw)):
                     self.coinw[m] += 7
-                if self.x < self.x2:
+                if Object.x < Object.x2:
                     for j in range(0, len(self.random_boxh)):
                         self.random_boxh[j] += 2
                     for m in range(0, len(self.coinh)):
