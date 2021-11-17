@@ -7,6 +7,7 @@ from sky import Sky
 from ground import Ground
 from object import Object
 from mario import Mario
+from object2 import Object2
 
 name = "MainState"
 
@@ -14,20 +15,34 @@ sky = None
 ground = None
 object = None
 mario = None
+object2 = None
 
 def enter():
-    global sky, ground, object, mario
+    global sky, ground, object, mario, object2
     sky = Sky()
     ground = Ground()
     object = Object()
     mario = Mario()
+    object2 = Object2()
     game_world.add_object(sky, 0)
     game_world.add_object(ground, 0)
     game_world.add_object(object, 1)
+    game_world.add_object(object2, 1)
     game_world.add_object(mario, 1)
 
 def exit():
     game_world.clear()
+
+def collide(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_bb()
+    left_b, bottom_b, right_b, top_b = b.get_bb()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if top_a < bottom_b: return False
+    if bottom_a > top_b: return False
+
+    return True
 
 def pause():
     pass
