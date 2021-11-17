@@ -30,6 +30,5 @@ class Ground:
                     self.groundh += 2
                 else:
                     self.groundh -= 2
-        
         else:
             self.groundw -= self.dir * 7

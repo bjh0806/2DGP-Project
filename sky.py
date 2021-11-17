@@ -23,13 +23,11 @@ class Sky:
                     self.skyh -= 2
                 else:
                     self.skyh += 2
-                    
             elif self.left == 1:
                 self.skyw += 5 // 2
                 if self.x < self.x2:
                     self.skyh += 2
                 else:
                     self.skyh -= 2
-                    
         else:
             self.skyw -= self.dir * 5 // 2

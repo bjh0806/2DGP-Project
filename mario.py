@@ -251,6 +251,10 @@ class Mario:
             self.cur_state = WaitState
         self.cur_state.enter(self, None)
 
+    def give(self):
+        ground = Ground(self.dir)
+        game_world.add_object(ground, 0)
+
     def change_state(self, state):
         pass
 
