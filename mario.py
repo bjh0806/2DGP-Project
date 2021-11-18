@@ -7,6 +7,7 @@ from object2 import Object2
 from object3 import Object3
 from object4 import Object4
 from object5 import Object5
+from goomba import Goomba
 
 PIXEL_PER_METER = (10.0 / 0.3)
 RUN_SPEED_KMPH = 10.0
@@ -45,6 +46,7 @@ class StartState:
         Object3.x = Mario.x
         Object4.x = Mario.x
         Object5.x = Mario.x
+        Goomba.x = Mario.x
         if Mario.firstframe == 9:
             Mario.Start = 0
             Mario.firstframe = 0
@@ -66,6 +68,7 @@ class WaitState:
             Object3.dir = Mario.dir
             Object4.dir = Mario.dir
             Object5.dir = Mario.dir
+            Goomba.dir = Mario.dir
         elif event == LEFT_UP:
             Mario.dir += 1
             Ground.dir = Mario.dir
@@ -75,6 +78,7 @@ class WaitState:
             Object3.dir = Mario.dir
             Object4.dir = Mario.dir
             Object5.dir = Mario.dir
+            Goomba.dir = Mario.dir
 
     def exit(Mario, event):
         Mario.Wait = 0
@@ -146,6 +150,7 @@ class MjumpState:
         Object3.Jump = Mario.Jump
         Object4.Jump = Mario.Jump
         Object5.Jump = Mario.Jump
+        Goomba.Jump = Mario.Jump
         if event == RIGHT_UP:
             Mario.dir -= 1
             Ground.dir = Mario.dir
@@ -155,6 +160,7 @@ class MjumpState:
             Object3.dir = Mario.dir
             Object4.dir = Mario.dir
             Object5.dir = Mario.dir
+            Goomba.dir = Mario.dir
         elif event == LEFT_UP:
             Mario.dir += 1
             Ground.dir = Mario.dir
@@ -164,6 +170,7 @@ class MjumpState:
             Object3.dir = Mario.dir
             Object4.dir = Mario.dir
             Object5.dir = Mario.dir
+            Goomba.dir = Mario.dir
 
     def exit(Mario, event):
         pass
@@ -182,6 +189,7 @@ class MjumpState:
                     Object3.x2 = Mario.x2
                     Object4.x2 = Mario.x2
                     Object5.x2 = Mario.x2
+                    Goomba.x2 = Mario.x2
                 elif Mario.left == 1:
                     Mario.x1, Mario.y1 = Mario.x, Mario.y
                     Mario.x3, Mario.y3 = Mario.x - 20, Mario.y
@@ -193,6 +201,7 @@ class MjumpState:
                     Object3.x2 = Mario.x2
                     Object4.x2 = Mario.x2
                     Object5.x2 = Mario.x2
+                    Goomba.x2 = Mario.x2
 
             t = Mario.i / 100
 
@@ -206,6 +215,7 @@ class MjumpState:
             Object3.x = Mario.x
             Object4.x = Mario.x
             Object5.x = Mario.x
+            Goomba.x = Mario.x
 
             Mario.i += 4
 
@@ -218,6 +228,7 @@ class MjumpState:
                 Object3.Jump = Mario.Jump
                 Object4.Jump = Mario.Jump
                 Object5.Jump = Mario.Jump
+                Goomba.Jump = Mario.Jump
                 Mario.i = 0
                 Mario.add_event(WAIT)
 
@@ -248,6 +259,7 @@ class WalkState:
             Object3.dir = Mario.dir
             Object4.dir = Mario.dir
             Object5.dir = Mario.dir
+            Goomba.dir = Mario.dir
             Mario.left = 0
             Ground.left = Mario.left
             Sky.left = Mario.left
@@ -256,6 +268,7 @@ class WalkState:
             Object3.left = Mario.left
             Object4.left = Mario.left
             Object5.left = Mario.left
+            Goomba.left = Mario.left
             Mario.right = 1
             Ground.right = Mario.right
             Sky.right = Mario.right
@@ -264,6 +277,7 @@ class WalkState:
             Object3.right = Mario.right
             Object4.right = Mario.right
             Object5.right = Mario.right
+            Goomba.right = Mario.right
             Mario.Wait = 0
         elif event == LEFT_DOWN:
             Mario.velocity -= RUN_SPEED_PPS
@@ -275,6 +289,7 @@ class WalkState:
             Object3.dir = Mario.dir
             Object4.dir = Mario.dir
             Object5.dir = Mario.dir
+            Goomba.dir = Mario.dir
             Mario.left = 1
             Ground.left = Mario.left
             Sky.left = Mario.left
@@ -283,6 +298,7 @@ class WalkState:
             Object3.left = Mario.left
             Object4.left = Mario.left
             Object5.left = Mario.left
+            Goomba.left = Mario.left
             Mario.right = 0
             Ground.right = Mario.right
             Sky.right = Mario.right
@@ -291,6 +307,7 @@ class WalkState:
             Object3.right = Mario.right
             Object4.right = Mario.right
             Object5.right = Mario.right
+            Goomba.right = Mario.right
             Mario.Wait = 0
         elif event == RIGHT_UP:
             Mario.velocity -= RUN_SPEED_PPS
@@ -311,6 +328,7 @@ class WalkState:
             Object3.x = Mario.x
             Object4.x = Mario.x
             Object5.x = Mario.x
+            Goomba.x = Mario.x
 
     def draw(Mario):
         if Mario.right == 1:
@@ -395,7 +413,6 @@ class Mario:
 
     def draw(self):
         self.cur_state.draw(self)
-        debug_print('State: ' + str(self.cur_state))
         draw_rectangle(*self.get_bb())
 
     def handle_event(self, event):

@@ -12,6 +12,7 @@ from object3 import Object3
 from object4 import Object4
 from object5 import Object5
 from object6 import Object6
+from goomba import Goomba
 
 name = "MainState"
 
@@ -24,9 +25,10 @@ object3 = None
 object4 = None
 object5 = None
 object6 = None
+goomba = None
 
 def enter():
-    global sky, ground, object, mario, object2, object3, object4, object5, object6
+    global sky, ground, object, mario, object2, object3, object4, object5, object6, goomba
     sky = Sky()
     ground = Ground()
     object = Object()
@@ -35,6 +37,7 @@ def enter():
     object4 = Object4()
     object5 = Object5()
     object6 = Object6()
+    goomba = Goomba()
     mario = Mario()
     game_world.add_object(sky, 0)
     game_world.add_object(ground, 0)
@@ -44,6 +47,7 @@ def enter():
     game_world.add_object(object4, 1)
     game_world.add_object(object5, 1)
     game_world.add_object(object6, 1)
+    game_world.add_object(goomba, 1)
     game_world.add_object(mario, 1)
 
 def exit():
@@ -63,13 +67,16 @@ def collide(a, b):
 def pause():
     pass
 
+def resume():
+    pass
+
 def handle_events():
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.change_state(menu_state)
+            game_framework.push_state(menu_state)
         else:
             mario.handle_event(event)
             
