@@ -83,6 +83,10 @@ def handle_events():
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
+    if collide(mario, goomba):
+        game_world.remove_object(goomba)
+    if collide(mario, object):
+        mario.stop()
     delay(0.05)
     
 def draw():

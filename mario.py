@@ -397,6 +397,17 @@ class Mario:
     def get_bb(self):
         return self.x - 15, self.y - 20, self.x + 15, self.y + 20
 
+    def stop(self):
+        self.dir = 0
+        Ground.dir = self.dir
+        Sky.dir = self.dir
+        Object.dir = self.dir
+        Object2.dir = self.dir
+        Object3.dir = self.dir
+        Object4.dir = self.dir
+        Object5.dir = self.dir
+        Goomba.dir = self.dir
+
     def change_state(self, state):
         pass
 
