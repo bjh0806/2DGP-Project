@@ -59,26 +59,6 @@ class StartState:
 class WaitState:
     def enter(Mario, event):
         Mario.Wait = 1
-        if event == RIGHT_UP:
-            Mario.dir -= 1
-            Ground.dir = Mario.dir
-            Sky.dir = Mario.dir
-            Object.dir = Mario.dir
-            Object2.dir = Mario.dir
-            Object3.dir = Mario.dir
-            Object4.dir = Mario.dir
-            Object5.dir = Mario.dir
-            Goomba.dir = Mario.dir
-        elif event == LEFT_UP:
-            Mario.dir += 1
-            Ground.dir = Mario.dir
-            Sky.dir = Mario.dir
-            Object.dir = Mario.dir
-            Object2.dir = Mario.dir
-            Object3.dir = Mario.dir
-            Object4.dir = Mario.dir
-            Object5.dir = Mario.dir
-            Goomba.dir = Mario.dir
 
     def exit(Mario, event):
         Mario.Wait = 0
@@ -151,26 +131,6 @@ class MjumpState:
         Object4.Jump = Mario.Jump
         Object5.Jump = Mario.Jump
         Goomba.Jump = Mario.Jump
-        if event == RIGHT_UP:
-            Mario.dir -= 1
-            Ground.dir = Mario.dir
-            Sky.dir = Mario.dir
-            Object.dir = Mario.dir
-            Object2.dir = Mario.dir
-            Object3.dir = Mario.dir
-            Object4.dir = Mario.dir
-            Object5.dir = Mario.dir
-            Goomba.dir = Mario.dir
-        elif event == LEFT_UP:
-            Mario.dir += 1
-            Ground.dir = Mario.dir
-            Sky.dir = Mario.dir
-            Object.dir = Mario.dir
-            Object2.dir = Mario.dir
-            Object3.dir = Mario.dir
-            Object4.dir = Mario.dir
-            Object5.dir = Mario.dir
-            Goomba.dir = Mario.dir
 
     def exit(Mario, event):
         pass
@@ -251,15 +211,6 @@ class WalkState:
     def enter(Mario, event):
         if event == RIGHT_DOWN:
             Mario.velocity += RUN_SPEED_PPS
-            Mario.dir += 1
-            Ground.dir = Mario.dir
-            Sky.dir = Mario.dir
-            Object.dir = Mario.dir
-            Object2.dir = Mario.dir
-            Object3.dir = Mario.dir
-            Object4.dir = Mario.dir
-            Object5.dir = Mario.dir
-            Goomba.dir = Mario.dir
             Mario.left = 0
             Ground.left = Mario.left
             Sky.left = Mario.left
@@ -281,15 +232,6 @@ class WalkState:
             Mario.Wait = 0
         elif event == LEFT_DOWN:
             Mario.velocity -= RUN_SPEED_PPS
-            Mario.dir -= 1
-            Ground.dir = Mario.dir
-            Sky.dir = Mario.dir
-            Object.dir = Mario.dir
-            Object2.dir = Mario.dir
-            Object3.dir = Mario.dir
-            Object4.dir = Mario.dir
-            Object5.dir = Mario.dir
-            Goomba.dir = Mario.dir
             Mario.left = 1
             Ground.left = Mario.left
             Sky.left = Mario.left
@@ -368,7 +310,6 @@ class Mario:
         self.last = 1
         self.x = 0
         self.y = 95
-        self.dir = 0
         self.Wait = 0
         self.Jump = 0
         self.jj = 0
@@ -398,15 +339,7 @@ class Mario:
         return self.x - 15, self.y - 20, self.x + 15, self.y + 20
 
     def stop(self):
-        self.dir = 0
-        Ground.dir = self.dir
-        Sky.dir = self.dir
-        Object.dir = self.dir
-        Object2.dir = self.dir
-        Object3.dir = self.dir
-        Object4.dir = self.dir
-        Object5.dir = self.dir
-        Goomba.dir = self.dir
+        pass
 
     def change_state(self, state):
         pass
@@ -427,7 +360,7 @@ class Mario:
         draw_rectangle(*self.get_bb())
 
     def handle_event(self, event):
-        global x, dir, left, right, Wait, Jump, Attack1, Attack3, keep
+        global x, left, right, Wait, Jump, Attack1, Attack3, keep
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
