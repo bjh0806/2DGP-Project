@@ -307,6 +307,7 @@ class Mario:
         self.i = 0
         self.left = 0
         self.right = 1
+        # right, left 변수를 dir로 통일하여 변경할 것
         self.last = 1
         self.x = 0
         self.y = 95
