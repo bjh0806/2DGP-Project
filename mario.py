@@ -69,12 +69,12 @@ class WaitState:
 
     def draw(Mario):
         if Mario.Wait == 1:
-            if Mario.right == 1:
+            if Mario.dir > 0:
                 if Mario.mode == 0:
                     Mario.wait.clip_draw(int(Mario.waitframe) * 50, 50, 50, 50, Mario.x, Mario.y)
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
-            elif Mario.left == 1:
+            elif Mario.dir < 0:
                 if Mario.mode == 0:
                     Mario.wait.clip_draw(int(Mario.waitframe) * 50, 0, 50, 50, Mario.x, Mario.y)
                 # else:
@@ -109,12 +109,12 @@ class JumpState:
 
     def draw(Mario):
         if Mario.jj == 1:
-            if Mario.right == 1:
+            if Mario.dir > 0:
                 if Mario.mode == 0:
                     Mario.jump.clip_draw((int(Mario.jumpframe) + 5) * 50, 50, 50, 50, Mario.x, Mario.y)
                 # else:
                 #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
-            elif Mario.left == 1:
+            elif Mario.dir < 0:
                 if Mario.mode == 0:
                     Mario.jump.clip_draw((13 - int(Mario.jumpframe)) * 50, 0, 50, 50, Mario.x, Mario.y)
                 # else:
@@ -138,7 +138,7 @@ class MjumpState:
     def do(Mario):
         if Mario.Jump == 1:
             if Mario.i == 0:
-                if Mario.right == 1:
+                if Mario.dir > 0:
                     Mario.x1, Mario.y1 = Mario.x, Mario.y
                     Mario.x3, Mario.y3 = Mario.x + 20, Mario.y
                     Mario.x2, Mario.y2 = Mario.x + 10, Mario.y + 75
@@ -150,7 +150,7 @@ class MjumpState:
                     Object4.x2 = Mario.x2
                     Object5.x2 = Mario.x2
                     Goomba.x2 = Mario.x2
-                elif Mario.left == 1:
+                elif Mario.dir < 0:
                     Mario.x1, Mario.y1 = Mario.x, Mario.y
                     Mario.x3, Mario.y3 = Mario.x - 20, Mario.y
                     Mario.x2, Mario.y2 = Mario.x - 10, Mario.y + 75
@@ -196,12 +196,12 @@ class MjumpState:
 
     def draw(Mario):
         if Mario.Jump == 1:
-            if Mario.right == 1:
+            if Mario.dir > 0:
                 if Mario.mode == 0:
                     Mario.jump.clip_draw((int(Mario.jumpframe) + 5) * 50, 50, 50, 50, Mario.x, Mario.y)
                 # else:
                 #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
-            elif Mario.left == 1:
+            elif Mario.dir < 0:
                 if Mario.mode == 0:
                     Mario.jump.clip_draw((13 - int(Mario.jumpframe)) * 50, 0, 50, 50, Mario.x, Mario.y)
                 # else:
@@ -211,45 +211,11 @@ class WalkState:
     def enter(Mario, event):
         if event == RIGHT_DOWN:
             Mario.velocity += RUN_SPEED_PPS
-            Mario.left = 0
-            Ground.left = Mario.left
-            Sky.left = Mario.left
-            Object.left = Mario.left
-            Object2.left = Mario.left
-            Object3.left = Mario.left
-            Object4.left = Mario.left
-            Object5.left = Mario.left
-            Goomba.left = Mario.left
-            Mario.right = 1
-            Ground.right = Mario.right
-            Sky.right = Mario.right
-            Object.right = Mario.right
-            Object2.right = Mario.right
-            Object3.right = Mario.right
-            Object4.right = Mario.right
-            Object5.right = Mario.right
-            Goomba.right = Mario.right
+            Mario.dir += 1
             Mario.Wait = 0
         elif event == LEFT_DOWN:
             Mario.velocity -= RUN_SPEED_PPS
-            Mario.left = 1
-            Ground.left = Mario.left
-            Sky.left = Mario.left
-            Object.left = Mario.left
-            Object2.left = Mario.left
-            Object3.left = Mario.left
-            Object4.left = Mario.left
-            Object5.left = Mario.left
-            Goomba.left = Mario.left
-            Mario.right = 0
-            Ground.right = Mario.right
-            Sky.right = Mario.right
-            Object.right = Mario.right
-            Object2.right = Mario.right
-            Object3.right = Mario.right
-            Object4.right = Mario.right
-            Object5.right = Mario.right
-            Goomba.right = Mario.right
+            Mario.dir -= 1
             Mario.Wait = 0
         elif event == RIGHT_UP:
             Mario.velocity -= RUN_SPEED_PPS
@@ -273,12 +239,12 @@ class WalkState:
             Goomba.x = Mario.x
 
     def draw(Mario):
-        if Mario.right == 1:
+        if Mario.dir > 0:
             if Mario.mode == 0:
                 Mario.mario.clip_draw(int(Mario.frame) * 50, 50, 50, 50, Mario.x, Mario.y)
             # else:
             #     walk.clip_+draw(frame * 50, 50, 50, 50, x, y)
-        elif Mario.left == 1:
+        elif Mario.dir < 0:
             if Mario.mode == 0:
                 Mario.mario.clip_draw((7 - int(Mario.frame)) * 50, 0, 50, 50, Mario.x, Mario.y - 5)
             # else:
@@ -305,8 +271,7 @@ class Mario:
         self.Start = 1
         self.mode = 0
         self.i = 0
-        self.left = 0
-        self.right = 1
+        self.dir = 0
         # right, left 변수를 dir로 통일하여 변경할 것
         self.last = 1
         self.x = 0
@@ -361,7 +326,7 @@ class Mario:
         draw_rectangle(*self.get_bb())
 
     def handle_event(self, event):
-        global x, left, right, Wait, Jump, Attack1, Attack3, keep
+        global x, Wait, Jump, Attack1, Attack3, keep
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
