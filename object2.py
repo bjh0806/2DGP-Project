@@ -6,8 +6,6 @@ class Object2:
     upground2 = None
     dir = 0
     Jump = 0
-    right = 1
-    left = 0
     x = 0
     x2 = 0
     def __init__(self):
@@ -22,7 +20,7 @@ class Object2:
 
     def update(self):
         if Object2.Jump == 1:
-            if Object2.right == 1:
+            if Object2.dir == 1:
                 for l in range(0, len(self.upground2w)):
                     self.upground2w[l] -= 7
                 if Object2.x < Object2.x2:
@@ -30,7 +28,7 @@ class Object2:
                 else:
                     self.upground2h += 2
 
-            elif Object2.left == 1:
+            else:
                 for l in range(0, len(self.upground2w)):
                     self.upground2w[l] += 7
                 if Object2.x < Object2.x2:

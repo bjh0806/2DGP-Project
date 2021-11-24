@@ -36,6 +36,14 @@ class StartState:
     def exit(Mario, event):
         Mario.Start = 0
         Mario.dir = 1
+        Ground.dir = Mario.dir
+        Sky.dir = Mario.dir
+        Object.dir = Mario.dir
+        Object2.dir = Mario.dir
+        Object3.dir = Mario.dir
+        Object4.dir = Mario.dir
+        Object5.dir = Mario.dir
+        Goomba.dir = Mario.dir
 
     def do(Mario):
         Mario.firstframe = (Mario.firstframe + 1) % 10
@@ -68,6 +76,14 @@ class WaitState:
             Mario.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             Mario.velocity += RUN_SPEED_PPS
+        Ground.dir = 0
+        Sky.dir = 0
+        Object.dir = 0
+        Object2.dir = 0
+        Object3.dir = 0
+        Object4.dir = 0
+        Object5.dir = 0
+        Goomba.dir = 0
 
     def exit(Mario, event):
         Mario.Wait = 0
@@ -118,12 +134,12 @@ class JumpState:
 
     def draw(Mario):
         if Mario.jj == 1:
-            if Mario.dir > 0:
+            if Mario.dir == 1:
                 if Mario.mode == 0:
                     Mario.jump.clip_draw((int(Mario.jumpframe) + 5) * 50, 50, 50, 50, Mario.x, Mario.y)
                 # else:
                 #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
-            elif Mario.dir < 0:
+            else:
                 if Mario.mode == 0:
                     Mario.jump.clip_draw((13 - int(Mario.jumpframe)) * 50, 0, 50, 50, Mario.x, Mario.y)
                 # else:
@@ -147,7 +163,7 @@ class MjumpState:
     def do(Mario):
         if Mario.Jump == 1:
             if Mario.i == 0:
-                if Mario.dir > 0:
+                if Mario.dir == 1:
                     Mario.x1, Mario.y1 = Mario.x, Mario.y
                     Mario.x3, Mario.y3 = Mario.x + 20, Mario.y
                     Mario.x2, Mario.y2 = Mario.x + 10, Mario.y + 75
@@ -159,7 +175,7 @@ class MjumpState:
                     Object4.x2 = Mario.x2
                     Object5.x2 = Mario.x2
                     Goomba.x2 = Mario.x2
-                elif Mario.dir < 0:
+                else:
                     Mario.x1, Mario.y1 = Mario.x, Mario.y
                     Mario.x3, Mario.y3 = Mario.x - 20, Mario.y
                     Mario.x2, Mario.y2 = Mario.x - 10, Mario.y + 75
@@ -205,12 +221,12 @@ class MjumpState:
 
     def draw(Mario):
         if Mario.Jump == 1:
-            if Mario.dir > 0:
+            if Mario.dir == 1:
                 if Mario.mode == 0:
                     Mario.jump.clip_draw((int(Mario.jumpframe) + 5) * 50, 50, 50, 50, Mario.x, Mario.y)
                 # else:
                 #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
-            elif Mario.dir < 0:
+            else:
                 if Mario.mode == 0:
                     Mario.jump.clip_draw((13 - int(Mario.jumpframe)) * 50, 0, 50, 50, Mario.x, Mario.y)
                 # else:
@@ -218,17 +234,24 @@ class MjumpState:
 
 class WalkState:
     def enter(Mario, event):
+        Mario.Wait = 0
         if event == RIGHT_DOWN:
             Mario.velocity += RUN_SPEED_PPS
-            Mario.Wait = 0
         elif event == LEFT_DOWN:
             Mario.velocity -= RUN_SPEED_PPS
-            Mario.Wait = 0
         elif event == RIGHT_UP:
             Mario.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             Mario.velocity += RUN_SPEED_PPS
         Mario.dir = clamp(-1, Mario.velocity, 1)
+        Ground.dir = Mario.dir
+        Sky.dir = Mario.dir
+        Object.dir = Mario.dir
+        Object2.dir = Mario.dir
+        Object3.dir = Mario.dir
+        Object4.dir = Mario.dir
+        Object5.dir = Mario.dir
+        Goomba.dir = Mario.dir
 
     def exit(Mario, event):
         pass
@@ -269,8 +292,8 @@ next_state_table = {
     WalkState: {RIGHT_DOWN: WalkState, LEFT_DOWN: WalkState,
                 RIGHT_UP: WaitState, LEFT_UP: WaitState,
                 SPACE: MjumpState},
-    MjumpState: {WAIT: WalkState, RIGHT_DOWN: WalkState,
-                 LEFT_DOWN: WalkState, RIGHT_UP: MjumpState,
+    MjumpState: {WAIT: WalkState, RIGHT_DOWN: MjumpState,
+                 LEFT_DOWN: MjumpState, RIGHT_UP: MjumpState,
                  LEFT_UP: MjumpState}
 }
 

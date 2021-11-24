@@ -3,8 +3,6 @@ from pico2d import *
 class Ground:
     dir = 0
     Jump = 0
-    right = 1
-    left = 0
     x = 0
     x2 = 0
     def __init__(self):
@@ -17,14 +15,14 @@ class Ground:
 
     def update(self):
         if Ground.Jump == 1:
-            if Ground.right == 1:
+            if Ground.dir == 1:
                 self.groundw -= 7
                 if Ground.x < Ground.x2:
                     self.groundh -= 2
                 else:
                     self.groundh += 2
 
-            elif Ground.left == 1:
+            else:
                 self.groundw += 7
                 if Ground.x < Ground.x2:
                     self.groundh += 2

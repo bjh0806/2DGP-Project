@@ -3,8 +3,6 @@ from pico2d import *
 class Sky:
     dir = 0
     Jump = 0
-    right = 1
-    left = 0
     x = 0
     x2 = 0
     def __init__(self):
@@ -17,13 +15,13 @@ class Sky:
         
     def update(self):
         if Sky.Jump == 1:
-            if Sky.right == 1:
+            if Sky.dir == 1:
                 self.skyw -= 5 // 2
                 if Sky.x < Sky.x2:
                     self.skyh -= 2
                 else:
                     self.skyh += 2
-            elif Sky.left == 1:
+            else:
                 self.skyw += 5 // 2
                 if Sky.x < Sky.x2:
                     self.skyh += 2

@@ -6,8 +6,6 @@ class Object3:
     random_box = None
     dir = 0
     Jump = 0
-    right = 1
-    left = 0
     x = 0
     x2 = 0
     def __init__(self):
@@ -24,7 +22,7 @@ class Object3:
     def update(self):
         self.randomframe = (self.randomframe + 8 * game_framework.frame_time) % 4
         if Object3.Jump == 1:
-            if Object3.right == 1:
+            if Object3.dir == 1:
                 for j in range(0, len(self.random_boxw)):
                     self.random_boxw[j] -= 7
                 if Object3.x < Object3.x2:
@@ -34,7 +32,7 @@ class Object3:
                     for j in range(0, len(self.random_boxh)):
                         self.random_boxh[j] += 2
 
-            elif Object3.left == 1:
+            else:
                 for j in range(0, len(self.random_boxw)):
                     self.random_boxw[j] += 7
                 if Object3.x < Object3.x2:

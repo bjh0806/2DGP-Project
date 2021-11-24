@@ -6,8 +6,6 @@ class Object4:
     coin = None
     dir = 0
     Jump = 0
-    right = 1
-    left = 0
     x = 0
     x2 = 0
     def __init__(self):
@@ -22,7 +20,7 @@ class Object4:
 
     def update(self):
         if Object4.Jump == 1:
-            if Object4.right == 1:
+            if Object4.dir == 1:
                 for m in range(0, len(self.coinw)):
                     self.coinw[m] -= 7
                 if Object4.x < Object4.x2:
@@ -32,7 +30,7 @@ class Object4:
                     for m in range(0, len(self.coinh)):
                         self.coinh[m] += 2
 
-            elif Object4.left == 1:
+            else:
                 for m in range(0, len(self.coinw)):
                     self.coinw[m] += 7
                 if Object4.x < Object4.x2:

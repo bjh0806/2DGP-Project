@@ -6,8 +6,6 @@ import game_framework
 class Goomba:
     image = None
     Jump = 0
-    right = 1
-    left = 0
     dir = 0
     x = 0
     x2 = 0
@@ -25,14 +23,14 @@ class Goomba:
     def update(self):
         self.frame = (self.frame + 16 * game_framework.frame_time) % 8
         if Goomba.Jump == 1:
-            if Goomba.right == 1:
+            if Goomba.dir == 1:
                 self.goombax -= 7
                 if Goomba.x < Goomba.x2:
                     self.goombay -= 2
                 else:
                     self.goombay += 2
 
-            elif Goomba.left == 1:
+            else:
                 self.goombax += 7
                 if Goomba.x < Goomba.x2:
                     self.goombay += 2

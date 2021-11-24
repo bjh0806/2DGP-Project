@@ -6,8 +6,6 @@ class Object5:
     block = None
     dir = 0
     Jump = 0
-    right = 1
-    left = 0
     x = 0
     x2 = 0
     def __init__(self):
@@ -24,7 +22,7 @@ class Object5:
     def update(self):
         self.frame = (self.frame + 8 * game_framework.frame_time) % 4
         if Object5.Jump == 1:
-            if Object5.right == 1:
+            if Object5.dir == 1:
                 for j in range(0, len(self.blockw)):
                     self.blockw[j] -= 7
                 if Object5.x < Object5.x2:
@@ -34,7 +32,7 @@ class Object5:
                     for j in range(0, len(self.blockh)):
                         self.blockh[j] += 2
 
-            elif Object5.left == 1:
+            else:
                 for j in range(0, len(self.blockw)):
                     self.blockw[j] += 7
                 if Object5.x < Object5.x2:
