@@ -331,10 +331,29 @@ class Mario:
         self.cur_state.enter(self, None)
 
     def get_bb(self):
-        return self.x - 15, self.y - 20, self.x + 15, self.y + 20
+        return self.x - 15, self.y - 20, self.x + 13, self.y + 20
 
-    def stop(self):
-        pass
+    def stop1(self):
+        Ground.dir = 0
+        Sky.dir = 0
+        Object.dir = 0
+        Object2.dir = 0
+        Object3.dir = 0
+        Object4.dir = 0
+        Object5.dir = 0
+        Goomba.dir = 0
+        self.x -= 5
+
+    def stop2(self):
+        Ground.dir = 0
+        Sky.dir = 0
+        Object.dir = 0
+        Object2.dir = 0
+        Object3.dir = 0
+        Object4.dir = 0
+        Object5.dir = 0
+        Goomba.dir = 0
+        self.y -= 5
 
     def change_state(self, state):
         pass

@@ -26,6 +26,11 @@ object4 = None
 object5 = None
 object6 = None
 goomba = None
+objects1 = None
+objects2 = None
+objects3 = None
+objects4 = None
+objects5 = None
 
 object1w = [700]
 object2w = [850, 2500]
@@ -35,7 +40,7 @@ object4w = [(580, 130), (610, 160), (640, 180), (740, 180), (770, 210), (800, 23
 object5w = [(1075, 200), (1124, 200), (1800, 200), (1849, 200)]
 
 def enter():
-    global sky, ground, object, mario, object2, object3, object4, object5, object6, goomba
+    global sky, ground, object, mario, object2, object3, object4, object5, object6, goomba, objects1, objects2, objects3, objects4, objects5
     sky = Sky()
     ground = Ground()
     object6 = Object6()
@@ -98,8 +103,21 @@ def update():
         game_object.update()
     if collide(mario, goomba):
         game_world.remove_object(goomba)
-    # if collide(mario, object):
-    #     mario.stop()
+    for object in objects1.copy():
+        if collide(mario, object):
+            mario.stop1()
+    for object2 in objects2.copy():
+        if collide(mario, object2):
+            mario.stop1()
+    for object3 in objects3.copy():
+        if collide(mario, object3):
+            mario.stop2()
+    for object4 in objects4.copy():
+        if collide(mario, object4):
+            game_world.remove_object(object4)
+    for object5 in objects5.copy():
+        if collide(mario, object5):
+            mario.stop2()
     delay(0.05)
     
 def draw():
