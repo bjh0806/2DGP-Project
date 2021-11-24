@@ -8,45 +8,36 @@ class Object5:
     Jump = 0
     x = 0
     x2 = 0
-    def __init__(self):
+    def __init__(self, w = 1075, h = 200):
         if Object5.block == None:
             Object5.block = load_image('block.png')
         self.frame = random.randint(0, 3)
-        self.blockw = [1075, 1124, 1800, 1849]
-        self.blockh = [200, 200, 200, 200]
+        self.blockw = w
+        self.blockh = h
 
     def get_bb(self):
-        for j in range(0, len(self.blockw)):
-            return self.blockw[j] - 15, self.blockh[j] - 16.5, self.blockw[j] + 14, self.blockh[j] + 12
+        return self.blockw - 15, self.blockh - 16.5, self.blockw + 14, self.blockh + 12
 
     def update(self):
         self.frame = (self.frame + 8 * game_framework.frame_time) % 4
         if Object5.Jump == 1:
             if Object5.dir == 1:
-                for j in range(0, len(self.blockw)):
-                    self.blockw[j] -= 7
+                self.blockw -= 7
                 if Object5.x < Object5.x2:
-                    for j in range(0, len(self.blockh)):
-                        self.blockh[j] -= 2
+                    self.blockh -= 2
                 else:
-                    for j in range(0, len(self.blockh)):
-                        self.blockh[j] += 2
+                    self.blockh += 2
 
             else:
-                for j in range(0, len(self.blockw)):
-                    self.blockw[j] += 7
+                self.blockw += 7
                 if Object5.x < Object5.x2:
-                    for j in range(0, len(self.blockh)):
-                        self.blockh[j] += 2
+                    self.blockh += 2
                 else:
-                    for j in range(0, len(self.blockh)):
-                        self.blockh[j] -= 2
+                    self.blockh -= 2
 
         else:
-            for j in range(0, len(self.blockw)):
-                self.blockw[j] -= Object5.dir * 7
+            self.blockw -= Object5.dir * 7
 
     def draw(self):
-        for j in range(0, len(self.blockw)):
-            self.block.clip_draw(int(self.frame) * 25, 0, 25, 33, self.blockw[j], self.blockh[j])
+        self.block.clip_draw(int(self.frame) * 25, 0, 25, 33, self.blockw, self.blockh)
         draw_rectangle(*self.get_bb())
