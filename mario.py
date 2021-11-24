@@ -35,6 +35,7 @@ class StartState:
 
     def exit(Mario, event):
         Mario.Start = 0
+        Mario.dir = 1
 
     def do(Mario):
         Mario.firstframe = (Mario.firstframe + 1) % 10
