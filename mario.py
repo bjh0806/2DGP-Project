@@ -59,6 +59,14 @@ class StartState:
 class WaitState:
     def enter(Mario, event):
         Mario.Wait = 1
+        if event == RIGHT_DOWN:
+            Mario.velocity += RUN_SPEED_PPS
+        elif event == LEFT_DOWN:
+            Mario.velocity -= RUN_SPEED_PPS
+        elif event == RIGHT_UP:
+            Mario.velocity -= RUN_SPEED_PPS
+        elif event == LEFT_UP:
+            Mario.velocity += RUN_SPEED_PPS
 
     def exit(Mario, event):
         Mario.Wait = 0
@@ -69,12 +77,12 @@ class WaitState:
 
     def draw(Mario):
         if Mario.Wait == 1:
-            if Mario.dir > 0:
+            if Mario.dir == 1:
                 if Mario.mode == 0:
                     Mario.wait.clip_draw(int(Mario.waitframe) * 50, 50, 50, 50, Mario.x, Mario.y)
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
-            elif Mario.dir < 0:
+            else:
                 if Mario.mode == 0:
                     Mario.wait.clip_draw(int(Mario.waitframe) * 50, 0, 50, 50, Mario.x, Mario.y)
                 # else:
@@ -211,16 +219,15 @@ class WalkState:
     def enter(Mario, event):
         if event == RIGHT_DOWN:
             Mario.velocity += RUN_SPEED_PPS
-            Mario.dir += 1
             Mario.Wait = 0
         elif event == LEFT_DOWN:
             Mario.velocity -= RUN_SPEED_PPS
-            Mario.dir -= 1
             Mario.Wait = 0
         elif event == RIGHT_UP:
             Mario.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             Mario.velocity += RUN_SPEED_PPS
+        Mario.dir = clamp(-1, Mario.velocity, 1)
 
     def exit(Mario, event):
         pass
@@ -239,12 +246,12 @@ class WalkState:
             Goomba.x = Mario.x
 
     def draw(Mario):
-        if Mario.dir > 0:
+        if Mario.dir == 1:
             if Mario.mode == 0:
                 Mario.mario.clip_draw(int(Mario.frame) * 50, 50, 50, 50, Mario.x, Mario.y)
             # else:
             #     walk.clip_+draw(frame * 50, 50, 50, 50, x, y)
-        elif Mario.dir < 0:
+        else:
             if Mario.mode == 0:
                 Mario.mario.clip_draw((7 - int(Mario.frame)) * 50, 0, 50, 50, Mario.x, Mario.y - 5)
             # else:
