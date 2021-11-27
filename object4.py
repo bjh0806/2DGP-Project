@@ -34,7 +34,7 @@ class Object4:
                     self.coinh -= 2
 
         else:
-            self.coinw -= Object4.dir * 7
+            self.coinw -= Object4.dir * 0.7
 
     def draw(self):
         self.coin.draw(self.coinw, self.coinh)

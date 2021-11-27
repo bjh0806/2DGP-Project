@@ -28,4 +28,4 @@ class Sky:
                 else:
                     self.skyh -= 2
         else:
-            self.skyw -= Sky.dir * 5 // 2
+            self.skyw -= Sky.dir * 0.5 // 2

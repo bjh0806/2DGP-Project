@@ -46,14 +46,14 @@ class Goomba:
                 self.goombax += 2
 
         else:
-            self.goombax -= Goomba.dir * 7
+            self.goombax -= Goomba.dir * 0.7
             if self.look == 0:
-                self.moveg -= 2
-                self.goombax -= 2
+                self.moveg -= 0.2
+                self.goombax -= 0.2
 
             elif self.look == 1:
-                self.moveg += 2
-                self.goombax += 2
+                self.moveg += 0.2
+                self.goombax += 0.2
 
         if self.moveg <= -200:
             self.look = 1
