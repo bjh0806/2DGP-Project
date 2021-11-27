@@ -86,7 +86,7 @@ class WaitState:
         Goomba.dir = 0
 
     def exit(Mario, event):
-        Mario.Wait = 0
+        pass
 
     def do(Mario):
         if Mario.Wait == 1:
@@ -292,7 +292,7 @@ next_state_table = {
     WalkState: {RIGHT_DOWN: WalkState, LEFT_DOWN: WalkState,
                 RIGHT_UP: WaitState, LEFT_UP: WaitState,
                 SPACE: MjumpState},
-    MjumpState: {WAIT: WalkState, RIGHT_DOWN: MjumpState,
+    MjumpState: {WAIT: WaitState, RIGHT_DOWN: MjumpState,
                  LEFT_DOWN: MjumpState, RIGHT_UP: MjumpState,
                  LEFT_UP: MjumpState}
 }
@@ -342,7 +342,22 @@ class Mario:
         Object4.dir = 0
         Object5.dir = 0
         Goomba.dir = 0
-        self.x -= 5
+        if self.Jump == 0:
+            self.x -= 5
+        else:
+            self.y += 10
+            self.jj = 0
+            self.Jump = 0
+            Ground.Jump = self.Jump
+            Sky.Jump = self.Jump
+            Object.Jump = self.Jump
+            Object2.Jump = self.Jump
+            Object3.Jump = self.Jump
+            Object4.Jump = self.Jump
+            Object5.Jump = self.Jump
+            Goomba.Jump = self.Jump
+            self.i = 0
+            self.add_event(WAIT)
 
     def stop2(self):
         Ground.dir = 0
