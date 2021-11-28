@@ -36,7 +36,7 @@ class Object5:
                     self.blockh -= 2
 
         else:
-            self.blockw -= Object5.dir * 0.7
+            self.blockw -= Object5.dir * 7
 
     def draw(self):
         self.block.clip_draw(int(self.frame) * 25, 0, 25, 33, self.blockw, self.blockh)

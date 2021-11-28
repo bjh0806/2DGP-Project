@@ -34,7 +34,7 @@ class Object:
                     self.upgroundh -= 2
 
         else:
-            self.upgroundw -= Object.dir * 0.7
+            self.upgroundw -= Object.dir * 7
 
     def draw(self):
         self.upground.draw(self.upgroundw, self.upgroundh)

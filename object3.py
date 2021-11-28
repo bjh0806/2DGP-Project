@@ -36,7 +36,7 @@ class Object3:
                     self.random_boxh -= 2
 
         else:
-            self.random_boxw -= Object3.dir * 0.7
+            self.random_boxw -= Object3.dir * 7
 
     def draw(self):
         self.random_box.clip_draw(int(self.randomframe) * 25, 0, 25, 33, self.random_boxw, self.random_boxh)

@@ -118,6 +118,7 @@ def update():
     for object5 in objects5.copy():
         if collide(mario, object5):
             mario.stop2()
+    delay(0.05)
     
 def draw():
     clear_canvas()
