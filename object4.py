@@ -3,6 +3,7 @@ import random
 import game_framework
 import server
 import collision
+import game_world
 
 class Object4:
     coin = None
@@ -16,6 +17,9 @@ class Object4:
         return self.coinw - 12.5, self.coinh - 15, self.coinw + 12.5, self.coinh + 15
 
     def update(self):
+        for object4 in server.objects4.copy():
+            if collision.collide(object4, server.mario):
+                game_world.remove_object(object4)
         if server.mario.Jump == 1:
             if server.mario.dir == 1:
                 self.coinw -= 7

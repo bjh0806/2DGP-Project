@@ -247,40 +247,16 @@ class Mario:
         return self.x - 15, self.y - 20, self.x + 13, self.y + 20
 
     def stop1(self):
-        Ground.dir = 0
-        Sky.dir = 0
-        Object.dir = 0
-        Object2.dir = 0
-        Object3.dir = 0
-        Object4.dir = 0
-        Object5.dir = 0
-        Goomba.dir = 0
         if self.Jump == 0:
             self.x -= 5
         else:
             self.y += 10
             self.jj = 0
             self.Jump = 0
-            Ground.Jump = self.Jump
-            Sky.Jump = self.Jump
-            Object.Jump = self.Jump
-            Object2.Jump = self.Jump
-            Object3.Jump = self.Jump
-            Object4.Jump = self.Jump
-            Object5.Jump = self.Jump
-            Goomba.Jump = self.Jump
             self.i = 0
             self.add_event(WAIT)
 
     def stop2(self):
-        Ground.dir = 0
-        Sky.dir = 0
-        Object.dir = 0
-        Object2.dir = 0
-        Object3.dir = 0
-        Object4.dir = 0
-        Object5.dir = 0
-        Goomba.dir = 0
         self.y -= 5
 
     def change_state(self, state):

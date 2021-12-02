@@ -18,6 +18,9 @@ class Object5:
 
     def update(self):
         self.frame = (self.frame + 8 * game_framework.frame_time) % 4
+        for object5 in server.objects5.copy():
+            if collision.collide(object5, server.mario):
+                server.mario.stop2()
         if server.mario.Jump == 1:
             if server.mario.dir == 1:
                 self.blockw -= 7

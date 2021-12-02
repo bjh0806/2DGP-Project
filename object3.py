@@ -18,6 +18,10 @@ class Object3:
 
     def update(self):
         self.randomframe = (self.randomframe + 8 * game_framework.frame_time) % 4
+        for object3 in server.objects3.copy():
+            if collision.collide(object3, server.mario):
+                server.mario.stop2()
+
         if server.mario.Jump == 1:
             if server.mario.dir == 1:
                 self.random_boxw -= 7

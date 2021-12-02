@@ -16,8 +16,9 @@ class Object:
         return self.upgroundw - 90, self.upgroundh - 60, self.upgroundw + 85, self.upgroundh + 60
 
     def update(self):
-        if collision.collide(self, server.mario):
-            pass
+        for object in server.objects1.copy():
+            if collision.collide(object, server.mario):
+                server.mario.stop1()
         if server.mario.Jump == 1:
             if server.mario.dir == 1:
                 self.upgroundw -= 7
