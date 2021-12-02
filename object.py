@@ -35,8 +35,7 @@ class Object:
                     self.upgroundh -= 2
 
         else:
-            pass
-            # self.upgroundw -= server.mario.dir * 7
+            self.upgroundw -= server.mario.dir * 7
 
     def draw(self):
         self.upground.draw(self.upgroundw, self.upgroundh)
