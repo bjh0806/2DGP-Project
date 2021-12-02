@@ -1,0 +1,15 @@
+sky = None
+ground = None
+object = None
+mario = None
+object2 = None
+object3 = None
+object4 = None
+object5 = None
+object6 = None
+goomba = None
+objects1 = None
+objects2 = None
+objects3 = None
+objects4 = None
+objects5 = None

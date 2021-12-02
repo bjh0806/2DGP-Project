@@ -1,13 +1,7 @@
 from pico2d import *
 import game_framework
 from ground import Ground
-from sky import Sky
-from object import Object
-from object2 import Object2
-from object3 import Object3
-from object4 import Object4
-from object5 import Object5
-from goomba import Goomba
+import server
 
 PIXEL_PER_METER = (10.0 / 0.3)
 RUN_SPEED_KMPH = 10.0
@@ -36,26 +30,10 @@ class StartState:
     def exit(Mario, event):
         Mario.Start = 0
         Mario.dir = 1
-        Ground.dir = Mario.dir
-        Sky.dir = Mario.dir
-        Object.dir = Mario.dir
-        Object2.dir = Mario.dir
-        Object3.dir = Mario.dir
-        Object4.dir = Mario.dir
-        Object5.dir = Mario.dir
-        Goomba.dir = Mario.dir
 
     def do(Mario):
         Mario.firstframe = (Mario.firstframe + 1) % 10
         Mario.x += 7
-        Ground.x = Mario.x
-        Sky.x = Mario.x
-        Object.x = Mario.x
-        Object2.x = Mario.x
-        Object3.x = Mario.x
-        Object4.x = Mario.x
-        Object5.x = Mario.x
-        Goomba.x = Mario.x
         if Mario.firstframe == 9:
             Mario.Start = 0
             Mario.firstframe = 0
@@ -76,14 +54,6 @@ class WaitState:
             Mario.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             Mario.velocity += RUN_SPEED_PPS
-        Ground.dir = 0
-        Sky.dir = 0
-        Object.dir = 0
-        Object2.dir = 0
-        Object3.dir = 0
-        Object4.dir = 0
-        Object5.dir = 0
-        Goomba.dir = 0
 
     def exit(Mario, event):
         pass
@@ -148,14 +118,6 @@ class JumpState:
 class MjumpState:
     def enter(Mario, event):
         Mario.Jump = 1
-        Ground.Jump = Mario.Jump
-        Sky.Jump = Mario.Jump
-        Object.Jump = Mario.Jump
-        Object2.Jump = Mario.Jump
-        Object3.Jump = Mario.Jump
-        Object4.Jump = Mario.Jump
-        Object5.Jump = Mario.Jump
-        Goomba.Jump = Mario.Jump
 
     def exit(Mario, event):
         pass
@@ -167,53 +129,20 @@ class MjumpState:
                     Mario.x1, Mario.y1 = Mario.x, Mario.y
                     Mario.x3, Mario.y3 = Mario.x + 20, Mario.y
                     Mario.x2, Mario.y2 = Mario.x + 10, Mario.y + 75
-                    Ground.x2 = Mario.x2
-                    Sky.x2 = Mario.x2
-                    Object.x2 = Mario.x2
-                    Object2.x2 = Mario.x2
-                    Object3.x2 = Mario.x2
-                    Object4.x2 = Mario.x2
-                    Object5.x2 = Mario.x2
-                    Goomba.x2 = Mario.x2
                 else:
                     Mario.x1, Mario.y1 = Mario.x, Mario.y
                     Mario.x3, Mario.y3 = Mario.x - 20, Mario.y
                     Mario.x2, Mario.y2 = Mario.x - 10, Mario.y + 75
-                    Ground.x2 = Mario.x2
-                    Sky.x2 = Mario.x2
-                    Object.x2 = Mario.x2
-                    Object2.x2 = Mario.x2
-                    Object3.x2 = Mario.x2
-                    Object4.x2 = Mario.x2
-                    Object5.x2 = Mario.x2
-                    Goomba.x2 = Mario.x2
 
             t = Mario.i / 100
 
             Mario.x = (2 * t ** 2 - 3 * t + 1) * Mario.x1 + (-4 * t ** 2 + 4 * t) * Mario.x2 + (2 * t ** 2 - t) * Mario.x3
             Mario.y = (2 * t ** 2 - 3 * t + 1) * Mario.y1 + (-4 * t ** 2 + 4 * t) * Mario.y2 + (2 * t ** 2 - t) * Mario.y3
 
-            Ground.x = Mario.x
-            Sky.x = Mario.x
-            Object.x = Mario.x
-            Object2.x = Mario.x
-            Object3.x = Mario.x
-            Object4.x = Mario.x
-            Object5.x = Mario.x
-            Goomba.x = Mario.x
-
             Mario.i += 4
 
             if Mario.i == 104:
                 Mario.Jump = 0
-                Ground.Jump = Mario.Jump
-                Sky.Jump = Mario.Jump
-                Object.Jump = Mario.Jump
-                Object2.Jump = Mario.Jump
-                Object3.Jump = Mario.Jump
-                Object4.Jump = Mario.Jump
-                Object5.Jump = Mario.Jump
-                Goomba.Jump = Mario.Jump
                 Mario.i = 0
                 Mario.add_event(WAIT)
 
@@ -244,14 +173,6 @@ class WalkState:
         elif event == LEFT_UP:
             Mario.velocity += RUN_SPEED_PPS
         Mario.dir = clamp(-1, Mario.velocity, 1)
-        Ground.dir = Mario.dir
-        Sky.dir = Mario.dir
-        Object.dir = Mario.dir
-        Object2.dir = Mario.dir
-        Object3.dir = Mario.dir
-        Object4.dir = Mario.dir
-        Object5.dir = Mario.dir
-        Goomba.dir = Mario.dir
 
     def exit(Mario, event):
         pass
@@ -260,14 +181,6 @@ class WalkState:
         Mario.frame = (Mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
         if Mario.x >= 10 and Mario.x <= 250:
             Mario.x += Mario.velocity * game_framework.frame_time
-            Ground.x = Mario.x
-            Sky.x = Mario.x
-            Object.x = Mario.x
-            Object2.x = Mario.x
-            Object3.x = Mario.x
-            Object4.x = Mario.x
-            Object5.x = Mario.x
-            Goomba.x = Mario.x
 
     def draw(Mario):
         if Mario.dir == 1:

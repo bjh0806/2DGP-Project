@@ -1,13 +1,11 @@
 from pico2d import *
 import random
 import game_framework
+import server
+import collision
 
 class Object3:
     random_box = None
-    dir = 0
-    Jump = 0
-    x = 0
-    x2 = 0
     def __init__(self, w = 300, h = 200):
         if Object3.random_box == None:
             Object3.random_box = load_image('random_box.png')
@@ -20,23 +18,23 @@ class Object3:
 
     def update(self):
         self.randomframe = (self.randomframe + 8 * game_framework.frame_time) % 4
-        if Object3.Jump == 1:
-            if Object3.dir == 1:
+        if server.mario.Jump == 1:
+            if server.mario.dir == 1:
                 self.random_boxw -= 7
-                if Object3.x < Object3.x2:
+                if server.mario.x < server.mario.x2:
                     self.random_boxh -= 2
                 else:
                     self.random_boxh += 2
 
             else:
                 self.random_boxw += 7
-                if Object3.x < Object3.x2:
+                if server.mario.x < server.mario.x2:
                     self.random_boxh += 2
                 else:
                     self.random_boxh -= 2
 
         else:
-            self.random_boxw -= Object3.dir * 7
+            self.random_boxw -= server.mario.dir * 7
 
     def draw(self):
         self.random_box.clip_draw(int(self.randomframe) * 25, 0, 25, 33, self.random_boxw, self.random_boxh)

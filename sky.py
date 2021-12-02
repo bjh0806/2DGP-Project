@@ -1,10 +1,8 @@
 from pico2d import *
+import server
+import collision
 
 class Sky:
-    dir = 0
-    Jump = 0
-    x = 0
-    x2 = 0
     def __init__(self):
         self.sky = load_image('sky.png')
         self.skyw = 400
@@ -14,18 +12,18 @@ class Sky:
         self.sky.draw(self.skyw, self.skyh)
         
     def update(self):
-        if Sky.Jump == 1:
-            if Sky.dir == 1:
+        if server.mario.Jump == 1:
+            if server.mario.dir == 1:
                 self.skyw -= 5 // 2
-                if Sky.x < Sky.x2:
+                if server.mario.x < server.mario.x2:
                     self.skyh -= 2
                 else:
                     self.skyh += 2
             else:
                 self.skyw += 5 // 2
-                if Sky.x < Sky.x2:
+                if server.mario.x < server.mario.x2:
                     self.skyh += 2
                 else:
                     self.skyh -= 2
         else:
-            self.skyw -= Sky.dir * 5 // 2
+            self.skyw -= server.mario.dir * 5 // 2

@@ -1,10 +1,7 @@
 from pico2d import *
+import server
 
 class Ground:
-    dir = 0
-    Jump = 0
-    x = 0
-    x2 = 0
     def __init__(self):
         self.ground = load_image('ground.png')
         self.groundw = 400
@@ -14,19 +11,19 @@ class Ground:
         self.ground.draw(self.groundw, self.groundh)
 
     def update(self):
-        if Ground.Jump == 1:
-            if Ground.dir == 1:
+        if server.Mario.Jump == 1:
+            if server.Mario.dir == 1:
                 self.groundw -= 7
-                if Ground.x < Ground.x2:
+                if server.Mario.x < server.Mario.x2:
                     self.groundh -= 2
                 else:
                     self.groundh += 2
 
             else:
                 self.groundw += 7
-                if Ground.x < Ground.x2:
+                if server.Mario.x < server.Mario.x2:
                     self.groundh += 2
                 else:
                     self.groundh -= 2
         else:
-            self.groundw -= Ground.dir * 7
+            self.groundw -= server.Mario.dir * 7
