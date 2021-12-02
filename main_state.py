@@ -46,11 +46,6 @@ def enter():
     object6 = Object6()
     goomba = Goomba()
     mario = Mario()
-    game_world.add_object(sky, 0)
-    game_world.add_object(ground, 0)
-    game_world.add_object(object6, 1)
-    game_world.add_object(goomba, 1)
-    game_world.add_object(mario, 1)
     
     objects1 = [Object(i, 50) for i in object1w]
     game_world.add_objects(objects1, 1)
@@ -66,6 +61,12 @@ def enter():
 
     objects5 = [Object5(i, j) for i, j in object5w]
     game_world.add_objects(objects5, 1)
+
+    game_world.add_object(sky, 0)
+    game_world.add_object(ground, 0)
+    game_world.add_object(object6, 1)
+    game_world.add_object(goomba, 1)
+    game_world.add_object(mario, 1)
 
 def exit():
     game_world.clear()
