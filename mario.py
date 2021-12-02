@@ -48,14 +48,7 @@ class WaitState:
         Mario.Wait = 1
         Mario.ldir = Mario.dir
         Mario.dir = 0
-        if event == RIGHT_DOWN:
-            Mario.velocity += RUN_SPEED_PPS
-        elif event == LEFT_DOWN:
-            Mario.velocity -= RUN_SPEED_PPS
-        elif event == RIGHT_UP:
-            Mario.velocity -= RUN_SPEED_PPS
-        elif event == LEFT_UP:
-            Mario.velocity += RUN_SPEED_PPS
+        Mario.velocity = 0
 
     def exit(Mario, event):
         pass
@@ -139,6 +132,10 @@ class MjumpState:
                     Mario.y += 7
                     Mario.Jcount += 1
 
+                else:
+                    Mario.x -= 3
+                    Mario.y -= 7
+
             Mario.jumpframe = (Mario.jumpframe + 14 * ACTION_PER_TIME * game_framework.frame_time) % 14
 
     def draw(Mario):
@@ -174,7 +171,7 @@ class WalkState:
         Mario.x += Mario.velocity * game_framework.frame_time
 
     def draw(Mario):
-        if Mario.velocity >= 0:
+        if Mario.velocity > 0:
             if Mario.mode == 0:
                 Mario.mario.clip_draw(int(Mario.frame) * 50, 50, 50, 50, Mario.x, Mario.y)
                 Mario.dir = 1
@@ -243,8 +240,9 @@ class Mario:
         return self.x - 15, self.y - 20, self.x + 13, self.y + 20
     
     def JumpStop(self):
-        self.y += 5
+        self.y += 7
         self.Jump = 0
+        self.Jcount = 0
         self.add_event(WAIT)
 
     def stop1(self):
@@ -277,6 +275,7 @@ class Mario:
     def draw(self):
         self.cur_state.draw(self)
         draw_rectangle(*self.get_bb())
+        debug_print('Dir:' + str(self.dir) + 'Velocity:' + str(self.velocity))
 
     def handle_event(self, event):
         global x, Wait, Jump, Attack1, Attack3, keep
