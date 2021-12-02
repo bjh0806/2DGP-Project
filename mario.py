@@ -172,25 +172,26 @@ class WalkState:
             Mario.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             Mario.velocity += RUN_SPEED_PPS
-        Mario.dir = clamp(-1, Mario.velocity, 1)
 
     def exit(Mario, event):
         pass
 
     def do(Mario):
         Mario.frame = (Mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        if Mario.x >= 10 and Mario.x <= 250:
-            Mario.x += Mario.velocity * game_framework.frame_time
+        Mario.x += Mario.velocity * game_framework.frame_time
 
     def draw(Mario):
-        if Mario.dir == 1:
+        cx, cy = Mario.x - server.ground.window_left, Mario.y - server.ground.window_bottom + 100
+        if Mario.velocity > 0:
             if Mario.mode == 0:
-                Mario.mario.clip_draw(int(Mario.frame) * 50, 50, 50, 50, Mario.x, Mario.y)
+                Mario.mario.clip_draw(int(Mario.frame) * 50, 50, 50, 50, cx, cy)
+                Mario.dir = 1
             # else:
             #     walk.clip_+draw(frame * 50, 50, 50, 50, x, y)
-        else:
+        elif Mario.velocity < 0:
             if Mario.mode == 0:
-                Mario.mario.clip_draw((7 - int(Mario.frame)) * 50, 0, 50, 50, Mario.x, Mario.y - 5)
+                Mario.mario.clip_draw((7 - int(Mario.frame)) * 50, 0, 50, 50, cx, cy - 3)
+                Mario.dir = -1
             # else:
             #     self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
 
@@ -272,6 +273,9 @@ class Mario:
             self.cur_state.exit(self, event)
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
+
+        self.x = clamp(0, self.x, server.ground.w - 50)
+        self.y = clamp(0, self.y, server.ground.h - 50)
 
     def draw(self):
         self.cur_state.draw(self)
