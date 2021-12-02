@@ -36,7 +36,8 @@ class Object4:
                     self.coinh -= 2
 
         else:
-            self.coinw -= server.mario.dir * 7
+            pass
+            # self.coinw -= server.mario.dir * 7
 
     def draw(self):
         self.coin.draw(self.coinw, self.coinh)

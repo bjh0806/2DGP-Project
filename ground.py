@@ -26,4 +26,5 @@ class Ground:
                 else:
                     self.groundh -= 2
         else:
-            self.groundw -= server.mario.dir * 7
+            pass
+            # self.groundw -= server.mario.dir * 7

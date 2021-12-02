@@ -26,4 +26,5 @@ class Sky:
                 else:
                     self.skyh -= 2
         else:
-            self.skyw -= server.mario.dir * 5 // 2
+            pass
+            # self.skyw -= server.mario.dir * 5 // 2

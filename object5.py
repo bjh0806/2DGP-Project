@@ -37,7 +37,8 @@ class Object5:
                     self.blockh -= 2
 
         else:
-            self.blockw -= server.mario.dir * 7
+            pass
+            # self.blockw -= server.mario.dir * 7
 
     def draw(self):
         self.block.clip_draw(int(self.frame) * 25, 0, 25, 33, self.blockw, self.blockh)

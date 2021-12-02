@@ -43,7 +43,8 @@ class Goomba:
                 self.goombax += 2
 
         else:
-            self.goombax -= server.mario.dir * 7
+            pass
+            # self.goombax -= server.mario.dir * 7
             if self.look == 0:
                 self.moveg -= 2
                 self.goombax -= 2
