@@ -17,7 +17,7 @@ class Object:
 
     def update(self):
         if collision.collide(self, server.mario):
-
+            pass
         if server.mario.Jump == 1:
             if server.mario.dir == 1:
                 self.upgroundw -= 7

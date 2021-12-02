@@ -11,19 +11,19 @@ class Ground:
         self.ground.draw(self.groundw, self.groundh)
 
     def update(self):
-        if server.Mario.Jump == 1:
-            if server.Mario.dir == 1:
+        if server.mario.Jump == 1:
+            if server.mario.dir == 1:
                 self.groundw -= 7
-                if server.Mario.x < server.Mario.x2:
+                if server.mario.x < server.mario.x2:
                     self.groundh -= 2
                 else:
                     self.groundh += 2
 
             else:
                 self.groundw += 7
-                if server.Mario.x < server.Mario.x2:
+                if server.mario.x < server.mario.x2:
                     self.groundh += 2
                 else:
                     self.groundh -= 2
         else:
-            self.groundw -= server.Mario.dir * 7
+            self.groundw -= server.mario.dir * 7

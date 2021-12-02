@@ -19,17 +19,17 @@ class Goomba:
 
     def update(self):
         self.frame = (self.frame + 16 * game_framework.frame_time) % 8
-        if server.Mario.Jump == 1:
-            if server.Mario.dir == 1:
+        if server.mario.Jump == 1:
+            if server.mario.dir == 1:
                 self.goombax -= 7
-                if server.Mario.x < server.Mario.x2:
+                if server.mario.x < server.mario.x2:
                     self.goombay -= 2
                 else:
                     self.goombay += 2
 
             else:
                 self.goombax += 7
-                if server.Mario.x < server.Mario.x2:
+                if server.mario.x < server.mario.x2:
                     self.goombay += 2
                 else:
                     self.goombay -= 2
@@ -43,7 +43,7 @@ class Goomba:
                 self.goombax += 2
 
         else:
-            self.goombax -= server.Mario.dir * 7
+            self.goombax -= server.mario.dir * 7
             if self.look == 0:
                 self.moveg -= 2
                 self.goombax -= 2
