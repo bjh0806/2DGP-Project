@@ -23,23 +23,18 @@ class Object3:
                 server.mario.stop2()
 
         if server.mario.Jump == 1:
+            if server.mario.Jcount < 10:
+                self.random_boxh -= 2
+            else:
+                self.random_boxh += 2
+
             if server.mario.dir == 1:
                 self.random_boxw -= 7
-                if server.mario.x < server.mario.x2:
-                    self.random_boxh -= 2
-                else:
-                    self.random_boxh += 2
-
             else:
                 self.random_boxw += 7
-                if server.mario.x < server.mario.x2:
-                    self.random_boxh += 2
-                else:
-                    self.random_boxh -= 2
 
         else:
-            pass
-            # self.random_boxw -= server.mario.dir * 7
+            self.random_boxw -= server.mario.dir * 7
 
     def draw(self):
         self.random_box.clip_draw(int(self.randomframe) * 25, 0, 25, 33, self.random_boxw, self.random_boxh)

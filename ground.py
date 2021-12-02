@@ -20,18 +20,15 @@ class Ground:
             server.mario.JumpStop()
 
         if server.mario.Jump == 1:
+            if server.mario.Jcount < 10:
+                self.groundh -= 2
+            else:
+                self.groundh += 2
+
             if server.mario.dir == 1:
                 self.groundw -= 7
-                if server.mario.Jcount < 10:
-                    self.groundh -= 2
-                else:
-                    self.groundh += 2
-
             else:
                 self.groundw += 7
-                if server.mario.Jcount < 10:
-                    self.groundh += 2
-                else:
-                    self.groundh -= 2
+
         else:
             self.groundw -= server.mario.dir * 7

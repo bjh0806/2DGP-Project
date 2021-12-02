@@ -15,13 +15,13 @@ class Sky:
         if server.mario.Jump == 1:
             if server.mario.dir == 1:
                 self.skyw -= 5 // 2
-                if server.mario.x < server.mario.x2:
+                if server.mario.Jcount < 10:
                     self.skyh -= 2
                 else:
                     self.skyh += 2
             else:
                 self.skyw += 5 // 2
-                if server.mario.x < server.mario.x2:
+                if server.mario.Jcount < 10:
                     self.skyh += 2
                 else:
                     self.skyh -= 2

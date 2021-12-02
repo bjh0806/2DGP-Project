@@ -20,23 +20,18 @@ class Object2:
             if collision.collide(object2, server.mario):
                 server.mario.stop1()
         if server.mario.Jump == 1:
+            if server.mario.Jcount < 10:
+                self.upground2h -= 2
+            else:
+                self.upground2h += 2
+
             if server.mario.dir == 1:
                 self.upground2w -= 7
-                if server.mario.x < server.mario.x2:
-                    self.upground2h -= 2
-                else:
-                    self.upground2h += 2
-
             else:
                 self.upground2w += 7
-                if server.mario.x < server.mario.x2:
-                    self.upground2h += 2
-                else:
-                    self.upground2h -= 2
 
         else:
-            pass
-            # self.upground2w -= server.mario.dir * 7
+            self.upground2w -= server.mario.dir * 7
 
     def draw(self):
         self.upground2.draw(self.upground2w, self.upground2h)

@@ -20,19 +20,15 @@ class Object:
             if collision.collide(object, server.mario):
                 server.mario.stop1()
         if server.mario.Jump == 1:
+            if server.mario.Jcount < 10:
+                self.upgroundh -= 2
+            else:
+                self.upgroundh += 2
+
             if server.mario.dir == 1:
                 self.upgroundw -= 7
-                if server.mario.x < server.mario.x2:
-                    self.upgroundh -= 2
-                else:
-                    self.upgroundh += 2
-
             else:
                 self.upgroundw += 7
-                if server.mario.x < server.mario.x2:
-                    self.upgroundh += 2
-                else:
-                    self.upgroundh -= 2
 
         else:
             self.upgroundw -= server.mario.dir * 7

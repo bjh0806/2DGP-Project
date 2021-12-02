@@ -21,23 +21,18 @@ class Object4:
             if collision.collide(object4, server.mario):
                 game_world.remove_object(object4)
         if server.mario.Jump == 1:
+            if server.mario.Jcount < 10:
+                self.coinh -= 2
+            else:
+                self.coinh += 2
+
             if server.mario.dir == 1:
                 self.coinw -= 7
-                if server.mario.x < server.mario.x2:
-                    self.coinh -= 2
-                else:
-                    self.coinh += 2
-
             else:
                 self.coinw += 7
-                if server.mario.x < server.mario.x2:
-                    self.coinh += 2
-                else:
-                    self.coinh -= 2
 
         else:
-            pass
-            # self.coinw -= server.mario.dir * 7
+            self.coinw -= server.mario.dir * 7
 
     def draw(self):
         self.coin.draw(self.coinw, self.coinh)
