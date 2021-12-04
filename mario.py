@@ -245,16 +245,6 @@ class Mario:
         self.Jcount = 0
         self.add_event(WAIT)
 
-    def stop1(self):
-        if self.Jump == 0:
-            self.x -= 5
-        else:
-            self.y += 10
-            self.jj = 0
-            self.Jump = 0
-            self.i = 0
-            self.add_event(WAIT)
-
     def change_state(self, state):
         pass
 
