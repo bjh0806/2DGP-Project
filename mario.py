@@ -179,7 +179,7 @@ class WalkState:
             #     walk.clip_+draw(frame * 50, 50, 50, 50, x, y)
         elif Mario.velocity < 0:
             if Mario.mode == 0:
-                Mario.mario.clip_draw((7 - int(Mario.frame)) * 50, 0, 50, 50, Mario.x, Mario.y)
+                Mario.mario.clip_draw((7 - int(Mario.frame)) * 50, 0, 50, 50, Mario.x, Mario.y - 5)
                 Mario.dir = -1
             # else:
             #     self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
@@ -240,12 +240,12 @@ class Mario:
         return self.x - 15, self.y - 20, self.x + 13, self.y + 20
     
     def JumpStop(self):
-        self.y += 7
+        self.y += 10
         self.Jump = 0
         self.Jcount = 0
         self.add_event(WAIT)
 
-    def stop(self):
+    def stop1(self):
         if self.Jump == 0:
             self.x -= 5
         else:

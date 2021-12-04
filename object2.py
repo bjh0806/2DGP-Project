@@ -13,7 +13,7 @@ class Object2:
         self.upground2h = h
 
     def get_bb(self):
-        return self.upground2w - 90, self.upground2h - 100, self.upground2w + 85, self.upground2h + 100
+        return self.upground2w - 85, self.upground2h - 100, self.upground2w + 85, self.upground2h + 95
 
     def update(self):
         for object2 in server.objects2.copy():

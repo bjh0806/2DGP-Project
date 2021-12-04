@@ -18,7 +18,7 @@ class Object:
     def update(self):
         for object in server.objects1.copy():
             if collision.collide(object, server.mario):
-                server.mario.stop1()
+                server.mario.JumpStop()
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
                 self.upgroundh -= 2
