@@ -21,7 +21,10 @@ class Object2:
                 if server.mario.Jump == 1:
                     server.mario.JumpStop()
                 else:
-                    server.mario.x = object2.upground2w - 105
+                    if server.mario.dir == 1:
+                        server.mario.x = object2.upground2w - 105
+                    else:
+                        server.mario.x = object2.upground2w + 105
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
                 self.upground2h -= 2

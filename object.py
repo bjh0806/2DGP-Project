@@ -21,7 +21,10 @@ class Object:
                 if server.mario.Jump == 1:
                     server.mario.JumpStop()
                 else:
-                    server.mario.x = object.upgroundw - 110
+                    if server.mario.dir == 1:
+                        server.mario.x = object.upgroundw - 110
+                    else:
+                        server.mario.x = object.upgroundw + 105
                 break
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
