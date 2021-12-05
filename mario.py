@@ -258,6 +258,7 @@ class Mario:
             self.cur_state.exit(self, event)
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
+        self.x = clamp(50, self.x, 550)
 
     def draw(self):
         self.cur_state.draw(self)

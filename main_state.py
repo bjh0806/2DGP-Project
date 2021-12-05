@@ -27,7 +27,7 @@ def enter():
     server.objects1 = [Object(i, 50) for i in server.object1w]
     game_world.add_objects(server.objects1, 1)
 
-    server.objects2 = [Object2(i, 70) for i in server.object2w]
+    server.objects2 = [Object2(i, 65) for i in server.object2w]
     game_world.add_objects(server.objects2, 1)
 
     server.objects3 = [Object3(i, j) for i, j in server.object3w]
