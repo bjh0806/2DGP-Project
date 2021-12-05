@@ -36,4 +36,3 @@ class Object4:
 
     def draw(self):
         self.coin.draw(self.coinw, self.coinh)
-        draw_rectangle(*self.get_bb())

@@ -262,8 +262,6 @@ class Mario:
 
     def draw(self):
         self.cur_state.draw(self)
-        draw_rectangle(*self.get_bb())
-        debug_print('Dir:' + str(self.dir) + 'Velocity:' + str(self.velocity))
 
     def handle_event(self, event):
         global x, Wait, Jump, Attack1, Attack3, keep

@@ -38,4 +38,3 @@ class Object3:
 
     def draw(self):
         self.random_box.clip_draw(int(self.randomframe) * 25, 0, 25, 33, self.random_boxw, self.random_boxh)
-        draw_rectangle(*self.get_bb())

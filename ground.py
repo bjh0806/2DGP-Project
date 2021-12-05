@@ -13,7 +13,6 @@ class Ground:
 
     def draw(self):
         self.ground.draw(self.groundw, self.groundh)
-        draw_rectangle(*self.get_bb())
 
     def update(self):
         if collision.collide(self, server.mario):

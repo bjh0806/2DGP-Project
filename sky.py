@@ -13,17 +13,13 @@ class Sky:
         
     def update(self):
         if server.mario.Jump == 1:
+            if server.mario.Jcount < 10:
+                self.skyh -= 2
+            else:
+                self.skyh += 2
             if server.mario.dir == 1:
                 self.skyw -= 5 // 2
-                if server.mario.Jcount < 10:
-                    self.skyh -= 2
-                else:
-                    self.skyh += 2
             else:
                 self.skyw += 5 // 2
-                if server.mario.Jcount < 10:
-                    self.skyh += 2
-                else:
-                    self.skyh -= 2
         else:
             self.skyw -= server.mario.dir * 5 // 2

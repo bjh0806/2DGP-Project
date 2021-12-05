@@ -37,4 +37,3 @@ class Object5:
 
     def draw(self):
         self.block.clip_draw(int(self.frame) * 25, 0, 25, 33, self.blockw, self.blockh)
-        draw_rectangle(*self.get_bb())

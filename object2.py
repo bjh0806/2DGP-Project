@@ -41,4 +41,3 @@ class Object2:
 
     def draw(self):
         self.upground2.draw(self.upground2w, self.upground2h)
-        draw_rectangle(*self.get_bb())
