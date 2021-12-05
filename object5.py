@@ -14,13 +14,16 @@ class Object5:
         self.blockh = h
 
     def get_bb(self):
-        return self.blockw - 15, self.blockh - 16.5, self.blockw + 14, self.blockh + 12
+        return self.blockw - 15, self.blockh - 16.5, self.blockw + 14, self.blockh + 10
 
     def update(self):
         self.frame = (self.frame + 8 * game_framework.frame_time) % 4
         for object5 in server.objects5.copy():
             if collision.collide(object5, server.mario):
-                pass
+                if server.mario.Jump == 1:
+                    server.mario.y -= 10
+                    server.mario.JumpStop()
+
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
                 self.blockh -= 2
