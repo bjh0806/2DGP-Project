@@ -6,11 +6,11 @@ import collision
 
 class Object2:
     upground2 = None
-    def __init__(self, w = 850, h = 70):
+    def __init__(self, w = 850):
         if Object2.upground2 == None:
             Object2.upground2 = load_image('upground_double.png')
         self.upground2w = w
-        self.upground2h = h
+        self.upground2h = 65
 
     def get_bb(self):
         return self.upground2w - 85, self.upground2h - 100, self.upground2w + 85, self.upground2h + 95

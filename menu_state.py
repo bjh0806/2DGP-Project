@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import main_state
+import main2_state
 
 name = "MenuState"
 image = None
@@ -21,6 +22,8 @@ def handle_events():
         elif event.type == SDL_MOUSEBUTTONDOWN:
             if event.x >= 470 and event.y <= 200 and event.y >= 100:
                 game_framework.change_state(main_state)
+            if event.x >= 470 and event.y <= 300 and event.y >- 200:
+                game_framework.change_state(main2_state)
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.pop_state()
