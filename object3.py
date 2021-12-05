@@ -20,7 +20,7 @@ class Object3:
         self.randomframe = (self.randomframe + 8 * game_framework.frame_time) % 4
         for object3 in server.objects3.copy():
             if collision.collide(object3, server.mario):
-                server.mario.stop2()
+                pass
 
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:

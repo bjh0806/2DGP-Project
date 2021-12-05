@@ -6,7 +6,7 @@ class Sky:
     def __init__(self):
         self.sky = load_image('sky.png')
         self.skyw = 400
-        self.skyh = 300
+        self.skyh = 200
         
     def draw(self):
         self.sky.draw(self.skyw, self.skyh)

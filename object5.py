@@ -20,7 +20,7 @@ class Object5:
         self.frame = (self.frame + 8 * game_framework.frame_time) % 4
         for object5 in server.objects5.copy():
             if collision.collide(object5, server.mario):
-                server.mario.stop2()
+                pass
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
                 self.blockh -= 2
