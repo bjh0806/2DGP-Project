@@ -21,7 +21,6 @@ def enter():
     server.sky = Sky()
     server.ground = Ground()
     server.object6 = Object6()
-    server.goomba = Goomba()
     server.mario = Mario()
     
     server.objects1 = [Object(i, 50) for i in server.object1w]
@@ -30,7 +29,7 @@ def enter():
     server.objects2 = [Object2(i, 65) for i in server.object2w]
     game_world.add_objects(server.objects2, 1)
 
-    server.objects3 = [Object3(i, j) for i, j in server.object3w]
+    server.objects3 = [Object3(i, j, k) for i, j, k in server.object3w]
     game_world.add_objects(server.objects3, 1)
 
     server.objects4 = [Object4(i, j) for i, j in server.object4w]
@@ -39,10 +38,12 @@ def enter():
     server.objects5 = [Object5(i, j) for i, j in server.object5w]
     game_world.add_objects(server.objects5, 1)
 
+    server.goombas = [Goomba(i) for i in server.goombaw]
+    game_world.add_objects(server.goombas, 1)
+
     game_world.add_object(server.sky, 0)
     game_world.add_object(server.ground, 0)
     game_world.add_object(server.object6, 1)
-    game_world.add_object(server.goomba, 1)
     game_world.add_object(server.mario, 1)
 
 def exit():
