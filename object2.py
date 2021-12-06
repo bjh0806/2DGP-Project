@@ -16,15 +16,14 @@ class Object2:
         return self.upground2w - 85, self.upground2h - 100, self.upground2w + 85, self.upground2h + 95
 
     def update(self):
-        for object2 in server.objects2.copy():
-            if collision.collide(object2, server.mario):
-                if server.mario.Jump == 1:
-                    server.mario.JumpStop()
+        if collision.collide(self, server.mario):
+            if server.mario.Jump == 1:
+                server.mario.JumpStop()
+            else:
+                if server.mario.dir == 1:
+                    server.mario.x = object2.upground2w - 105
                 else:
-                    if server.mario.dir == 1:
-                        server.mario.x = object2.upground2w - 105
-                    else:
-                        server.mario.x = object2.upground2w + 105
+                    server.mario.x = object2.upground2w + 105
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
                 self.upground2h -= 2

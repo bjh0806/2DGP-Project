@@ -19,7 +19,7 @@ class Goomba:
         return self.goombax - 12, self.goombay - 11, self.goombax + 11, self.goombay + 11
 
     def update(self):
-        self.frame = (self.frame + 16 * game_framework.frame_time) % 8
+        self.frame = (self.frame + 8 * game_framework.frame_time) % 8
         for goomba in server.goombas.copy():
             if collision.collide(goomba, server.mario):
                 game_world.remove_object(goomba)

@@ -5,7 +5,6 @@ import game_framework
 import server
 import collision
 
-
 class Turtle:
     image = None
 
@@ -21,7 +20,7 @@ class Turtle:
         return self.turtlex - 12, self.turtley - 11, self.turtlex + 11, self.turtley + 11
 
     def update(self):
-        self.frame = (self.frame + 16 * game_framework.frame_time) % 10
+        self.frame = (self.frame + 10 * game_framework.frame_time) % 10
         for turtle in server.turtles.copy():
             if collision.collide(turtle, server.mario):
                 game_world.remove_object(turtle)

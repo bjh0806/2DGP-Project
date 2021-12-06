@@ -18,11 +18,10 @@ class Object5:
 
     def update(self):
         self.frame = (self.frame + 8 * game_framework.frame_time) % 4
-        for object5 in server.objects5.copy():
-            if collision.collide(object5, server.mario):
-                if server.mario.Jump == 1:
-                    server.mario.y -= 10
-                    server.mario.JumpStop()
+        if collision.collide(self, server.mario):
+            if server.mario.Jump == 1:
+                server.mario.y -= 10
+                server.mario.JumpStop()
 
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
