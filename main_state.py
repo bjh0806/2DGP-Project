@@ -88,7 +88,20 @@ def enter():
         game_world.add_objects(server.mflowers, 1)
 
     if server.stage == 4:
-        pass
+        server.objects1 = [Object(i) for i in server.object1w4]
+        game_world.add_objects(server.objects1, 1)
+
+        server.objects2 = [Object2(i) for i in server.object2w4]
+        game_world.add_objects(server.objects2, 1)
+
+        server.objects3 = [Object3(i, j) for i, j in server.object3w4]
+        game_world.add_objects(server.objects3, 1)
+
+        server.objects4 = [Object4(i, j) for i, j in server.object4w4]
+        game_world.add_objects(server.objects4, 1)
+
+        server.objects5 = [Object5(i, j) for i, j in server.object5w4]
+        game_world.add_objects(server.objects5, 1)
 
     game_world.add_object(server.sky, 0)
     game_world.add_object(server.ground, 0)
