@@ -7,8 +7,7 @@ import collision
 class Object3:
     random_box = None
     block = None
-    eat = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    def __init__(self, w = 300, h = 200, e = 0):
+    def __init__(self, w = 300, h = 200):
         if Object3.random_box == None:
             Object3.random_box = load_image('random_box.png')
         if Object3.block == None:

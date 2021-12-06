@@ -33,7 +33,7 @@ def enter():
         server.objects2 = [Object2(i) for i in server.object2w]
         game_world.add_objects(server.objects2, 1)
 
-        server.objects3 = [Object3(i, j, k) for i, j, k in server.object3w]
+        server.objects3 = [Object3(i, j) for i, j in server.object3w]
         game_world.add_objects(server.objects3, 1)
 
         server.objects4 = [Object4(i, j) for i, j in server.object4w]
@@ -52,7 +52,7 @@ def enter():
         server.objects2 = [Object2(i) for i in server.object2w2]
         game_world.add_objects(server.objects2, 1)
 
-        server.objects3 = [Object3(i, j, k) for i, j, k in server.object3w2]
+        server.objects3 = [Object3(i, j) for i, j in server.object3w2]
         game_world.add_objects(server.objects3, 1)
 
         server.objects4 = [Object4(i, j) for i, j in server.object4w2]
@@ -66,6 +66,13 @@ def enter():
 
         server.turtles = [Turtle(i, j) for i, j in server.turtlew2]
         game_world.add_objects(server.turtles, 1)
+
+    if server.stage == 3:
+        server.objects1 = [Object(i) for i in server.object1w3]
+        game_world.add_objects(server.objects1, 1)
+
+        server.objects2 = [Object2(i) for i in server.object2w3]
+        game_world.add_objects(server.objects2, 1)
 
     game_world.add_object(server.sky, 0)
     game_world.add_object(server.ground, 0)

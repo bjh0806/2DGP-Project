@@ -13,6 +13,8 @@ class Door:
             self.doorw = 2900
         if server.stage == 2:
             self.doorw = 3700
+        if server.stage == 3:
+            self.doorw = 2900
         self.doorh = 100
         self.door = self.doorw
 
@@ -24,7 +26,7 @@ class Door:
             if server.stage == 1:
                 server.stage = 2
             elif server.stage == 2:
-                pass
+                server.stage = 3
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
                 self.doorh -= 2
