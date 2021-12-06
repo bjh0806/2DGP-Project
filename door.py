@@ -3,24 +3,28 @@ import random
 import game_framework
 import server
 import collision
-import main2_state
 
 class Door:
     image = None
     def __init__(self):
         if Door.image == None:
             Door.image = load_image('door.png')
-        self.doorw = 2900
+        if server.stage == 1:
+            self.doorw = 2900
+        if server.stage == 2:
+            self.doorw = 3700
         self.doorh = 100
-        self.door = 2900
+        self.door = self.doorw
 
     def get_bb(self):
         return self.doorw - 10, self.doorh - 10, self.doorw + 7, self.doorh + 10
 
     def update(self):
         if collision.collide(self, server.mario):
-            if self.door == 2900:
-                game_framework.change_state(main2_state)
+            if server.stage == 1:
+                server.stage = 2
+            elif server.stage == 2:
+                pass
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
                 self.doorh -= 2

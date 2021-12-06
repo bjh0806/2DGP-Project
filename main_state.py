@@ -14,6 +14,7 @@ from object4 import Object4
 from object5 import Object5
 from object6 import Object6
 from goomba import Goomba
+from turtle import Turtle
 from door import Door
 
 name = "MainState"
@@ -24,24 +25,47 @@ def enter():
     server.object6 = Object6()
     server.mario = Mario()
     server.door = Door()
-    
-    server.objects1 = [Object(i) for i in server.object1w]
-    game_world.add_objects(server.objects1, 1)
 
-    server.objects2 = [Object2(i) for i in server.object2w]
-    game_world.add_objects(server.objects2, 1)
+    if server.stage == 1:
+        server.objects1 = [Object(i) for i in server.object1w]
+        game_world.add_objects(server.objects1, 1)
 
-    server.objects3 = [Object3(i, j, k) for i, j, k in server.object3w]
-    game_world.add_objects(server.objects3, 1)
+        server.objects2 = [Object2(i) for i in server.object2w]
+        game_world.add_objects(server.objects2, 1)
 
-    server.objects4 = [Object4(i, j) for i, j in server.object4w]
-    game_world.add_objects(server.objects4, 1)
+        server.objects3 = [Object3(i, j, k) for i, j, k in server.object3w]
+        game_world.add_objects(server.objects3, 1)
 
-    server.objects5 = [Object5(i, j) for i, j in server.object5w]
-    game_world.add_objects(server.objects5, 1)
+        server.objects4 = [Object4(i, j) for i, j in server.object4w]
+        game_world.add_objects(server.objects4, 1)
 
-    server.goombas = [Goomba(i) for i in server.goombaw]
-    game_world.add_objects(server.goombas, 1)
+        server.objects5 = [Object5(i, j) for i, j in server.object5w]
+        game_world.add_objects(server.objects5, 1)
+
+        server.goombas = [Goomba(i) for i in server.goombaw]
+        game_world.add_objects(server.goombas, 1)
+
+    if server.stage == 2:
+        server.objects1 = [Object(i) for i in server.object1w2]
+        game_world.add_objects(server.objects1, 1)
+
+        server.objects2 = [Object2(i) for i in server.object2w2]
+        game_world.add_objects(server.objects2, 1)
+
+        server.objects3 = [Object3(i, j, k) for i, j, k in server.object3w2]
+        game_world.add_objects(server.objects3, 1)
+
+        server.objects4 = [Object4(i, j) for i, j in server.object4w2]
+        game_world.add_objects(server.objects4, 1)
+
+        server.objects5 = [Object5(i, j) for i, j in server.object5w2]
+        game_world.add_objects(server.objects5, 1)
+
+        server.goombas = [Goomba(i) for i in server.goombaw2]
+        game_world.add_objects(server.goombas, 1)
+
+        server.turtles = [Turtle(i, j) for i, j in server.turtlew2]
+        game_world.add_objects(server.turtles, 1)
 
     game_world.add_object(server.sky, 0)
     game_world.add_object(server.ground, 0)

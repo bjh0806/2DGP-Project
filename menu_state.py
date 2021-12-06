@@ -1,7 +1,6 @@
 from pico2d import *
 import game_framework
 import main_state
-import main2_state
 import server
 
 name = "MenuState"
@@ -24,7 +23,8 @@ def handle_events():
             if event.x >= 470 and event.y <= 200 and event.y >= 100:
                 game_framework.change_state(main_state)
             if event.x >= 470 and event.y <= 300 and event.y >= 200:
-                game_framework.change_state(main2_state)
+                server.stage = 2
+                game_framework.change_state(main_state)
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.pop_state()

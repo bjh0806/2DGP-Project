@@ -8,10 +8,10 @@ import collision
 class Turtle:
     image = None
 
-    def __init__(self, x=450):
+    def __init__(self, x = 450, y = 95):
         if Turtle.image == None:
             Turtle.image = load_image('turtle.png')
-        self.turtlex, self.turtley = x, 95
+        self.turtlex, self.turtley = x, y
         self.frame = random.randint(0, 9)
         self.look = random.randint(0, 1)
         self.moveg = 0
@@ -54,10 +54,10 @@ class Turtle:
                 self.moveg += 2
                 self.turtlex += 2
 
-        if self.moveg <= -200:
+        if self.moveg <= -50:
             self.look = 1
             self.moveg = 0
-        elif self.moveg >= 200:
+        elif self.moveg >= 50:
             self.look = 0
             self.moveg = 0
 
