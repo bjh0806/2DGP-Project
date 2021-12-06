@@ -22,7 +22,12 @@ class Mflower:
     def update(self):
         self.frame = (self.frame + 8 * game_framework.frame_time) % 8
         if collision.collide(self, server.mario):
-            game_world.remove_object(self)
+            if server.heartcount == 3:
+                server.heartcount = 2
+            elif server.heartcount == 2:
+                server.heartcount = 1
+            else:
+                server.heartcount = 0
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
                 self.mflowery -= 2

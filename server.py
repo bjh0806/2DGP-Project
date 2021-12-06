@@ -17,6 +17,7 @@ turtles = None
 door = None
 mflowers = None
 stage = 1
+heartcount = 3
 
 object1w = [700]
 object2w = [850, 2500]
