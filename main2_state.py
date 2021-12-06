@@ -14,6 +14,7 @@ from object4 import Object4
 from object5 import Object5
 from object6 import Object6
 from goomba import Goomba
+from turtle import Turtle
 
 name = "Main2State"
 
@@ -40,6 +41,9 @@ def enter():
 
     server.goombas = [Goomba(i) for i in server.goombaw2]
     game_world.add_objects(server.goombas, 1)
+
+    server.turtles = [Turtle(i) for i in server.turtlew2]
+    game_world.add_objects(server.turtles, 1)
 
     game_world.add_object(server.sky, 0)
     game_world.add_object(server.ground, 0)
