@@ -14,6 +14,7 @@ objects3 = None
 objects4 = None
 objects5 = None
 turtles = None
+door = None
 
 object1w = [700]
 object2w = [850, 2500]

@@ -14,6 +14,7 @@ from object4 import Object4
 from object5 import Object5
 from object6 import Object6
 from goomba import Goomba
+from door import Door
 
 name = "MainState"
 
@@ -22,6 +23,7 @@ def enter():
     server.ground = Ground()
     server.object6 = Object6()
     server.mario = Mario()
+    server.door = Door()
     
     server.objects1 = [Object(i) for i in server.object1w]
     game_world.add_objects(server.objects1, 1)
@@ -45,6 +47,7 @@ def enter():
     game_world.add_object(server.ground, 0)
     game_world.add_object(server.object6, 1)
     game_world.add_object(server.mario, 1)
+    game_world.add_object(server.door, 0)
 
 def exit():
     game_world.clear()

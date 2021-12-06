@@ -2,6 +2,7 @@ from pico2d import *
 import game_framework
 import main_state
 import main2_state
+import server
 
 name = "MenuState"
 image = None
