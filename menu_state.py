@@ -21,6 +21,7 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_MOUSEBUTTONDOWN:
             if event.x >= 470 and event.y <= 200 and event.y >= 100:
+                server.stage = 1
                 game_framework.change_state(main_state)
             if event.x >= 470 and event.y <= 300 and event.y >= 200:
                 server.stage = 2
