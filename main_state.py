@@ -16,6 +16,7 @@ from object6 import Object6
 from goomba import Goomba
 from turtle import Turtle
 from door import Door
+from mflower import Mflower
 
 name = "MainState"
 
@@ -73,6 +74,18 @@ def enter():
 
         server.objects2 = [Object2(i) for i in server.object2w3]
         game_world.add_objects(server.objects2, 1)
+
+        server.objects3 = [Object3(i, j) for i, j in server.object3w3]
+        game_world.add_objects(server.objects3, 1)
+
+        server.objects4 = [Object4(i, j) for i, j in server.object4w3]
+        game_world.add_objects(server.objects4, 1)
+
+        server.turtles = [Turtle(i, j) for i, j in server.turtlew3]
+        game_world.add_objects(server.turtles, 1)
+
+        server.mflowers = [Mflower(i) for i in server.mflowerw3]
+        game_world.add_objects(server.mflowers, 1)
 
     game_world.add_object(server.sky, 0)
     game_world.add_object(server.ground, 0)
