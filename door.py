@@ -3,6 +3,8 @@ import random
 import game_framework
 import server
 import collision
+import game_world
+import main_state
 
 class Door:
     image = None
@@ -14,7 +16,9 @@ class Door:
         if server.stage == 2:
             self.doorw = 3700
         if server.stage == 3:
-            self.doorw = 2900
+            self.doorw = 3300
+        if server.stage == 4:
+            self.doorw = 3700
         self.doorh = 100
         self.door = self.doorw
 
@@ -27,6 +31,10 @@ class Door:
                 server.stage = 2
             elif server.stage == 2:
                 server.stage = 3
+            elif server.stage == 3:
+                server.stage = 4
+            game_world.clear()
+            game_framework.change_state(main_state)
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
                 self.doorh -= 2
@@ -43,4 +51,3 @@ class Door:
 
     def draw(self):
         self.image.clip_draw(0, 0, 35, 50, self.doorw, self.doorh)
-        draw_rectangle(*self.get_bb())

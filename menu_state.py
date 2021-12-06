@@ -28,6 +28,9 @@ def handle_events():
             if event.x >= 470 and event.y <= 400 and event.y >= 300:
                 server.stage = 3
                 game_framework.change_state(main_state)
+            if event.x >= 470 and event.y <= 500 and event.y >= 400:
+                server.stage = 4
+                game_framework.change_state(main_state)
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.pop_state()

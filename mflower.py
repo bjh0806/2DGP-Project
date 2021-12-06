@@ -14,7 +14,6 @@ class Mflower:
         self.mflowerx, self.mflowery = x, 100
         self.frame = random.randint(0, 7)
         self.look = random.randint(0, 1)
-        self.moveg = 0
 
     def get_bb(self):
         return self.mflowerx - 12, self.mflowery - 11, self.mflowerx + 11, self.mflowery + 11

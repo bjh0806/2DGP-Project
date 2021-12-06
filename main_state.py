@@ -87,6 +87,9 @@ def enter():
         server.mflowers = [Mflower(i) for i in server.mflowerw3]
         game_world.add_objects(server.mflowers, 1)
 
+    if server.stage == 4:
+        pass
+
     game_world.add_object(server.sky, 0)
     game_world.add_object(server.ground, 0)
     game_world.add_object(server.object6, 1)
