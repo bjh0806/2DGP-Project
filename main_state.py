@@ -78,6 +78,10 @@ def enter():
         game_world.add_objects(server.turtles, 1)
 
     if server.stage == 3:
+        server.main3_bgm = load_music('main3_music.mp3')
+        server.main3_bgm.set_volume(64)
+        server.main3_bgm.repeat_play()
+
         server.objects1 = [Object(i) for i in server.object1w3]
         game_world.add_objects(server.objects1, 1)
 
@@ -97,6 +101,10 @@ def enter():
         game_world.add_objects(server.mflowers, 1)
 
     if server.stage == 4:
+        server.main4_bgm = load_music('main4_music.mp3')
+        server.main4_bgm.set_volume(50)
+        server.main4_bgm.repeat_play()
+
         server.objects1 = [Object(i) for i in server.object1w4]
         game_world.add_objects(server.objects1, 1)
 

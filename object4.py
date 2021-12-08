@@ -12,12 +12,15 @@ class Object4:
             Object4.coin = load_image('coin.png')
         self.coinw = w
         self.coinh = h
+        server.coin_sound = load_wav('Coin.wav')
+        server.coin_sound.set_volume(64)
 
     def get_bb(self):
         return self.coinw - 12.5, self.coinh - 15, self.coinw + 12.5, self.coinh + 15
 
     def update(self):
         if collision.collide(self, server.mario):
+            server.coin_sound.play()
             game_world.remove_object(self)
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:

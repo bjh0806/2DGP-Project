@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import menu_state
+import server
 
 name = "StartState"
 image = None
@@ -8,6 +9,9 @@ image = None
 def enter():
     global image
     image = load_image('title.png')
+    server.open_bgm = load_music('open_music.mp3')
+    server.open_bgm.set_volume(64)
+    server.open_bgm.repeat_play()
 
 def exit():
     global image

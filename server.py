@@ -16,9 +16,13 @@ objects5 = None
 turtles = None
 door = None
 mflowers = None
+open_bgm = None
 menu_bgm = None
 main1_bgm = None
 main2_bgm = None
+main3_bgm = None
+main4_bgm = None
+coin_sound = None
 stage = 1
 heartcount = 3
 
