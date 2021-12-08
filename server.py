@@ -26,6 +26,7 @@ coin_sound = None
 ground_sound = None
 block_sound = None
 door_sound = None
+goomba_sound = None
 stage = 1
 heartcount = 3
 

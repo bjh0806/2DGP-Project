@@ -14,15 +14,17 @@ class Goomba:
         self.frame = random.randint(0, 7)
         self.look = random.randint(0, 1)
         self.moveg = 0
+        server.goomba_sound = load_wav('goomba_sound.wav')
+        server.goomba_sound.set_volume(64)
         
     def get_bb(self):
         return self.goombax - 12, self.goombay - 11, self.goombax + 11, self.goombay + 11
 
     def update(self):
         self.frame = (self.frame + 8 * game_framework.frame_time) % 8
-        for goomba in server.goombas.copy():
-            if collision.collide(goomba, server.mario):
-                game_world.remove_object(goomba)
+        if collision.collide(self, server.mario):
+            server.goomba_sound.play()
+            game_world.remove_object(self)
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
                 self.goombay -= 2

@@ -15,15 +15,17 @@ class Turtle:
         self.frame = random.randint(0, 9)
         self.look = random.randint(0, 1)
         self.moveg = 0
+        server.goomba_sound = load_wav('goomba_sound.wav')
+        server.goomba_sound.set_volume(64)
 
     def get_bb(self):
         return self.turtlex - 12, self.turtley - 11, self.turtlex + 11, self.turtley + 11
 
     def update(self):
         self.frame = (self.frame + 10 * game_framework.frame_time) % 10
-        for turtle in server.turtles.copy():
-            if collision.collide(turtle, server.mario):
-                game_world.remove_object(turtle)
+        if collision.collide(self, server.mario):
+            server.goomba_sound.play()
+            game_world.remove_object(self)
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
                 self.turtley -= 2
