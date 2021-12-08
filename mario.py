@@ -13,14 +13,15 @@ TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8
 
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT = range(6)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT, ATTACK1 = range(7)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_d): RIGHT_DOWN,
     (SDL_KEYDOWN, SDLK_a): LEFT_DOWN,
     (SDL_KEYUP, SDLK_d): RIGHT_UP,
     (SDL_KEYUP, SDLK_a): LEFT_UP,
-    (SDL_KEYDOWN, SDLK_SPACE): SPACE
+    (SDL_KEYDOWN, SDLK_SPACE): SPACE,
+    (SDL_KEYDOWN, SDLK_z): ATTACK1
 }
 
 class StartState:
@@ -69,6 +70,30 @@ class WaitState:
                     Mario.wait.clip_draw(int(Mario.waitframe) * 50, 0, 50, 50, Mario.x, Mario.y)
                 # else:
                 #     modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
+
+class AttackState:
+    def enter(Mario, event):
+        Mario.attack = 1
+        Mario.ldir = Mario.dir
+
+    def exit(Mario, event):
+        pass
+
+    def do(Mario):
+        if Mario.attack == 1:
+            Mario.attackframe1 = (Mario.attackframe1 + 1) % 11
+            if Mario.attackframe1 == 10:
+                Mario.attack = 0
+                Mario.attackframe1 = 0
+                Mario.add_event(WAIT)
+
+    def draw(Mario):
+        if Mario.attack == 1:
+            if Mario.ldir == 1:
+                Mario.attack1.clip_draw(int(Mario.attackframe1) * 50, 50, 50, 50, Mario.x, Mario.y)
+            elif Mario.ldir == -1:
+                Mario.attack1.clip_draw((10 - int(Mario.attackframe1)) * 50, 0, 50, 50, Mario.x, Mario.y)
+
 
 class JumpState:
     def enter(Mario, event):
@@ -191,14 +216,17 @@ next_state_table = {
                  LEFT_UP: StartState},
     WaitState: {SPACE: JumpState, RIGHT_DOWN: WalkState,
                 LEFT_DOWN: WalkState, RIGHT_UP: WaitState,
-                LEFT_UP: WaitState},
+                LEFT_UP: WaitState, ATTACK1: AttackState},
     JumpState: {WAIT: WaitState},
     WalkState: {RIGHT_DOWN: WalkState, LEFT_DOWN: WalkState,
                 RIGHT_UP: WaitState, LEFT_UP: WaitState,
-                SPACE: MjumpState},
+                SPACE: MjumpState, ATTACK1: AttackState},
     MjumpState: {WAIT: WaitState, RIGHT_DOWN: MjumpState,
                  LEFT_DOWN: MjumpState, RIGHT_UP: MjumpState,
-                 LEFT_UP: MjumpState}
+                 LEFT_UP: MjumpState},
+    AttackState: {RIGHT_DOWN: WalkState, LEFT_DOWN: WalkState,
+                  WAIT: WaitState, RIGHT_UP: AttackState,
+                  LEFT_UP: AttackState}
 }
 
 class Mario:
@@ -221,15 +249,18 @@ class Mario:
         self.y1 = 0
         self.y2 = 0
         self.y3 = 0
+        self.attack = 0
         self.velocity = 0
         self.firstframe = 0
         self.waitframe = 0
         self.frame = 0
         self.jumpframe = 0
+        self.attackframe1 = 0
         self.start = load_image('start.png')
         self.wait = load_image('wait.png')
         self.mario = load_image('mario.png')
         self.jump = load_image('jump.png')
+        self.attack1 = load_image('attack1.png')
         server.ground_sound = load_wav('ground_sound.wav')
         server.ground_sound.set_volume(64)
         self.event_que = []
@@ -273,10 +304,7 @@ class Mario:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
 
-        #     elif event.key == SDLK_SPACE:
-        #         Jump = 1
-        #         Wait = 0
-        #     elif event.key == SDLK_z:
+ # elif event.key == SDLK_z:
         #         Attack1 = 1
         #         Wait = 0
         #     elif event.key == SDLK_LCTRL:

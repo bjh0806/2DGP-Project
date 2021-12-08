@@ -21,6 +21,8 @@ class Door:
             self.doorw = 3700
         self.doorh = 100
         self.door = self.doorw
+        server.door_sound = load_wav('door_sound.wav')
+        server.door_sound.set_volume(64)
 
     def get_bb(self):
         return self.doorw - 10, self.doorh - 10, self.doorw + 7, self.doorh + 10
@@ -33,6 +35,7 @@ class Door:
                 server.stage = 3
             elif server.stage == 3:
                 server.stage = 4
+            server.door_sound.play()
             game_world.clear()
             game_framework.change_state(main_state)
         if server.mario.Jump == 1:

@@ -16,6 +16,8 @@ class Object3:
         self.random_boxw = w
         self.random_boxh = h
         self.eat = 0
+        server.block_sound = load_wav('block_sound.wav')
+        server.block_sound.set_volume(64)
 
     def get_bb(self):
         return self.random_boxw - 15, self.random_boxh - 16.5, self.random_boxw + 14, self.random_boxh + 12
@@ -25,6 +27,7 @@ class Object3:
         self.count = 0
         if collision.collide(self, server.mario):
             self.eat = 1
+            server.block_sound.play()
 
         if server.mario.Jump == 1:
             if server.mario.Jcount < 10:
