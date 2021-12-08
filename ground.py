@@ -5,11 +5,18 @@ import collision
 class Ground:
     def __init__(self):
         self.ground = load_image('ground.png')
-        self.back = load_image('back1.png')
+        if server.stage == 1 or server.stage == 4:
+            self.back = load_image('back1.png')
+            self.backh = 450
+        if server.stage == 2:
+            self.back = load_image('back2.png')
+            self.backh = 500
+        if server.stage == 3:
+            self.back = load_image('back3.png')
+            self.backh = 450
         self.groundw = 400
         self.groundh = 350
         self.backw = 1200
-        self.backh = 450
 
     def get_bb(self):
         return 0, self.groundh - 350, 800, self.groundh - 280
