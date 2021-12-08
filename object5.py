@@ -12,6 +12,8 @@ class Object5:
         self.frame = random.randint(0, 3)
         self.blockw = w
         self.blockh = h
+        server.block_sound = load_wav('block_sound.wav')
+        server.block_sound.set_volume(64)
 
     def get_bb(self):
         return self.blockw - 15, self.blockh - 16.5, self.blockw + 14, self.blockh + 10
@@ -20,6 +22,7 @@ class Object5:
         self.frame = (self.frame + 8 * game_framework.frame_time) % 4
         if collision.collide(self, server.mario):
             if server.mario.Jump == 1:
+                server.block_sound.play()
                 server.mario.JumpStop()
 
         if server.mario.Jump == 1:

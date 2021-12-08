@@ -90,6 +90,7 @@ class JumpState:
                     if Mario.jjcount == 20:
                         Mario.jjcount = 0
                         Mario.dir = Mario.ldir
+                        server.ground_sound.play()
                         Mario.add_event(WAIT)
 
             Mario.jumpframe = (Mario.jumpframe + 14 * ACTION_PER_TIME * game_framework.frame_time) % 14

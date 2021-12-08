@@ -24,6 +24,7 @@ main3_bgm = None
 main4_bgm = None
 coin_sound = None
 ground_sound = None
+block_sound = None
 stage = 1
 heartcount = 3
 
