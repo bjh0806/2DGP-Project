@@ -29,6 +29,10 @@ def enter():
     server.door = Door()
 
     if server.stage == 1:
+        server.main1_bgm = load_music('main1_music.mp3')
+        server.main1_bgm.set_volume(64)
+        server.main1_bgm.repeat_play()
+
         server.objects1 = [Object(i) for i in server.object1w]
         game_world.add_objects(server.objects1, 1)
 
