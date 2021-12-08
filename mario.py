@@ -97,6 +97,8 @@ class AttackState:
 
 class JumpState:
     def enter(Mario, event):
+        if Mario.jj == 0:
+            server.jump_sound.play()
         Mario.jj = 1
 
     def exit(Mario, event):
@@ -135,6 +137,8 @@ class JumpState:
 
 class MjumpState:
     def enter(Mario, event):
+        if Mario.Jump == 0:
+            server.jump_sound.play()
         Mario.Jump = 1
 
     def exit(Mario, event):
@@ -263,6 +267,8 @@ class Mario:
         self.attack1 = load_image('attack1.png')
         server.ground_sound = load_wav('ground_sound.wav')
         server.ground_sound.set_volume(64)
+        server.jump_sound = load_wav('jump_sound.wav')
+        server.jump_sound.set_volume(64)
         self.event_que = []
         if self.Start == 1:
             self.cur_state = StartState

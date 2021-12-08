@@ -22,11 +22,13 @@ main1_bgm = None
 main2_bgm = None
 main3_bgm = None
 main4_bgm = None
+boss_bgm = None
 coin_sound = None
 ground_sound = None
 block_sound = None
 door_sound = None
 goomba_sound = None
+jump_sound = None
 stage = 1
 heartcount = 3
 

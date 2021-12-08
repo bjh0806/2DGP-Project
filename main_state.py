@@ -17,16 +17,26 @@ from goomba import Goomba
 from turtle import Turtle
 from door import Door
 from mflower import Mflower
+from background import Background
 
 name = "MainState"
 
 def enter():
     server.menu_bgm.stop()
-    server.sky = Sky()
-    server.ground = Ground()
     server.object6 = Object6()
     server.mario = Mario()
-    server.door = Door()
+
+    if server.stage == 1 or server.stage == 2 or server.stage == 3 or server.stage == 4:
+        server.sky = Sky()
+        server.ground = Ground()
+        server.door = Door()
+
+    if server.stage == 5:
+        server.boss_bgm = load_music('boss_music.mp3')
+        server.boss_bgm.set_volume(64)
+        server.boss_bgm.repeat_play()
+
+        server.background = Background()
 
     if server.stage == 1:
         server.main1_bgm = load_music('main1_music.mp3')
@@ -120,11 +130,16 @@ def enter():
         server.objects5 = [Object5(i, j) for i, j in server.object5w4]
         game_world.add_objects(server.objects5, 1)
 
-    game_world.add_object(server.sky, 0)
-    game_world.add_object(server.ground, 0)
+    if server.stage == 1 or server.stage == 2 or server.stage == 3 or server.stage == 4:
+        game_world.add_object(server.sky, 0)
+        game_world.add_object(server.ground, 0)
+        game_world.add_object(server.door, 0)
+
+    if server.stage == 5:
+        game_world.add_object(server.background, 0)
+
     game_world.add_object(server.object6, 1)
     game_world.add_object(server.mario, 1)
-    game_world.add_object(server.door, 0)
 
 def exit():
     game_world.clear()

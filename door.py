@@ -35,6 +35,8 @@ class Door:
                 server.stage = 3
             elif server.stage == 3:
                 server.stage = 4
+            elif server.stage == 4:
+                server.stage = 5
             server.door_sound.play()
             game_world.clear()
             game_framework.change_state(main_state)
