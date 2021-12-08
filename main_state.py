@@ -21,6 +21,7 @@ from mflower import Mflower
 name = "MainState"
 
 def enter():
+    server.menu_bgm.stop()
     server.sky = Sky()
     server.ground = Ground()
     server.object6 = Object6()

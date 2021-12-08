@@ -16,6 +16,7 @@ objects5 = None
 turtles = None
 door = None
 mflowers = None
+menu_bgm = None
 stage = 1
 heartcount = 3
 

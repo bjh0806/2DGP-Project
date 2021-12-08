@@ -9,6 +9,9 @@ image = None
 def enter():
     global image
     image = load_image('stage_select.png')
+    server.menu_bgm = load_music('select_music.mp3')
+    server.menu_bgm.set_volume(64)
+    server.menu_bgm.repeat_play()
 
 def exit():
     global image
