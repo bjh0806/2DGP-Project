@@ -52,6 +52,10 @@ def enter():
         game_world.add_objects(server.goombas, 1)
 
     if server.stage == 2:
+        server.main2_bgm = load_music('main2_music.mp3')
+        server.main2_bgm.set_volume(64)
+        server.main2_bgm.repeat_play()
+
         server.objects1 = [Object(i) for i in server.object1w2]
         game_world.add_objects(server.objects1, 1)
 

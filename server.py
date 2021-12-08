@@ -18,6 +18,7 @@ door = None
 mflowers = None
 menu_bgm = None
 main1_bgm = None
+main2_bgm = None
 stage = 1
 heartcount = 3
 
