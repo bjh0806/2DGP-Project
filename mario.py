@@ -229,6 +229,8 @@ class Mario:
         self.wait = load_image('wait.png')
         self.mario = load_image('mario.png')
         self.jump = load_image('jump.png')
+        server.ground_sound = load_wav('ground_sound.wav')
+        server.ground_sound.set_volume(64)
         self.event_que = []
         if self.Start == 1:
             self.cur_state = StartState
@@ -243,6 +245,7 @@ class Mario:
         self.y += 10
         self.Jump = 0
         self.Jcount = 0
+        server.ground_sound.play()
         self.add_event(WAIT)
 
     def change_state(self, state):
