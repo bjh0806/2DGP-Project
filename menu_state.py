@@ -39,6 +39,9 @@ def handle_events():
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.pop_state()
+            if (event.type, event.key) == (SDL_KEYDOWN, SDLK_5):
+                server.stage = 5
+                game_framework.change_state(main_state)
 
 def draw():
     clear_canvas()

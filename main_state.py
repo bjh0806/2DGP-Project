@@ -18,6 +18,8 @@ from turtle import Turtle
 from door import Door
 from mflower import Mflower
 from background import Background
+from bowser import Bowser
+from ball import Ball
 
 name = "MainState"
 
@@ -25,6 +27,7 @@ def enter():
     server.menu_bgm.stop()
     server.object6 = Object6()
     server.mario = Mario()
+    server.ball = Ball()
 
     if server.stage == 1 or server.stage == 2 or server.stage == 3 or server.stage == 4:
         server.sky = Sky()
@@ -37,6 +40,7 @@ def enter():
         server.boss_bgm.repeat_play()
 
         server.background = Background()
+        server.bowser = Bowser()
 
     if server.stage == 1:
         server.main1_bgm = load_music('main1_music.mp3')
@@ -137,6 +141,8 @@ def enter():
 
     if server.stage == 5:
         game_world.add_object(server.background, 0)
+        game_world.add_object(server.bowser, 1)
+        game_world.add_object(server.ball, 1)
 
     game_world.add_object(server.object6, 1)
     game_world.add_object(server.mario, 1)
