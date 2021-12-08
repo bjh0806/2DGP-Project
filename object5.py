@@ -20,7 +20,6 @@ class Object5:
         self.frame = (self.frame + 8 * game_framework.frame_time) % 4
         if collision.collide(self, server.mario):
             if server.mario.Jump == 1:
-                server.mario.y -= 10
                 server.mario.JumpStop()
 
         if server.mario.Jump == 1:
