@@ -2,6 +2,8 @@ from pico2d import *
 import game_framework
 from ground import Ground
 import server
+from fire import Fire
+import game_world
 
 PIXEL_PER_METER = (10.0 / 0.3)
 RUN_SPEED_KMPH = 10.0
@@ -13,7 +15,7 @@ TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8
 
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT, ATTACK1 = range(7)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, WAIT, ATTACK1, ATTACK2 = range(8)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_d): RIGHT_DOWN,
@@ -21,7 +23,8 @@ key_event_table = {
     (SDL_KEYUP, SDLK_d): RIGHT_UP,
     (SDL_KEYUP, SDLK_a): LEFT_UP,
     (SDL_KEYDOWN, SDLK_SPACE): SPACE,
-    (SDL_KEYDOWN, SDLK_z): ATTACK1
+    (SDL_KEYDOWN, SDLK_z): ATTACK1,
+    (SDL_KEYDOWN, SDLK_x): ATTACK2
 }
 
 class StartState:
@@ -93,6 +96,30 @@ class AttackState:
                 Mario.attack1.clip_draw(int(Mario.attackframe1) * 50, 50, 50, 50, Mario.x, Mario.y)
             elif Mario.ldir == -1:
                 Mario.attack1.clip_draw((10 - int(Mario.attackframe1)) * 50, 0, 50, 50, Mario.x, Mario.y)
+
+class Attack2State:
+    def enter(Mario, event):
+        Mario.attack = 1
+        Mario.ldir = Mario.dir
+        Mario.fire()
+
+    def exit(Mario, event):
+        pass
+
+    def do(Mario):
+        if Mario.attack == 1:
+            Mario.attackframe2 = (Mario.attackframe2 + 1) % 8
+            if Mario.attackframe2 == 7:
+                Mario.attack = 0
+                Mario.attackframe2 = 0
+                Mario.add_event(WAIT)
+
+    def draw(Mario):
+        if Mario.attack == 1:
+            if Mario.ldir == 1:
+                Mario.attack2.clip_draw(int(Mario.attackframe2) * 50, 50, 50, 50, Mario.x, Mario.y)
+            elif Mario.ldir == -1:
+                Mario.attack2.clip_draw((7 - int(Mario.attackframe2)) * 50, 0, 50, 50, Mario.x, Mario.y)
 
 class JumpState:
     def enter(Mario, event):
@@ -219,17 +246,22 @@ next_state_table = {
                  LEFT_UP: StartState},
     WaitState: {SPACE: JumpState, RIGHT_DOWN: WalkState,
                 LEFT_DOWN: WalkState, RIGHT_UP: WaitState,
-                LEFT_UP: WaitState, ATTACK1: AttackState},
+                LEFT_UP: WaitState, ATTACK1: AttackState,
+                ATTACK2: Attack2State},
     JumpState: {WAIT: WaitState},
     WalkState: {RIGHT_DOWN: WalkState, LEFT_DOWN: WalkState,
                 RIGHT_UP: WaitState, LEFT_UP: WaitState,
-                SPACE: MjumpState, ATTACK1: AttackState},
+                SPACE: MjumpState, ATTACK1: AttackState,
+                ATTACK2: Attack2State},
     MjumpState: {WAIT: WaitState, RIGHT_DOWN: MjumpState,
                  LEFT_DOWN: MjumpState, RIGHT_UP: MjumpState,
                  LEFT_UP: MjumpState},
     AttackState: {RIGHT_DOWN: WalkState, LEFT_DOWN: WalkState,
                   WAIT: WaitState, RIGHT_UP: AttackState,
-                  LEFT_UP: AttackState}
+                  LEFT_UP: AttackState},
+    Attack2State: {RIGHT_DOWN: WalkState, LEFT_DOWN: WalkState,
+                   WAIT: WaitState, RIGHT_UP: Attack2State,
+                   LEFT_UP: Attack2State}
 }
 
 class Mario:
@@ -261,6 +293,7 @@ class Mario:
         self.jumpframe = 0
         self.attackframe1 = 0
         self.fireframe = 0
+        self.attackframe2 = 0
         self.start = load_image('start.png')
         self.wait = load_image('wait.png')
         self.mario = load_image('mario.png')
@@ -270,6 +303,7 @@ class Mario:
         self.modewait = load_image('modewait.png')
         self.modejump = load_image('modejump.png')
         self.walk = load_image('walk.png')
+        self.attack2 = load_image('attack3.png')
         server.ground_sound = load_wav('ground_sound.wav')
         server.ground_sound.set_volume(64)
         server.jump_sound = load_wav('jump_sound.wav')
@@ -283,6 +317,10 @@ class Mario:
 
     def get_bb(self):
         return self.x - 15, self.y - 20, self.x + 13, self.y + 20
+
+    def fire(self):
+        fire = Fire(self.x - 12.5, self.y, self.dir * 7)
+        game_world.add_object(fire, 1)
     
     def JumpStop(self):
         self.y += 10
