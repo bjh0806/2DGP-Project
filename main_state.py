@@ -20,6 +20,7 @@ from mflower import Mflower
 from background import Background
 from bowser import Bowser
 from ball import Ball
+from flower import Flower
 
 name = "MainState"
 
@@ -28,6 +29,7 @@ def enter():
     server.object6 = Object6()
     server.mario = Mario()
     server.ball = Ball()
+    server.flower = Flower()
 
     if server.stage == 1 or server.stage == 2 or server.stage == 3 or server.stage == 4:
         server.sky = Sky()
@@ -143,6 +145,9 @@ def enter():
         game_world.add_object(server.background, 0)
         game_world.add_object(server.bowser, 1)
         game_world.add_object(server.ball, 1)
+        game_world.add_object(server.flower, 1)
+        server.objects5 = [Object5(i, j) for i, j in server.object5w5]
+        game_world.add_objects(server.objects5, 1)
 
     game_world.add_object(server.object6, 1)
     game_world.add_object(server.mario, 1)
@@ -163,6 +168,7 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.change_state(menu_state)
+            server.heartcount = 3
         else:
             server.mario.handle_event(event)
             

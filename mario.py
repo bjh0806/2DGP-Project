@@ -61,15 +61,15 @@ class WaitState:
     def draw(Mario):
         if Mario.Wait == 1:
             if Mario.ldir == 1:
-                if Mario.mode == 0:
+                if server.mode == 0:
                     Mario.wait.clip_draw(int(Mario.waitframe) * 50, 50, 50, 50, Mario.x, Mario.y)
-                # else:
-                #     modewait.clip_draw(waitframe * 50, 50, 50, 50, x, y)
+                else:
+                    Mario.modewait.clip_draw(int(Mario.waitframe) * 50, 50, 50, 50, Mario.x, Mario.y)
             elif Mario.ldir == -1:
-                if Mario.mode == 0:
+                if server.mode == 0:
                     Mario.wait.clip_draw(int(Mario.waitframe) * 50, 0, 50, 50, Mario.x, Mario.y)
-                # else:
-                #     modewait.clip_draw(waitframe * 50, 0, 50, 50, x, y)
+                else:
+                    Mario.modewait.clip_draw(int(Mario.waitframe) * 50, 0, 50, 50, Mario.x, Mario.y)
 
 class AttackState:
     def enter(Mario, event):
@@ -93,7 +93,6 @@ class AttackState:
                 Mario.attack1.clip_draw(int(Mario.attackframe1) * 50, 50, 50, 50, Mario.x, Mario.y)
             elif Mario.ldir == -1:
                 Mario.attack1.clip_draw((10 - int(Mario.attackframe1)) * 50, 0, 50, 50, Mario.x, Mario.y)
-
 
 class JumpState:
     def enter(Mario, event):
@@ -125,15 +124,15 @@ class JumpState:
     def draw(Mario):
         if Mario.jj == 1:
             if Mario.ldir == 1:
-                if Mario.mode == 0:
+                if server.mode == 0:
                     Mario.jump.clip_draw((int(Mario.jumpframe) + 5) * 50, 50, 50, 50, Mario.x, Mario.y)
-                # else:
-                #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
+                else:
+                    Mario.modejump.clip_draw(int(Mario.jumpframe) * 50, 50, 50, 50, Mario.x, Mario.y)
             elif Mario.ldir == -1:
-                if Mario.mode == 0:
+                if server.mode == 0:
                     Mario.jump.clip_draw((13 - int(Mario.jumpframe)) * 50, 0, 50, 50, Mario.x, Mario.y)
-                # else:
-                #     modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
+                else:
+                    Mario.modejump.clip_draw((13 - int(Mario.jumpframe)) * 50, 0, 50, 50, Mario.x, Mario.y)
 
 class MjumpState:
     def enter(Mario, event):
@@ -171,15 +170,15 @@ class MjumpState:
     def draw(Mario):
         if Mario.Jump == 1:
             if Mario.dir == 1:
-                if Mario.mode == 0:
+                if server.mode == 0:
                     Mario.jump.clip_draw((int(Mario.jumpframe) + 5) * 50, 50, 50, 50, Mario.x, Mario.y)
-                # else:
-                #     modejump.clip_draw(jumpframe * 50, 50, 50, 50, x, y)
+                else:
+                    Mario.modejump.clip_draw(int(Mario.jumpframe) * 50, 50, 50, 50, Mario.x, Mario.y)
             elif Mario.dir == -1:
-                if Mario.mode == 0:
+                if server.mode == 0:
                     Mario.jump.clip_draw((13 - int(Mario.jumpframe)) * 50, 0, 50, 50, Mario.x, Mario.y)
-                # else:
-                #     modejump.clip_draw((13 - jumpframe) * 50, 0, 50, 50, x, y)
+                else:
+                    Mario.modejump.clip_draw((13 - int(Mario.jumpframe)) * 50, 0, 50, 50, Mario.x, Mario.y)
 
 class WalkState:
     def enter(Mario, event):
@@ -202,17 +201,17 @@ class WalkState:
 
     def draw(Mario):
         if Mario.velocity > 0:
-            if Mario.mode == 0:
+            Mario.dir = 1
+            if server.mode == 0:
                 Mario.mario.clip_draw(int(Mario.frame) * 50, 50, 50, 50, Mario.x, Mario.y)
-                Mario.dir = 1
-            # else:
-            #     walk.clip_+draw(frame * 50, 50, 50, 50, x, y)
+            else:
+                Mario.walk.clip_draw(int(Mario.frame) * 50, 50, 50, 50, Mario.x, Mario.y)
         elif Mario.velocity < 0:
-            if Mario.mode == 0:
+            Mario.dir = -1
+            if server.mode == 0:
                 Mario.mario.clip_draw((7 - int(Mario.frame)) * 50, 0, 50, 50, Mario.x, Mario.y - 5)
-                Mario.dir = -1
-            # else:
-            #     self.walk.clip_draw((7 - self.frame) * 50, 0, 50, 50, self.x, self.y)
+            else:
+                Mario.walk.clip_draw((7 - int(Mario.frame)) * 50, 0, 50, 50, Mario.x, Mario.y - 5)
 
 next_state_table = {
     StartState: {WAIT: WaitState, RIGHT_DOWN: StartState,
@@ -253,6 +252,7 @@ class Mario:
         self.y1 = 0
         self.y2 = 0
         self.y3 = 0
+        self.timer = 17
         self.attack = 0
         self.velocity = 0
         self.firstframe = 0
@@ -260,11 +260,16 @@ class Mario:
         self.frame = 0
         self.jumpframe = 0
         self.attackframe1 = 0
+        self.fireframe = 0
         self.start = load_image('start.png')
         self.wait = load_image('wait.png')
         self.mario = load_image('mario.png')
         self.jump = load_image('jump.png')
+        self.strong = load_image('strong.png')
         self.attack1 = load_image('attack1.png')
+        self.modewait = load_image('modewait.png')
+        self.modejump = load_image('modejump.png')
+        self.walk = load_image('walk.png')
         server.ground_sound = load_wav('ground_sound.wav')
         server.ground_sound.set_volume(64)
         server.jump_sound = load_wav('jump_sound.wav')
@@ -293,16 +298,28 @@ class Mario:
         self.event_que.insert(0, event)
 
     def update(self):
-        self.cur_state.do(self)
-        if len(self.event_que) > 0:
-            event = self.event_que.pop()
-            self.cur_state.exit(self, event)
-            self.cur_state = next_state_table[self.cur_state][event]
-            self.cur_state.enter(self, event)
-        self.x = clamp(50, self.x, 550)
+        if server.mode == 1 and server.do == 0:
+            self.timer -= 1
+            self.fireframe = (self.fireframe + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 17
+        else:
+            self.cur_state.do(self)
+            if len(self.event_que) > 0:
+                event = self.event_que.pop()
+                self.cur_state.exit(self, event)
+                self.cur_state = next_state_table[self.cur_state][event]
+                self.cur_state.enter(self, event)
+            self.x = clamp(50, self.x, 550)
 
     def draw(self):
-        self.cur_state.draw(self)
+        if server.mode == 1 and server.do == 0:
+            if self.dir == 1:
+                self.strong.clip_draw(int(self.fireframe) * 50, 100, 50, 100, self.x, self.y + 27)
+            elif self.dir == -1:
+                self.strong.clip_draw((16 - int(self.fireframe)) * 50, 0, 50, 100, self.x, self.y + 27)
+            if self.timer < 0:
+                server.do = 1
+        else:
+            self.cur_state.draw(self)
 
     def handle_event(self, event):
         global x, Wait, Jump, Attack1, Attack3, keep
@@ -319,14 +336,7 @@ class Mario:
         #             keep = 1
         #             Wait = 0
 
-# open_canvas(WIDTH // 2, 600)
-#
-# attack1 = load_image('attack1.png')
-# flower = load_image('flower.png')
 # strong = load_image('strong.png')
-# modewait = load_image('modewait.png')
-# walk = load_image('walk.png')
-# modejump = load_image('modejump.png')
 # attack2 = load_image('attack2.png')
 # attack3 = load_image('attack3.png')
 # fire = load_image('fire.png')

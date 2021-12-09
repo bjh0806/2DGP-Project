@@ -25,19 +25,20 @@ class Object5:
                 server.block_sound.play()
                 server.mario.JumpStop()
 
-        if server.mario.Jump == 1:
-            if server.mario.Jcount < 10:
-                self.blockh -= 2
-            else:
-                self.blockh += 2
+        if server.stage != 5:
+            if server.mario.Jump == 1:
+                if server.mario.Jcount < 10:
+                    self.blockh -= 2
+                else:
+                    self.blockh += 2
 
-            if server.mario.dir == 1:
-                self.blockw -= 7
-            else:
-                self.blockw += 7
+                if server.mario.dir == 1:
+                    self.blockw -= 7
+                else:
+                    self.blockw += 7
 
-        else:
-            self.blockw -= server.mario.dir * 7
+            else:
+                self.blockw -= server.mario.dir * 7
 
     def draw(self):
         self.block.clip_draw(int(self.frame) * 25, 0, 25, 33, self.blockw, self.blockh)
