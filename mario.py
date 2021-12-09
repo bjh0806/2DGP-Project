@@ -308,6 +308,8 @@ class Mario:
         server.ground_sound.set_volume(64)
         server.jump_sound = load_wav('jump_sound.wav')
         server.jump_sound.set_volume(64)
+        server.fire_sound = load_wav('fire_sound.wav')
+        server.fire_sound.set_volume(64)
         self.event_que = []
         if self.Start == 1:
             self.cur_state = StartState
@@ -321,6 +323,7 @@ class Mario:
     def fire(self):
         fire = Fire(self.x - 12.5, self.y, self.dir * 7)
         game_world.add_object(fire, 1)
+        server.fire_sound.play()
     
     def JumpStop(self):
         self.y += 10

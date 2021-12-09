@@ -16,6 +16,9 @@ class Bowser:
         self.attack = random.randint(0, 1)
         self.timer = 50
 
+    def get_bb(self):
+        return self.bowserx - 45, self.bowsery - 35, self.bowserx + 45, self.bowsery + 35
+
     def fire_ball(self):
         ball = Ball(self.bowserx - 50, self.bowsery)
 
@@ -28,4 +31,5 @@ class Bowser:
             Bowser.fire_ball(self)
 
     def draw(self):
-        self.image.clip_composite_draw(int(self.frame) * 100, 1490, 100, 80, 0, 'h', self.bowserx, self.bowsery, 100, 80)
+        if server.hp > 0:
+            self.image.clip_composite_draw(int(self.frame) * 100, 1490, 100, 80, 0, 'h', self.bowserx, self.bowsery, 100, 80)

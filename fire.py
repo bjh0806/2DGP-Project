@@ -4,6 +4,7 @@ import game_framework
 import random
 import collision
 import server
+import end_state
 
 class Fire:
     image = None
@@ -15,11 +16,13 @@ class Fire:
         self.frame = 0
 
     def get_bb(self):
-        return self.x - 20, self.y - 20, self.x + 20, self.y + 20
+        return self.x - 30, self.y - 20, self.x + 30, self.y + 20
 
     def update(self):
-        if collision.collide(self, server.mario):
-            pass
+        if collision.collide(self, server.bowser):
+            server.hp -= 5
+        if server.hp <= 0:
+            game_framework.change_state(end_state)
         self.frame = (self.frame + 1 * game_framework.frame_time) % 2
 
         self.x += self.velocity
